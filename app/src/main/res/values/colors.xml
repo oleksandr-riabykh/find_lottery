@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#DD0068</color>
+    <color name="colorPrimaryDark">#910145</color>
+    <color name="colorAccent">#80B800</color>
+    <color name="textColorPrimary">@color/textColorDarkGray</color>
+
+    <color name="appBackground">#F5F5F7</color>
+    <color name="appToolbarColor">#EAEAEA</color>
+    <color name="textColorDarkGray">#030303</color>
+    <color name="editTextBorderGray">#E7E7E7</color>
+    <color name="editTextColorHint">#DCDCDC</color>
+    <color name="greyCoverPhoto">#D3D3D3</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="yellow_light">#FFC107</color>
+
+    <color name="blue_0E83FFt">#0D83FF</color>
+    <color name="orange">#FD9F47</color>
+    <color name="orange_FE9F47">#FE9F47</color>
+    <color name="colorWonLoseBackground">#A5FFFFFF</color>
+    <color name="colorBach">#80B800</color>
+
+
+    <!--  Text Color Primary -->
+    <color name="colorPrimaryText">#707070</color>
+    <color name="colorPrimaryTextDarker">#050505</color>
+    // step cards
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+
+            <solid android:color="@color/greyCoverPhoto" />
+
+            <size
+                android:width="120dp"
+                android:height="120dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/camera_padding"
+        android:left="@dimen/camera_padding"
+        android:right="@dimen/camera_padding"
+        android:top="@dimen/camera_padding">
+
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_camera" />
+    </item>
+</layer-list>

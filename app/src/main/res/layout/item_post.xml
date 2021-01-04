@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_medium"
+    app:cardBackgroundColor="@color/colorPrimary"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="@dimen/evaluation"
+    app:contentPadding="@dimen/space_small">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_big"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginEnd="@dimen/space_big"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_title_feed"
+            tools:text="@string/app_name" />
+
+        <TextView
+            android:id="@+id/item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_big"
+            android:layout_marginTop="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_big"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:ellipsize="end"
+            android:fontFamily="@font/montserrat_regular"
+            android:lines="3"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_description_feed"
+            tools:text="Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world...Fuck the world..." />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

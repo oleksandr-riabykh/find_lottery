@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "706068495035",
+    "project_id": "find-lottery-f8830",
+    "storage_bucket": "find-lottery-f8830.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706068495035:android:29235645b96bdf039f879e",
+        "android_client_info": {
+          "package_name": "com.limestudio.findlottery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706068495035-9vr7hduk570deempr56hfm59m51lj37b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtBufpG-SemnNEJqZOyLIc5Jrdd62hQ6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706068495035-9vr7hduk570deempr56hfm59m51lj37b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="24dp" />
+            <solid android:color="@color/greyCoverPhoto" />
+        </shape>
+    </item>
+    <!--    <item-->
+    <!--        android:bottom="@dimen/camera_padding_nationalid"-->
+    <!--        android:left="@dimen/camera_padding_nationalid"-->
+    <!--        android:right="@dimen/camera_padding_nationalid"-->
+    <!--        android:top="@dimen/camera_padding_nationalid">-->
+
+    <!--        <bitmap-->
+    <!--            android:gravity="center"-->
+    <!--            android:src="@drawable/ic_camera" />-->
+    <!--    </item>-->
+</layer-list>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appBackground"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/main_container_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:text="@string/signup_selfie" />
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/add_your_selfie"
+            android:src="@drawable/avatar_cyrcle" />
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/signup_name_title" />
+
+        <EditText
+            android:id="@+id/first_name"
+            style="@style/EditTextAppStyle"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/signup_name_hint"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@id/last_name" />
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/signup_lastname_title" />
+
+        <EditText
+            android:id="@+id/last_name"
+            style="@style/EditTextAppStyle"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/signup_last_name_hint"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@id/email" />
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/signup_email_title" />
+
+        <EditText
+            android:id="@+id/email"
+            style="@style/EditTextAppStyle"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/signup_email_hint"
+            android:inputType="textEmailAddress"
+            android:nextFocusDown="@id/password" />
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/signup_password_title" />
+
+        <EditText
+            android:id="@+id/password"
+            style="@style/EditTextAppStyle"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/signup_password_hint"
+            android:inputType="textPassword"
+            android:nextFocusDown="@id/city" />
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/signup_city_title" />
+
+        <EditText
+            android:id="@+id/city"
+            style="@style/EditTextAppStyle"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/signup_city_hinty"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@id/phone_number" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="14dp"
+            android:background="@color/greyCoverPhoto" />
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:text="@string/phone_number" />
+
+        <EditText
+            android:id="@+id/phone_number"
+            style="@style/EditTextAppStyle"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/signup_phone_hint"
+            android:inputType="phone"
+            android:nextFocusDown="@id/national_id" />
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/national_id" />
+
+        <EditText
+            android:id="@+id/national_id"
+            style="@style/EditTextAppStyle"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/signup_nid_hinty"
+            android:inputType="textCapCharacters"
+            android:nextFocusDown="@id/signup_button" />
+
+
+        <TextView
+            style="@style/AuthEditTitle"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/signup_nid_scan_title" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="24dp">
+
+            <ImageView
+                android:id="@+id/id_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="@drawable/national_id_scan_bg"
+                android:contentDescription="@string/signup_id_card"
+                android:padding="24dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_camera" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/AuthSubTitle"
+            android:layout_marginTop="@dimen/auth_top_margin"
+            android:layout_marginBottom="8dp"
+            android:text="@string/signup_terms"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/signup_button"
+            style="@style/BlueButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/register_now" />
+    </LinearLayout>
+
+</ScrollView>

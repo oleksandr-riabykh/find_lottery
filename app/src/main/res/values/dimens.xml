@@ -1,0 +1,44 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="space_small">4dp</dimen>
+    <dimen name="space_medium">8dp</dimen>
+    <dimen name="space_big">16dp</dimen>
+    <dimen name="evaluation">6dp</dimen>
+    <dimen name="corner_radius">8dp</dimen>
+    <dimen name="category_image_size">86dp</dimen>
+    <dimen name="camera_padding">48dp</dimen>
+    <dimen name="camera_padding_nationalid">64dp</dimen>
+
+
+    <dimen name="button_min_height">46dp</dimen>
+    <dimen name="button_min_width">220dp</dimen>
+
+
+    // feed
+    <dimen name="text_size_title_feed">20sp</dimen>
+    <dimen name="text_size_description_feed">16sp</dimen>
+
+    // post detail
+    <dimen name="text_size_title_post">20sp</dimen>
+    <dimen name="text_size_description_post">16sp</dimen>
+    <dimen name="game_detail_image_height">140dp</dimen>
+
+    // game detail
+    <dimen name="game_detail_progress_width">160dp</dimen>
+
+    <dimen name="login_contentMargin">36dp</dimen>
+    <dimen name="login_contentMarginBottom">20dp</dimen>
+    <dimen name="login_contentMarginTop">8dp</dimen>
+
+    <dimen name="auth_top_margin">56dp</dimen>
+
+    <dimen name="resultTitleMarginTop">330dp</dimen>
+    <dimen name="resultTitleTextSize">40sp</dimen>
+    <dimen name="resultWonSize">375dp</dimen>
+    <dimen name="resultPrizeMarginBottom">60dp</dimen>
+    <dimen name="resultTitleMarginBottom">100dp</dimen>
+    <dimen name="resultPrizeTitleSize">27sp</dimen>
+    <dimen name="resultWonPadding">10dp</dimen>
+</resources>

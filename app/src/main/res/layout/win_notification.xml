@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWonLoseBackground">
+
+    <RelativeLayout
+        android:layout_width="@dimen/resultWonSize"
+        android:layout_height="@dimen/resultWonSize"
+        android:layout_centerInParent="true"
+        android:padding="@dimen/resultWonPadding">
+
+        <ImageView
+            android:id="@+id/ivLoseWone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/you_won"
+            android:src="@drawable/badgewin" />
+
+        <ImageView
+            android:id="@+id/priceImageView"
+            android:layout_width="112dp"
+            android:layout_height="112dp"
+            android:layout_above="@+id/tvTitle"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="@string/price"
+            app:srcCompat="@drawable/ic_win" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/resultTitleMarginBottom"
+            android:text="@string/you_won"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/resultTitleTextSize"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</RelativeLayout>

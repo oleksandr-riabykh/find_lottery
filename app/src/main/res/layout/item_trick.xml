@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/space_big"
+    android:layout_marginTop="@dimen/space_big"
+    android:layout_marginEnd="@dimen/space_big"
+    app:cardBackgroundColor="@color/colorPrimary"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="@dimen/evaluation"
+    app:cardPreventCornerOverlap="false"
+    app:contentPadding="0dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/text_margin">
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_title_feed"
+            tools:text="title" />
+
+        <TextView
+            android:id="@+id/item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_description_feed"
+            tools:text="description" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

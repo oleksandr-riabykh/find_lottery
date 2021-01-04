@@ -1,0 +1,159 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowBackground">@color/appBackground</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="ratingBarStyle">@style/MyRatingBar</item>
+        <item name="editTextStyle">@style/EditTextAppStyle</item>
+        <item name="buttonStyle">@style/ButtonStyle</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@color/appBackground</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="background">@color/appToolbarColor</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="MyRatingBar" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/rating_selector</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/yellow_light</item>
+    </style>
+
+    <!-- Sign Up Edit Text-->
+
+    <!--    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">-->
+    <!--        &lt;!&ndash; reference our hint & error styles &ndash;&gt;-->
+    <!--        <item name="hintTextAppearance">@style/HintText</item>-->
+    <!--        <item name="errorTextAppearance">@style/ErrorText</item>-->
+    <!--        <item name="android:textColor">@color/user_input_color</item>-->
+    <!--        <item name="android:textColorHint">@color/unfocused_color</item>-->
+    <!--        <item name="colorControlNormal">@color/white</item>-->
+    <!--        <item name="colorControlActivated">@color/blue</item>-->
+    <!--        <item name="colorControlHighlight">@color/green</item>-->
+    <!--    </style>-->
+    <style name="SignUpTextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="hintTextAppearance">@style/AuthEditTitle</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="errorEnabled">true</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="android:textColor">@color/black</item>
+        <!--        <item name="boxStrokeColor">@color/EditTextAppStyle</item>-->
+        <item name="boxCollapsedPaddingTop">16dp</item>
+        <item name="helperTextTextColor">@color/black</item>
+    </style>
+
+    <style name="ErrorText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/design_default_color_error</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="HintText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="EditTextAppStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="background">@drawable/edit_text_background</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/button_min_height</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:textColorHint">@color/editTextColorHint</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="singleLine">true</item>
+    </style>
+
+    <style name="ButtonStyle" parent="TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_selector_white</item>
+        <item name="android:background">@drawable/button_selector_blue</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:minHeight">@dimen/button_min_height</item>
+        <item name="android:minWidth">@dimen/button_min_width</item>
+        <item name="cornerRadius">@dimen/space_big</item>
+    </style>
+
+    <style name="WhiteButtonStyle" parent="ButtonStyle">
+        <item name="android:textColor">@color/color_selector_black</item>
+        <item name="android:background">@drawable/button_selector_white</item>
+    </style>
+
+    <style name="BlueButtonStyle" parent="ButtonStyle">
+        <item name="android:textColor">@color/color_selector_white</item>
+        <item name="android:background">@drawable/button_selector_blue</item>
+    </style>
+
+    <style name="GreenButtonStyle" parent="ButtonStyle">
+        <item name="android:textColor">@color/color_selector_white</item>
+        <item name="android:background">@drawable/button_selector_green</item>
+    </style>
+
+    <style name="OrangeButtonStyle" parent="ButtonStyle">
+        <item name="android:textColor">@color/color_selector_orange</item>
+        <item name="android:background">@drawable/button_selector_white_orange</item>
+    </style>
+
+    <style name="Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/montserrat_bold</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AuthTitle" parent="Title">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AuthEditTitle" parent="AuthTitle">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="InputTitle" parent="Title">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="AuthSubTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>
