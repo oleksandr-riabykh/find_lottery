@@ -9,6 +9,21 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
+    signingConfigs {
+        release {
+            storeFile file('../keystore/findrelease.key')
+            storePassword 'Thai#FLotteryRelease#21'
+            keyPassword 'Thai#FLotteryRelease#21'
+            keyAlias = 'LotteryRelease'
+        }
+        debug {
+            storeFile file('../keystore/debug.key')
+            storePassword 'Thai#FLotteryDebug#21'
+            keyPassword 'Thai#FLotteryDebug#21'
+            keyAlias = 'LotteryDebug'
+        }
+    }
+
     defaultConfig {
         applicationId "com.limestudio.findlottery"
         minSdkVersion 24
@@ -20,9 +35,9 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true",
-                        "room.expandProjection":"true"]
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
             }
         }
 
@@ -33,7 +48,7 @@ android {
         }
 
         // Inject the Maps API key into the manifest
-        manifestPlaceholders = [ mapsApiKey : properties.getProperty("MAPS_API_KEY", "")]
+        manifestPlaceholders = [mapsApiKey: properties.getProperty("MAPS_API_KEY", "")]
     }
 
     buildTypes {
