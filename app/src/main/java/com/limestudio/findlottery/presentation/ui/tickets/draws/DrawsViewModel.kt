@@ -16,7 +16,7 @@ import java.util.*
 class DrawsViewModel(private val ticketsRepository: TicketsRepository) : BaseViewModel() {
     val state = SingleLiveEvent<DrawsState>()
     fun loadData() {
-        state.postValue(DrawsState.ShowProgress(true)) //todo: use view model for control loader indicator
+//        state.postValue(DrawsState.ShowProgress(true)) //todo: use view model for control loader indicator
         mScope.launch(Dispatchers.IO + gerErrorHandler()) {
 //            val hasWinTicket = ticketsRepository.syncDraws()
 //            withContext(Dispatchers.Main) {
@@ -34,12 +34,12 @@ class DrawsViewModel(private val ticketsRepository: TicketsRepository) : BaseVie
                 Date(it.timestamp).isDayBeforeFuture() || it.tickets.isNotEmpty()
             }
 
-            draws = draws.filter {
-                it.numberWinTickets != 0
-            }
+//            draws = draws.filter {
+//                it.numberWinTickets != 0
+//            }
 
             withContext(Dispatchers.Main) {
-                state.postValue(DrawsState.OnLoadCompleted(draws))
+                state.postValue(DrawsState.OnLoadCompleted(draws.sortedBy { it.timestamp }))
             }
             if (draws.isEmpty())
                 withContext(Dispatchers.Main) {

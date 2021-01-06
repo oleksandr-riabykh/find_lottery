@@ -28,13 +28,22 @@ class FirebaseManager(applicationContext: Context?) {
         database.collection(TABLE_DRAWS).whereEqualTo("date", date)
             .get()
 
+//    suspend fun getDrawsByDateAsync(date: String): MutableList<Draw> =
+//        database.collection(TABLE_DRAWS).whereEqualTo("date", date.toDateFormat())
+//            .whereEqualTo("userId", Firebase.auth.currentUser?.uid)
+//            .get().await().toObjects(Draw::class.java)
+
     suspend fun getDrawsByDateAsync(date: String): MutableList<Draw> =
-        database.collection(TABLE_DRAWS).whereEqualTo("date", date.toDateFormat())
+        Firebase.auth.currentUser?.uid?.let {
+            database.collection(TABLE_DRAWS).whereEqualTo("date", date.toDateFormat())
+                .whereEqualTo("userId", it)
+                .get().await().toObjects(Draw::class.java)
+        } ?: mutableListOf()
+
+    suspend fun getDraws(userId: String): List<Draw> =
+        database.collection(TABLE_DRAWS).whereEqualTo("userId", userId)
             .get().await().toObjects(Draw::class.java)
 
-    suspend fun getDraws(): List<Draw> =
-        database.collection(TABLE_DRAWS).orderBy("timestamp")
-            .get().await().toObjects(Draw::class.java)
 
     suspend fun getTickets(drawId: String): List<Ticket> =
         database.collection(TABLE_TICKETS).whereEqualTo("drawId", drawId)

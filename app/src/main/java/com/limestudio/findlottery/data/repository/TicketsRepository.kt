@@ -43,7 +43,8 @@ class TicketsRepository(val context: Context) : BaseRepository() {
         FirebaseManager(null).getUserTicketsCount()
 
     suspend fun loadDraws() =
-        FirebaseManager(null).getDraws()
+        Firebase.auth.currentUser?.uid?.let { FirebaseManager(null).getDraws(it) }
+            ?: mutableListOf()
 
     fun createDraw(date: Date, onSuccess: (draws: Draw) -> Unit) =
         FirebaseManager(null).getDrawsByDate(date.toDateFormat()).addOnSuccessListener { snapshot ->
