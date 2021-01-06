@@ -34,9 +34,9 @@ class DrawsViewModel(private val ticketsRepository: TicketsRepository) : BaseVie
                 Date(it.timestamp).isDayBeforeFuture() || it.tickets.isNotEmpty()
             }
 
-//            draws = draws.filter {
-//                it.numberWinTickets != 0
-//            }
+            draws = draws.filter {
+                it.numberWinTickets != 0
+            }
 
             withContext(Dispatchers.Main) {
                 state.postValue(DrawsState.OnLoadCompleted(draws))
