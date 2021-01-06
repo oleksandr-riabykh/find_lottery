@@ -97,6 +97,7 @@ class FirebaseManager(applicationContext: Context?) {
 
     suspend fun deleteDraw(draw: Draw) {
         database.collection(TABLE_DRAWS).document(draw.id).delete().await()
+        getTickets(draw.id).forEach { deleteTicket(it) }
     }
 
     suspend fun deleteTicket(ticket: Ticket) {
