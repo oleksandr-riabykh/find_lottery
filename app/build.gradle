@@ -109,6 +109,7 @@ dependencies {
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
     implementation 'com.github.pprathameshmore:Toasty:v1.2'
     implementation 'com.bigkoo:svprogresshud:1.0.6'
+    implementation 'com.android.support:design:30.0.0'
     //zxing scanner
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
     implementation 'com.google.zxing:core:3.4.0'
