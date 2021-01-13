@@ -107,7 +107,7 @@ class MapsFragment : BaseFragment() {
 
         search_view.setOnFocusChangeListener { _, hasFocus ->
             (sheetBehavior as BottomSheetBehavior<*>).state =
-                if (hasFocus) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
+                if (hasFocus) BottomSheetBehavior.STATE_HALF_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
