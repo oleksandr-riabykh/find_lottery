@@ -168,4 +168,5 @@
     <string name="digit_set_number_hint"><![CDATA[<2 digit set number>]]></string>
     <string name="add_ticket_greeting">Enter manually the ticket numbers with the progressive and set, or use the scanner using the camera.</string>
     <string name="search_hint_ticket_number"><![CDATA[<ticket number>]]></string>
+    <string name="map_title">Map</string>
 </resources>

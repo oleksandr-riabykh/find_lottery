@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
+import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
@@ -26,7 +27,7 @@ import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
 import java.util.*
 
-
+const val SELECTED_USER = "selected_user"
 class MapsFragment : BaseFragment() {
     private val viewModel: MapsViewModel by viewModels { viewModelFactory }
     private lateinit var viewAdapter: TicketAdapter
@@ -39,6 +40,17 @@ class MapsFragment : BaseFragment() {
         loadCityTickets(bangkok)
         googleMap.setOnCameraMoveListener {
             loadCityTickets(googleMap.cameraPosition.target)
+        }
+        googleMap.setOnInfoWindowClickListener { marker ->
+            navigateTo(
+                R.id.navigation_seller,
+                R.id.navigation_map,
+                false,
+                Bundle().apply {
+                    putString(SELECTED_USER, marker.title)
+                    putString("title", marker.title)
+                }
+            )
         }
 //        googleMap.isMyLocationEnabled = true // check location permission
     }
@@ -69,36 +81,32 @@ class MapsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        viewAdapter = TicketAdapter(MODE_VIEW, { }, { })
-        tickets_recycler.apply {
-            adapter = viewAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
         mapFragment?.getMapAsync(callback)
+        // bottom sheet
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
-        (sheetBehavior as BottomSheetBehavior<*>).setBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-//                        btnBottomSheet.setText("Close Sheet")
-                    }
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-//                        btnBottomSheet.setText("Expand Sheet")
-                    }
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-                    }
-                    BottomSheetBehavior.STATE_SETTLING -> {
-                    }
-                    else -> {
-                    }
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        })
+//        (sheetBehavior as BottomSheetBehavior<*>).setBottomSheetCallback(object :
+//            BottomSheetBehavior.BottomSheetCallback() {
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                when (newState) {
+//                    BottomSheetBehavior.STATE_HIDDEN -> {
+//                    }
+//                    BottomSheetBehavior.STATE_EXPANDED -> {
+////                        btnBottomSheet.setText("Close Sheet")
+//                    }
+//                    BottomSheetBehavior.STATE_COLLAPSED -> {
+////                        btnBottomSheet.setText("Expand Sheet")
+//                    }
+//                    BottomSheetBehavior.STATE_DRAGGING -> {
+//                    }
+//                    BottomSheetBehavior.STATE_SETTLING -> {
+//                    }
+//                    else -> {
+//                    }
+//                }
+//            }
+//
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+//        })
 
         initStateListener()
         search_view?.doOnTextChanged { text, _, _, _ ->
@@ -108,6 +116,11 @@ class MapsFragment : BaseFragment() {
         search_view.setOnFocusChangeListener { _, hasFocus ->
             (sheetBehavior as BottomSheetBehavior<*>).state =
                 if (hasFocus) BottomSheetBehavior.STATE_HALF_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
+        }
+        viewAdapter = TicketAdapter(MODE_VIEW, { }, { })
+        tickets_recycler.apply {
+            adapter = viewAdapter
+            layoutManager = LinearLayoutManager(context)
         }
     }
 
