@@ -149,4 +149,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.github.brotoo25:firestore-coroutines:1.0.2'
+
+    // EasyPermissions
+    implementation 'pub.devrel:easypermissions:3.0.0'
 }

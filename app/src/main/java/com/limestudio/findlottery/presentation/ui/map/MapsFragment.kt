@@ -1,5 +1,7 @@
 package com.limestudio.findlottery.presentation.ui.map
 
+import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,11 +19,15 @@ import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseFragment
+import com.limestudio.findlottery.presentation.services.LocationService
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 
 
-class MapsFragment : BaseFragment() {
+
+class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private val viewModel: MapsViewModel by viewModels { viewModelFactory }
     private lateinit var viewAdapter: TicketAdapter
 
@@ -33,6 +39,10 @@ class MapsFragment : BaseFragment() {
     }
 
     var sheetBehavior: BottomSheetBehavior<*>? = null
+
+    companion object {
+        private const val ACCESS_FINE_LOCATION = 1
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -122,6 +132,44 @@ class MapsFragment : BaseFragment() {
                 map.animateCamera(CameraUpdateFactory.zoomTo(5f))
 
             }
+
+            requestLocationPermission()
         }
     }
+
+    private fun requestLocationPermission() {
+        if (EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION))
+            trackingLocation()
+        else EasyPermissions.requestPermissions(
+            requireActivity(),
+            "rationale",
+            ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+    @AfterPermissionGranted(ACCESS_FINE_LOCATION)
+    private fun trackingLocation() {
+        if (EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+            val intent = Intent(requireActivity(), LocationService::class.java)
+            requireActivity().startService(intent)
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
 }
