@@ -6,6 +6,7 @@ import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.data.firebase.FirebaseManager
 import com.limestudio.findlottery.data.models.Draw
 import com.limestudio.findlottery.data.models.Ticket
+import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.data.network.NetworkManager
 import com.limestudio.findlottery.extensions.getWinCombinationList
 import com.limestudio.findlottery.extensions.toDateFormat
@@ -36,6 +37,16 @@ class TicketsRepository(val context: Context) : BaseRepository() {
             it.status = draw.getWinCombinationList(it)
             it
         }
+    }
+
+    suspend fun loadTicketsByCity(city: String): List<Pair<User, List<Ticket>>> {
+        val result = arrayListOf<Pair<User, List<Ticket>>>()
+        val users = FirebaseManager(null).getUsersByCity(city)
+        users.forEach { user ->
+            val tickets = FirebaseManager(null).getTicketsByUserId(user.id)
+            result.add(Pair(user, tickets))
+        }
+        return result
     }
 
 

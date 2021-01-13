@@ -6,7 +6,7 @@ import java.util.*
 
 class UsersRepository(val context: Context) : BaseRepository() {
 
-    suspend fun getUsers(): ArrayList<User> {
+    suspend fun getUserById(userId: String): ArrayList<User> {
         return arrayListOf()
     }
 

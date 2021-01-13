@@ -52,12 +52,27 @@ class FirebaseManager(applicationContext: Context?) {
             .await()
             .toObjects(Ticket::class.java)
 
+    suspend fun getTicketsByUserId(userId: String): List<Ticket> =
+        database.collection(TABLE_TICKETS).whereEqualTo("userId", userId)
+//            .whereGreaterThan("timestamp", System.currentTimeMillis())
+            .get()
+            .await()
+            .toObjects(Ticket::class.java)
+
     suspend fun getUserTicketsCount(): Int =
         database.collection(TABLE_TICKETS)
             .whereEqualTo("userId", Firebase.auth.currentUser?.uid)
             .get()
             .await()
             .toObjects(Ticket::class.java).size
+
+    suspend fun getUsersByCity(city: String)
+            : List<User> =
+        database.collection(TABLE_USERS)
+            .whereEqualTo("city", city)
+            .get()
+            .await()
+            .toObjects(User::class.java)
 
     fun addTicket(ticket: Ticket) {
         database.collection(TABLE_TICKETS).document(ticket.id).set(ticket.toMap())

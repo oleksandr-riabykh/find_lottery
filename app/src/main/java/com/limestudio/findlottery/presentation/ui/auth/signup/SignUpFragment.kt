@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
+import com.limestudio.findlottery.data.models.AppLocation
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.extensions.showToast
@@ -153,8 +154,10 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 name = first_name?.text.toString(),
                                 lastName = last_name?.text.toString(),
                                 phoneNumber = phone_number?.text.toString(),
-                                city = city?.text.toString(),
-                                national_id = national_id?.text.toString()
+                                city = city?.text.toString().toLowerCase(),
+                                nationalId = national_id?.text.toString(),
+                                location = AppLocation(10.23, 120.42)
+//                                location = hashMapOf()
                             )
                         )
                     }

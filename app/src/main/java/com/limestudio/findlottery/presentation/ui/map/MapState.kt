@@ -8,7 +8,7 @@ import com.limestudio.findlottery.presentation.base.BaseScreenState
 
 sealed class MapState : BaseScreenState() {
     data class OnTicketsLoaded(val tickets: List<Ticket>) : MapState()
-    data class OnUsersUpdated(val users: List<User>) : MapState()
+    data class OnUsersLoaded(val users: List<User>) : MapState()
     data class ShowProgress(val shouldShow: Boolean) : MapState()
     data class OnShowMessage(val error: ExceptionModel) : MapState()
 }

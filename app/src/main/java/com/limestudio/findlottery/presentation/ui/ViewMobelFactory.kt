@@ -35,8 +35,7 @@ class ViewModelFactory(
                 ticketDataSource
             ) as T
             modelClass.isAssignableFrom(MapsViewModel::class.java) -> MapsViewModel(
-                ticketDataSource,
-                userDataSource
+                ticketDataSource
             ) as T
             modelClass.isAssignableFrom(SignUpViewModel::class.java) -> SignUpViewModel() as T
             else -> throw IllegalArgumentException("Unknown ViewModel class")
