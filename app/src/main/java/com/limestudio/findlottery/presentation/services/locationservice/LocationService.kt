@@ -1,4 +1,4 @@
-package com.limestudio.findlottery.presentation.services
+package com.limestudio.findlottery.presentation.services.locationservice
 
 import android.app.Service
 import android.content.Intent

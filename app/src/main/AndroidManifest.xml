@@ -64,7 +64,7 @@
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
 
-        <service android:name=".presentation.services.LocationService"
+        <service android:name=".presentation.services.locationservice.LocationService"
             android:enabled="true"/>
 
         <meta-data

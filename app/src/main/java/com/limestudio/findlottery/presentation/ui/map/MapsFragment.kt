@@ -19,7 +19,7 @@ import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseFragment
-import com.limestudio.findlottery.presentation.services.LocationService
+import com.limestudio.findlottery.presentation.services.locationservice.LocationService
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
 import pub.devrel.easypermissions.AfterPermissionGranted
