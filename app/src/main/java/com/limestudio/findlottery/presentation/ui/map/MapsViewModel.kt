@@ -17,12 +17,10 @@ class MapsViewModel(
             val users = result.map { it.first }
             val tickets = result.map { pair -> pair.second }.flatten()
             withContext(Dispatchers.Main) {
-                state.postValue(MapState.OnTicketsLoaded(tickets.filter {
-                    numbers.isEmpty() || it.numbers.contains(
-                        numbers
-                    )
-                }))
                 state.postValue(MapState.OnUsersLoaded(users))
+            }
+            withContext(Dispatchers.Main) {
+                state.postValue(MapState.OnTicketsLoaded(tickets))
             }
         }
     }
