@@ -54,7 +54,7 @@ class FirebaseManager(applicationContext: Context?) {
 
     suspend fun getTicketsByUserId(userId: String): List<Ticket> =
         database.collection(TABLE_TICKETS).whereEqualTo("userId", userId)
-//            .whereGreaterThan("timestamp", System.currentTimeMillis())
+            .whereGreaterThan("timestamp", System.currentTimeMillis())
             .get()
             .await()
             .toObjects(Ticket::class.java)

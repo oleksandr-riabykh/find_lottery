@@ -1,9 +1,13 @@
 package com.limestudio.findlottery.presentation.ui.map
 
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -17,8 +21,10 @@ import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseFragment
+import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
+import java.util.*
 
 
 class MapsFragment : BaseFragment() {
@@ -26,13 +32,31 @@ class MapsFragment : BaseFragment() {
     private lateinit var viewAdapter: TicketAdapter
 
     private val callback = OnMapReadyCallback { googleMap ->
-//        val bangkok = LatLng(13.734408, 100.512555)
-//        googleMap.addMarker(MarkerOptions().position(bangkok).title("My location"))
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(bangkok))
 
+        val bangkok = LatLng(13.756385, 100.502118)
+        googleMap.addMarker(MarkerOptions().position(bangkok).title("Bangkok city"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(bangkok))
+        loadCityTickets(bangkok)
+        googleMap.setOnCameraMoveListener {
+            loadCityTickets(googleMap.cameraPosition.target)
+        }
+//        googleMap.isMyLocationEnabled = true // check location permission
     }
 
     var sheetBehavior: BottomSheetBehavior<*>? = null
+
+    private fun loadCityTickets(location: LatLng) {
+        val geoCoder = Geocoder(context, Locale.getDefault())
+        if (Geocoder.isPresent()) {
+            val addresses: List<Address> =
+                geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+            if (addresses.isNotEmpty()) {
+                Log.d("current_camera_location", ": $addresses")
+                val city = addresses[0].locality ?: "bangkok"
+                viewModel.loadAllCityTickets(city)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,12 +69,11 @@ class MapsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        viewAdapter = TicketAdapter({ }, { })
+        viewAdapter = TicketAdapter(MODE_VIEW, { }, { })
         tickets_recycler.apply {
             adapter = viewAdapter
             layoutManager = LinearLayoutManager(context)
         }
-        viewModel.searchTickets("", "bangkok")
         mapFragment?.getMapAsync(callback)
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         (sheetBehavior as BottomSheetBehavior<*>).setBottomSheetCallback(object :
@@ -78,18 +101,19 @@ class MapsFragment : BaseFragment() {
         })
 
         initStateListener()
+        search_view?.doOnTextChanged { text, _, _, _ ->
+            text?.let { viewModel.filterTickets(it.toString()) }
+        }
+
+        search_view.setOnFocusChangeListener { _, hasFocus ->
+            (sheetBehavior as BottomSheetBehavior<*>).state =
+                if (hasFocus) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
+        }
     }
 
     private fun initStateListener() {
         viewModel.state.observe(this) { item ->
             when (item) {
-                is MapState.OnTicketsLoaded -> {
-                    viewAdapter.setData(item.tickets)
-                }
-
-                is MapState.OnUsersLoaded -> {
-                    onUsersUpdated(item.users)
-                }
                 is MapState.OnShowMessage -> {
                     showWarning(item.error.message)
                 }
@@ -98,6 +122,12 @@ class MapsFragment : BaseFragment() {
         }
         viewModel.error.observe(viewLifecycleOwner, { error ->
             showWarning(error.message)
+        })
+        viewModel.filteredTickets.observe(viewLifecycleOwner, { tickets ->
+            viewAdapter.setData(tickets)
+        })
+        viewModel.filteredUsers.observe(viewLifecycleOwner, { users ->
+            onUsersUpdated(users)
         })
     }
 
@@ -120,7 +150,6 @@ class MapsFragment : BaseFragment() {
                 }
                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 5, 5, 1))
                 map.animateCamera(CameraUpdateFactory.zoomTo(5f))
-
             }
         }
     }

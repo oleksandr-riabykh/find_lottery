@@ -34,7 +34,7 @@ class TicketsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewAdapter = TicketAdapter({ }, { viewModel.deleteTicket(it) })
+        viewAdapter = TicketAdapter(MODE_EDIT, { }, { viewModel.deleteTicket(it) })
         hudSync = SVProgressHUD(requireContext())
         recycler.apply {
             adapter = viewAdapter

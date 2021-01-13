@@ -11,6 +11,9 @@
     <color name="editTextBorderGray">#E7E7E7</color>
     <color name="editTextColorHint">#DCDCDC</color>
     <color name="greyCoverPhoto">#D3D3D3</color>
+    <color name="greySearchBackground">#E0E0E0</color>
+    <color name="greySearchHint">#919191</color>
+
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>

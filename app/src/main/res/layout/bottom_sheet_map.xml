@@ -13,11 +13,14 @@
     app:behavior_peekHeight="86dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <SearchView
+    <EditText
         android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp" />
+        style="@style/SearchStyle"
+        android:layout_margin="8dp"
+        android:hint="@string/search_hint_ticket_number"
+        android:inputType="numberDecimal"
+        android:maxLength="6"
+        android:nextFocusDown="@id/email" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tickets_recycler"

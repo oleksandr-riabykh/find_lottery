@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.limestudio.findlottery.R
@@ -13,8 +14,11 @@ import com.limestudio.findlottery.extensions.showAlert
 import com.limestudio.findlottery.extensions.toDateFormat
 import java.util.*
 
+const val MODE_EDIT = 0
+const val MODE_VIEW = 1
 
 class TicketAdapter(
+    private val mode: Int,
     private val onClickItem: (item: Ticket) -> Unit,
     private val onDeleteItem: (item: Ticket) -> Unit
 ) :
@@ -39,7 +43,7 @@ class TicketAdapter(
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = mListOfItems[position]
-        holder.bind(item, onClickItem, { ticket, positionItem ->
+        holder.bind(mode, item, onClickItem, { ticket, positionItem ->
             onDeleteItem(ticket)
             removeItem(positionItem)
         })
@@ -58,8 +62,10 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val setText: TextView? = view.findViewById(R.id.set)
     private val dateText: TextView? = view.findViewById(R.id.date)
     private val deleteButton: ImageButton? = view.findViewById(R.id.deleteButton)
+    private val bath: ImageView? = view.findViewById(R.id.bath)
 
     fun bind(
+        mode: Int,
         item: Ticket,
         onClickItem: (item: Ticket) -> Unit,
         onDeleteClick: (item: Ticket, position: Int) -> Unit
@@ -69,17 +75,21 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         setText?.text = Html.fromHtml(sourceString)
         dateText?.text =
             Date(item.timestamp).toDateFormat(itemView.context.resources.configuration.locale)
-        val stringBuilder = StringBuilder()
         itemView.setOnClickListener {
             onClickItem(item)
         }
-        deleteButton?.setOnClickListener {
-            showAlert(
-                R.string.remove_message_ticket,
-                android.R.string.ok,
-                android.R.string.cancel,
-                { onDeleteClick(item, position) },
-                {})
+        if (mode == MODE_VIEW) {
+            deleteButton?.visibility = View.GONE
+            bath?.visibility = View.GONE
+        } else {
+            deleteButton?.setOnClickListener {
+                showAlert(
+                    R.string.remove_message_ticket,
+                    android.R.string.ok,
+                    android.R.string.cancel,
+                    { onDeleteClick(item, position) },
+                    {})
+            }
         }
     }
 }
