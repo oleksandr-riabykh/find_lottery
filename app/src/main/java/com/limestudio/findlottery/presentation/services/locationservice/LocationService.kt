@@ -10,10 +10,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.data.firebase.FirebaseManager
 import com.limestudio.findlottery.extensions.toLatLng
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class LocationService : Service() {
 
@@ -21,19 +20,25 @@ class LocationService : Service() {
 
     private lateinit var locationProvider: LocationProvider
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onCreate() {
         locationProvider = LocationProvider(this)
+        super.onCreate()
+    }
 
-        Firebase.auth.currentUser?.uid?.let {
-            locationProvider.requestLocationUpdates { location ->
-                GlobalScope.launch(Dispatchers.IO) {
-                    firebaseManager.updateUserLocation(it, location.toLatLng)
-                }
-            }
-        }
-
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startLocationUpdates()
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
+
+    private fun startLocationUpdates() {
+        Firebase.auth.currentUser?.uid?.let { uid ->
+            locationProvider.requestLocationUpdates { location ->
+                GlobalScope.launch(Dispatchers.IO) {
+                    firebaseManager.updateUserLocation(uid, location.toLatLng)
+                }
+            }
+        }
+    }
 }

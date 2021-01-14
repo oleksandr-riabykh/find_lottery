@@ -123,7 +123,7 @@ class FirebaseManager(applicationContext: Context?) {
     }
 
     suspend fun updateUserLocation(userId: String, location: LatLng) {
-        database.collection(TABLE_USERS).document(userId).set(location)
+        database.collection(TABLE_USERS).document(userId).update("location", location)
     }
 
     companion object : SingletonHolder<FirebaseManager, Context?>(::FirebaseManager)
