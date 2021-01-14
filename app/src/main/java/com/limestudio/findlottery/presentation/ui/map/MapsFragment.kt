@@ -1,8 +1,9 @@
 package com.limestudio.findlottery.presentation.ui.map
 
 import android.Manifest
-import android.content.Intent
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.app.ActivityCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,36 +40,52 @@ import java.util.*
 
 const val SELECTED_USER = "selected_user"
 
-
 class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private val viewModel: MapsViewModel by viewModels { viewModelFactory }
     private lateinit var viewAdapter: TicketAdapter
     private var geoCoder: Geocoder? = null
+
     private val callback = OnMapReadyCallback { googleMap ->
 
         val bangkok = LatLng(13.756385, 100.502118)
-        googleMap.addMarker(MarkerOptions().position(bangkok).title("Bangkok city"))
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            googleMap.isMyLocationEnabled = true
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(bangkok))
+        }
+
+        loadCityTickets(bangkok)
+        googleMap.setOnCameraMoveListener {
+            loadCityTickets(googleMap.cameraPosition.target)
+        }
+        googleMap.setOnInfoWindowClickListener { marker ->
+            requireActivity().showAlert(marker.title, "Do you want to contact the seller?") {
+            }
+        }
+
+        // check location permission
+//        googleMap.animateCamera(CameraUpdateFactory.newLatLng(googleMap.myLocation))
+
+    }
+
+    private val callbackDenied = OnMapReadyCallback { googleMap ->
+
+        val bangkok = LatLng(13.756385, 100.502118)
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(bangkok))
         loadCityTickets(bangkok)
         googleMap.setOnCameraMoveListener {
             loadCityTickets(googleMap.cameraPosition.target)
         }
         googleMap.setOnInfoWindowClickListener { marker ->
-//            navigateTo(
-//                R.id.navigation_seller,
-//                R.id.navigation_map,
-//                false,
-//                Bundle().apply {
-//                    putString(SELECTED_USER, marker.title)
-//                    putString("title", marker.title)
-//                }
-//            )
-
             requireActivity().showAlert(marker.title, "Do you want to contact the seller?") {
-
             }
         }
-//        googleMap.isMyLocationEnabled = true // check location permission
     }
 
     override fun onAttach(context: Context) {
@@ -103,10 +121,8 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-        // bottom sheet
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+        requestLocationPermission()
 
         initStateListener()
         search_view?.doOnTextChanged { text, _, _, _ ->
@@ -176,19 +192,21 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                     addMarker(position)
                 }
                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 5, 5, 1))
-                map.animateCamera(CameraUpdateFactory.zoomTo(5f))
+                map.animateCamera(CameraUpdateFactory.zoomTo(10F))
             }
-
-            requestLocationPermission()
         }
     }
 
     private fun requestLocationPermission() {
-        if (EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION))
+        if (EasyPermissions.hasPermissions(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
             trackingLocation()
         else EasyPermissions.requestPermissions(
             this,
-            "rationale",
+            "Please, enable location service in the application. It require enable all the application functionality. ",
             ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
@@ -198,11 +216,16 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private fun trackingLocation() {
         val intent = Intent(requireActivity(), LocationService::class.java)
         requireActivity().startService(intent)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {}
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callbackDenied)
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

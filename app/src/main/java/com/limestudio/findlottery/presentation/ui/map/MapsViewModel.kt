@@ -22,7 +22,7 @@ class MapsViewModel(
     private var savedCity = ""
 
     fun filterTickets(inputNumber: String) {
-        if (inputNumber.isBlank() || inputNumber.length <= 2) {
+        if (inputNumber.isBlank() || inputNumber.length < 2) {
             filteredTickets.postValue(listOf())
             filteredUsers.postValue(allUsers)
             return
