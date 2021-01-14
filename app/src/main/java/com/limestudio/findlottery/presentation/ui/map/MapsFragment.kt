@@ -41,7 +41,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     var sheetBehavior: BottomSheetBehavior<*>? = null
 
     companion object {
-        private const val ACCESS_FINE_LOCATION = 1
+        private const val ACCESS_FINE_LOCATION = 500
     }
 
     override fun onCreateView(
@@ -141,7 +141,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         if (EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION))
             trackingLocation()
         else EasyPermissions.requestPermissions(
-            requireActivity(),
+            this,
             "rationale",
             ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -150,26 +150,22 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     @AfterPermissionGranted(ACCESS_FINE_LOCATION)
     private fun trackingLocation() {
-        if (EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-            val intent = Intent(requireActivity(), LocationService::class.java)
-            requireActivity().startService(intent)
-        }
+        val intent = Intent(requireActivity(), LocationService::class.java)
+        requireActivity().startService(intent)
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        TODO("Not yet implemented")
-    }
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        TODO("Not yet implemented")
-    }
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {}
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val locationPermission = permissions.find { it == Manifest.permission.ACCESS_FINE_LOCATION }
+        if (requestCode != ACCESS_FINE_LOCATION || locationPermission == null) return
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
 }
