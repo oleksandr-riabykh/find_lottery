@@ -1,7 +1,10 @@
 package com.limestudio.findlottery.data.firebase
 
 import android.content.Context
+import android.location.Location
 import android.util.Log
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -117,6 +120,10 @@ class FirebaseManager(applicationContext: Context?) {
 
     suspend fun deleteTicket(ticket: Ticket) {
         database.collection(TABLE_TICKETS).document(ticket.id).delete().await()
+    }
+
+    suspend fun updateUserLocation(userId: String, location: LatLng) {
+        database.collection(TABLE_USERS).document(userId).set(location)
     }
 
     companion object : SingletonHolder<FirebaseManager, Context?>(::FirebaseManager)
