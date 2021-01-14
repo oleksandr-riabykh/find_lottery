@@ -4,7 +4,6 @@ import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,13 +22,14 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
-import com.limestudio.findlottery.extensions.navigateTo
+import com.limestudio.findlottery.extensions.showAlert
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
 import java.util.*
+
 
 const val SELECTED_USER = "selected_user"
 
@@ -47,15 +47,19 @@ class MapsFragment : BaseFragment() {
             loadCityTickets(googleMap.cameraPosition.target)
         }
         googleMap.setOnInfoWindowClickListener { marker ->
-            navigateTo(
-                R.id.navigation_seller,
-                R.id.navigation_map,
-                false,
-                Bundle().apply {
-                    putString(SELECTED_USER, marker.title)
-                    putString("title", marker.title)
-                }
-            )
+//            navigateTo(
+//                R.id.navigation_seller,
+//                R.id.navigation_map,
+//                false,
+//                Bundle().apply {
+//                    putString(SELECTED_USER, marker.title)
+//                    putString("title", marker.title)
+//                }
+//            )
+
+            requireActivity().showAlert(marker.title, "Do you want to contact the seller?") {
+
+            }
         }
 //        googleMap.isMyLocationEnabled = true // check location permission
     }
@@ -93,29 +97,6 @@ class MapsFragment : BaseFragment() {
         mapFragment?.getMapAsync(callback)
         // bottom sheet
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
-//        (sheetBehavior as BottomSheetBehavior<*>).setBottomSheetCallback(object :
-//            BottomSheetBehavior.BottomSheetCallback() {
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//                when (newState) {
-//                    BottomSheetBehavior.STATE_HIDDEN -> {
-//                    }
-//                    BottomSheetBehavior.STATE_EXPANDED -> {
-////                        btnBottomSheet.setText("Close Sheet")
-//                    }
-//                    BottomSheetBehavior.STATE_COLLAPSED -> {
-////                        btnBottomSheet.setText("Expand Sheet")
-//                    }
-//                    BottomSheetBehavior.STATE_DRAGGING -> {
-//                    }
-//                    BottomSheetBehavior.STATE_SETTLING -> {
-//                    }
-//                    else -> {
-//                    }
-//                }
-//            }
-//
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-//        })
 
         initStateListener()
         search_view?.doOnTextChanged { text, _, _, _ ->
@@ -135,10 +116,6 @@ class MapsFragment : BaseFragment() {
                 val imm: InputMethodManager =
                     requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
-                Handler().postDelayed({
-                    (sheetBehavior as BottomSheetBehavior<*>).state =
-                        BottomSheetBehavior.STATE_COLLAPSED
-                }, 500)
 
                 return@setOnEditorActionListener true
             }

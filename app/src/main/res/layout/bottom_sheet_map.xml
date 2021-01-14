@@ -21,6 +21,9 @@
         android:inputType="numberDecimal"
         android:imeOptions="actionDone"
         android:singleLine="true"
+        android:textSelectHandle="@android:color/transparent"
+        android:textSelectHandleLeft="@android:color/transparent"
+        android:textSelectHandleRight="@android:color/transparent"
         android:maxLength="6"
         android:nextFocusDown="@id/email" />
 

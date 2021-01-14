@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.constants.DATE_FORMAT
 import com.prathameshmore.toastylibrary.Toasty
+import kotlinx.android.synthetic.main.notification_alert.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -111,6 +112,23 @@ fun Fragment.showWinAlert() {
 fun Activity.showDatMatrixAlert(onClickOk: () -> Unit) {
     val builder = AlertDialog.Builder(this)
     val customLayout: View = layoutInflater.inflate(R.layout.notification_scanner_hint, null)
+    builder.setView(customLayout)
+    builder.setPositiveButton(android.R.string.ok) { _, _ ->
+        onClickOk()
+    }
+    val alert = builder.create()
+    alert.show()
+    alert.getButton(DatePickerDialog.BUTTON_POSITIVE)
+        .setTextColor(resources.getColor(R.color.colorAccent, null))
+    alert.getButton(DatePickerDialog.BUTTON_NEGATIVE)
+        .setTextColor(resources.getColor(R.color.colorAccent, null))
+}
+
+fun Activity.showAlert(title: String, body: String, onClickOk: () -> Unit) {
+    val builder = AlertDialog.Builder(this)
+    val customLayout: View = layoutInflater.inflate(R.layout.notification_alert, null)
+    customLayout.textView?.text = title
+    customLayout.body?.text = body
     builder.setView(customLayout)
     builder.setPositiveButton(android.R.string.ok) { _, _ ->
         onClickOk()
