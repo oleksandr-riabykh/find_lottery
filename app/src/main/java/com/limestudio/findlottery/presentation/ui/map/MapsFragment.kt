@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +17,12 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.limestudio.findlottery.R
@@ -38,53 +39,53 @@ import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
 
-const val SELECTED_USER = "selected_user"
-
 class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private val viewModel: MapsViewModel by viewModels { viewModelFactory }
     private lateinit var viewAdapter: TicketAdapter
     private var geoCoder: Geocoder? = null
 
     private val callback = OnMapReadyCallback { googleMap ->
-
-        val bangkok = LatLng(13.756385, 100.502118)
-        if (ActivityCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            googleMap.isMyLocationEnabled = true
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(bangkok))
-        }
-
-        loadCityTickets(bangkok)
-        googleMap.setOnCameraMoveListener {
-            loadCityTickets(googleMap.cameraPosition.target)
-        }
-        googleMap.setOnInfoWindowClickListener { marker ->
-            requireActivity().showAlert(marker.title, "Do you want to contact the seller?") {
-            }
-        }
-
-        // check location permission
-//        googleMap.animateCamera(CameraUpdateFactory.newLatLng(googleMap.myLocation))
-
+        handleMapCallback(googleMap, true)
     }
 
     private val callbackDenied = OnMapReadyCallback { googleMap ->
-
-        val bangkok = LatLng(13.756385, 100.502118)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(bangkok))
-        loadCityTickets(bangkok)
+        handleMapCallback(googleMap, false)
+    }
+    var lastOpenned: Marker? = null
+    private fun handleMapCallback(googleMap: GoogleMap, isLocationEnabled: Boolean) {
+        val defaultBangkok = LatLng(13.756385, 100.502118)
+        if (isLocationEnabled) {
+            if (ActivityCompat.checkSelfPermission(
+                    requireActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireActivity(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                googleMap.isMyLocationEnabled = isLocationEnabled
+            }
+        }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(defaultBangkok))
+        loadCityTickets(defaultBangkok)
         googleMap.setOnCameraMoveListener {
             loadCityTickets(googleMap.cameraPosition.target)
         }
         googleMap.setOnInfoWindowClickListener { marker ->
             requireActivity().showAlert(marker.title, "Do you want to contact the seller?") {
             }
+        }
+        googleMap.setOnMarkerClickListener { marker ->
+            if (lastOpenned != null) {
+                lastOpenned?.hideInfoWindow()
+                if (lastOpenned?.equals(marker) == true) {
+                    lastOpenned = null
+                    return@setOnMarkerClickListener true
+                }
+            }
+            marker.showInfoWindow()
+            lastOpenned = marker
+            return@setOnMarkerClickListener true
         }
     }
 
@@ -104,9 +105,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             val addresses: List<Address>? =
                 geoCoder?.getFromLocation(location.latitude, location.longitude, 1)
             if (addresses?.isNotEmpty() == true) {
-                Log.d("current_camera_location", ": $addresses")
-                val city = addresses[0].locality ?: "bangkok"
-                viewModel.loadAllCityTickets(city)
+                viewModel.loadAllCityTickets(addresses[0].locality ?: "bangkok")
             }
         }
     }
