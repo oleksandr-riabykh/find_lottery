@@ -23,7 +23,7 @@ class MapsViewModel(
 
     fun filterTickets(inputNumber: String) {
         if (inputNumber.isBlank()) {
-            filteredTickets.postValue(allTickets)
+            filteredTickets.postValue(listOf())
             filteredUsers.postValue(allUsers)
             return
         }
@@ -48,7 +48,7 @@ class MapsViewModel(
             withContext(Dispatchers.Main) {
                 allTickets.clear()
                 allTickets.addAll(tickets)
-                filteredTickets.postValue(tickets)
+//                filteredTickets.postValue(tickets)
             }
         }
     }

@@ -1,12 +1,16 @@
 package com.limestudio.findlottery.presentation.ui.map
 
+import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,10 +32,11 @@ import kotlinx.android.synthetic.main.bottom_sheet_map.*
 import java.util.*
 
 const val SELECTED_USER = "selected_user"
+
 class MapsFragment : BaseFragment() {
     private val viewModel: MapsViewModel by viewModels { viewModelFactory }
     private lateinit var viewAdapter: TicketAdapter
-
+    private var geoCoder: Geocoder? = null
     private val callback = OnMapReadyCallback { googleMap ->
 
         val bangkok = LatLng(13.756385, 100.502118)
@@ -55,14 +60,18 @@ class MapsFragment : BaseFragment() {
 //        googleMap.isMyLocationEnabled = true // check location permission
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        geoCoder = Geocoder(context, Locale.getDefault())
+    }
+
     var sheetBehavior: BottomSheetBehavior<*>? = null
 
     private fun loadCityTickets(location: LatLng) {
-        val geoCoder = Geocoder(context, Locale.getDefault())
         if (Geocoder.isPresent()) {
-            val addresses: List<Address> =
-                geoCoder.getFromLocation(location.latitude, location.longitude, 1)
-            if (addresses.isNotEmpty()) {
+            val addresses: List<Address>? =
+                geoCoder?.getFromLocation(location.latitude, location.longitude, 1)
+            if (addresses?.isNotEmpty() == true) {
                 Log.d("current_camera_location", ": $addresses")
                 val city = addresses[0].locality ?: "bangkok"
                 viewModel.loadAllCityTickets(city)
@@ -115,7 +124,25 @@ class MapsFragment : BaseFragment() {
 
         search_view.setOnFocusChangeListener { _, hasFocus ->
             (sheetBehavior as BottomSheetBehavior<*>).state =
-                if (hasFocus) BottomSheetBehavior.STATE_HALF_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
+                if (hasFocus) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
+        }
+        search_view.setOnClickListener {
+            (sheetBehavior as BottomSheetBehavior<*>).state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        search_view.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                val imm: InputMethodManager =
+                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                Handler().postDelayed({
+                    (sheetBehavior as BottomSheetBehavior<*>).state =
+                        BottomSheetBehavior.STATE_COLLAPSED
+                }, 500)
+
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
         }
         viewAdapter = TicketAdapter(MODE_VIEW, { }, { })
         tickets_recycler.apply {
