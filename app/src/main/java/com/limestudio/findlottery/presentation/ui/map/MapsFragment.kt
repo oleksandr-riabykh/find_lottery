@@ -51,6 +51,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private val callbackDenied = OnMapReadyCallback { googleMap ->
         handleMapCallback(googleMap, false)
     }
+
     var lastOpenned: Marker? = null
     private fun handleMapCallback(googleMap: GoogleMap, isLocationEnabled: Boolean) {
         val defaultBangkok = LatLng(13.756385, 100.502118)
@@ -94,8 +95,6 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         geoCoder = Geocoder(context, Locale.getDefault())
     }
 
-    var sheetBehavior: BottomSheetBehavior<*>? = null
-
     companion object {
         private const val ACCESS_FINE_LOCATION = 500
     }
@@ -120,7 +119,8 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+
+        val sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         requestLocationPermission()
 
         initStateListener()

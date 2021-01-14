@@ -154,7 +154,7 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 name = first_name?.text.toString(),
                                 lastName = last_name?.text.toString(),
                                 phoneNumber = phone_number?.text.toString(),
-                                city = city?.text.toString().toLowerCase(),
+                                city = city?.selectedItem.toString().toLowerCase(),
                                 nationalId = national_id?.text.toString(),
                                 location = AppLocation(10.23, 120.42)
 //                                location = hashMapOf()
@@ -220,10 +220,6 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 getString(R.string.signup_empty_field_error_message)
             ) { it.isNotEmpty() },
             Field(
-                city,
-                getString(R.string.signup_empty_field_error_message)
-            ) { it.isNotEmpty() },
-            Field(
                 password,
                 getString(R.string.signup_password_helper_text)
             ) { viewModel.isPasswordContainsNumber(it) },
@@ -246,11 +242,6 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             else last_name.error = null
         }
         email?.doOnTextChanged { text, _, _, _ ->
-            if (text?.isEmpty() == true)
-                email.error = getString(R.string.signup_empty_field_error_message)
-            else email.error = null
-        }
-        city?.doOnTextChanged { text, _, _, _ ->
             if (text?.isEmpty() == true)
                 email.error = getString(R.string.signup_empty_field_error_message)
             else email.error = null

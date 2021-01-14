@@ -96,13 +96,11 @@
             android:layout_marginTop="8dp"
             android:text="@string/signup_city_title" />
 
-        <EditText
+        <Spinner
             android:id="@+id/city"
             style="@style/EditTextAppStyle"
             android:layout_marginBottom="16dp"
-            android:hint="@string/signup_city_hinty"
-            android:inputType="textPersonName"
-            android:nextFocusDown="@id/phone_number" />
+            android:entries="@array/cities" />
 
         <View
             android:layout_width="match_parent"

@@ -2,84 +2,86 @@
     <string name="app_name">Find Lottery</string>
 
     <string-array name="cities">
-        <item>Krabi</item>
-        <item>Krungthep</item>
-        <item>Kanchanaburi</item>
-        <item>Kalasin</item>
-        <item>Kamphaeng Phet</item>
-        <item>Khon Kaen</item>
-        <item>Chanthaburi</item>
-        <item>Chachoengsao</item>
-        <item>Chonburi</item>
-        <item>Chai Nat</item>
-        <item>Chaiyaphum</item>
-        <item>Chumphon</item>
-        <item>Chiang Rai</item>
-        <item>Chiang Mai</item>
-        <item>Trang</item>
-        <item>Trat</item>
-        <item>Tak</item>
-        <item>Nakhon Nayok</item>
-        <item>Nakhon Pathom</item>
-        <item>Nakhon Phanom</item>
-        <item>Nakhon Ratchasima</item>
-        <item>Nakhon Si Thammarat</item>
-        <item>Nakhon Sawan</item>
-        <item>Nonthaburi</item>
-        <item>Narathiwat</item>
-        <item>Nan</item>
-        <item>Bueng Kan</item>
-        <item>Buriram</item>
-        <item>Pathum Thani</item>
-        <item>Prajuab Kirikhan</item>
-        <item>Prachinburi</item>
-        <item>Pattani</item>
-        <item>Phra Nakhon Si Ayutthaya</item>
-        <item>Phayao</item>
-        <item>Phangnga</item>
-        <item>Phatthalung</item>
-        <item>Phichit</item>
-        <item>Phitsanulok</item>
-        <item>Phetchaburi</item>
-        <item>Phetchaburi</item>
-        <item>Phrae</item>
-        <item>Phuket</item>
-        <item>Mahasarakham</item>
-        <item>Mukdahan</item>
-        <item>Maehongson</item>
-        <item>Yasothon</item>
-        <item>Yala</item>
-        <item>Roi Et</item>
-        <item>Ranong</item>
-        <item>Rayong</item>
-        <item>Ratchaburi</item>
-        <item>Lopburi</item>
-        <item>Lampang</item>
-        <item>Lampoon</item>
-        <item>Loei</item>
-        <item>Srisaket</item>
-        <item>Sakon Nakhon</item>
-        <item>Songkhla</item>
-        <item>Satun</item>
-        <item>Samutprakarn</item>
-        <item>Samut Songkhram</item>
-        <item>Samut Sakhon</item>
-        <item>Srakaew</item>
-        <item>Saraburi</item>
-        <item>Singburi</item>
-        <item>Sukhothai</item>
-        <item>Suphanburi</item>
-        <item>Suratthani</item>
-        <item>Surin</item>
-        <item>Nong Khai</item>
-        <item>Nong Bua Lamphu</item>
-        <item>Angthong</item>
-        <item>Amnatcharoen</item>
-        <item>Udonthani</item>
-        <item>Uttaradit</item>
-        <item>Uthai Thani</item>
-        <item>Ubon Ratchathani</item>
+        <item>กระบี่</item>
+        <item>กรุงเทพมหานคร</item>
+        <item>กาญจนบุรี</item>
+        <item>กาฬสินธุ์</item>
+        <item>กำแพงเพชร</item>
+        <item>ขอนแก่น</item>
+        <item>จันทบุรี</item>
+        <item>ฉะเชิงเทรา</item>
+        <item>ชลบุรี</item>
+        <item>ชัยนาท</item>
+        <item>ชัยภูมิ</item>
+        <item>ชุมพร</item>
+        <item>เชียงราย</item>
+        <item>เชียงใหม่</item>
+        <item>ตรัง</item>
+        <item>ตราด</item>
+        <item>ตาก</item>
+        <item>นครนายก</item>
+        <item>นครปฐม</item>
+        <item>นครพนม</item>
+        <item>นครราชสีมา</item>
+        <item>นครศรีธรรมราช</item>
+        <item>นครสวรรค์</item>
+        <item>นนทบุรี</item>
+        <item>นราธิวาส</item>
+        <item>น่าน</item>
+        <item>บึงกาฬ</item>
+        <item>บุรีรัมย์</item>
+        <item>ปทุมธานี</item>
+        <item>ประจวบคีรีขันธ์</item>
+        <item>ปราจีนบุรี</item>
+        <item>ปัตตานี</item>
+        <item>พระนครศรีอยุธยา</item>
+        <item>พะเยา</item>
+        <item>พังงา</item>
+        <item>พัทลุง</item>
+        <item>พิจิตร</item>
+        <item>พิษณุโลก</item>
+        <item>เพชรบุรี</item>
+        <item>เพชรบูรณ์</item>
+        <item>แพร่</item>
+        <item>ภูเก็ต</item>
+        <item>มหาสารคาม</item>
+        <item>มุกดาหาร</item>
+        <item>แม่ฮ่องสอน</item>
+        <item>ยโสธร</item>
+        <item>ยะลา</item>
+        <item>ร้อยเอ็ด</item>
+        <item>ระนอง</item>
+        <item>ระยอง</item>
+        <item>ราชบุรี</item>
+        <item>ลพบุรี</item>
+        <item>ลำปาง</item>
+        <item>ลำพูน</item>
+        <item>เลย</item>
+        <item>ศรีสะเกษ</item>
+        <item>สกลนคร</item>
+        <item>สงขลา</item>
+        <item>สตูล</item>
+        <item>สมุทรปราการ</item>
+        <item>สมุทรสงคราม</item>
+        <item>สมุทรสาคร</item>
+        <item>สระแก้ว</item>
+        <item>สระบุรี</item>
+        <item>สิงห์บุรี</item>
+        <item>สุโขทัย</item>
+        <item>สุพรรณบุรี</item>
+        <item>สุราษฎร์ธานี</item>
+        <item>สุรินทร์</item>
+        <item>หนองคาย</item>
+        <item>หนองบัวลำภู</item>
+        <item>อ่างทอง</item>
+        <item>อำนาจเจริญ</item>
+        <item>อุดรธานี</item>
+        <item>อุตรดิตถ์</item>
+        <item>อุทัยธานี</item>
+        <item>อุบลราชธานี</item>
     </string-array>
+
+
     <string name="coming_soon">Coming soon…</string>
     <string name="title_home">Feed</string>
     <string name="tricks">Tricks</string>
