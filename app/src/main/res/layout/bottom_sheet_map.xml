@@ -18,21 +18,23 @@
         style="@style/SearchStyle"
         android:layout_margin="8dp"
         android:hint="@string/search_hint_ticket_number"
-        android:inputType="numberDecimal"
         android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:maxLength="6"
+        android:nextFocusDown="@id/email"
         android:singleLine="true"
         android:textSelectHandle="@android:color/transparent"
         android:textSelectHandleLeft="@android:color/transparent"
-        android:textSelectHandleRight="@android:color/transparent"
-        android:maxLength="6"
-        android:nextFocusDown="@id/email" />
+        android:textSelectHandleRight="@android:color/transparent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tickets_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         tools:listitem="@layout/item_ticket" />
