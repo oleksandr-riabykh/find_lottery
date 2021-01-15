@@ -17,7 +17,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -32,6 +31,7 @@ import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.hideKeyboard
 import com.limestudio.findlottery.extensions.showAlert
 import com.limestudio.findlottery.extensions.showWarning
+import com.limestudio.findlottery.extensions.zoomCamera
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.services.locationservice.LocationService
 import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
@@ -141,12 +141,11 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private fun handleMapCallback(googleMap: GoogleMap, isLocationEnabled: Boolean) {
         clusterManager = ClusterManager(context, googleMap)
         googleMap.setOnInfoWindowClickListener(clusterManager)
-//        googleMap.setOnCameraIdleListenerer(clusterManager)
         googleMap.setOnMarkerClickListener(clusterManager)
         clusterManager.setOnClusterItemInfoWindowClickListener { item ->
             requireActivity().showAlert(
                 item.title,
-                "Do you want to contact the seller?"
+                getString(R.string.contact_seller_warming)
             ) {
             }
         }
@@ -158,6 +157,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         }
         googleMap.setOnCameraIdleListener {
             clusterManager.onCameraIdle()
+            clusterManager.cluster()
             loadCityTickets(googleMap.cameraPosition.target)
         }
     }
@@ -220,7 +220,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 }
                 clusterManager.addItems(offsetItems)
                 clusterManager.cluster()
-                if (offsetItems.size == 1) zoomCamera(googleMap, offsetItems.first().position, 25f)
+                if (offsetItems.size == 1) googleMap.zoomCamera(offsetItems.first().position, 25f)
             } catch (e: Exception) {
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
@@ -236,7 +236,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             trackingLocation()
         else EasyPermissions.requestPermissions(
             this,
-            "Please, enable location service in the application. It require enable all the application functionality.",
+            getString(R.string.location_rationale),
             ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
@@ -307,21 +307,9 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                         it.latitude,
                         it.longitude
                     )
-                    zoomCamera(googleMap, latLng)
-                } ?: zoomCamera(googleMap, latLng)
+                    googleMap.zoomCamera(latLng)
+                } ?: googleMap.zoomCamera(latLng)
             }
-    }
-
-    private fun zoomCamera(googleMap: GoogleMap, latLng: LatLng, zoomLevel: Float = ZOOM_LEVEL) {
-        try {
-            googleMap.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    latLng, zoomLevel
-                )
-            )
-        } catch (e: Exception) {
-            FirebaseCrashlytics.getInstance().recordException(e)
-        }
     }
 
 }

@@ -1,6 +1,5 @@
 package com.limestudio.findlottery.presentation.ui.tickets.list
 
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.Ticket
+import com.limestudio.findlottery.extensions.platformFromHtml
 import com.limestudio.findlottery.extensions.showAlert
 import com.limestudio.findlottery.extensions.toDateFormat
 import java.util.*
@@ -69,7 +69,7 @@ abstract class TicketBaseViewHolder(view: View) : RecyclerView.ViewHolder(view) 
     ) {
         numberText?.text = item.numbers
         val sourceString = "Progress: <b>${item.progress}</b> - Set: <b>${item.set}</b> "
-        setText?.text = Html.fromHtml(sourceString)
+        setText?.text = sourceString.platformFromHtml()
         dateText?.text =
             Date(item.timestamp).toDateFormat(itemView.context.resources.configuration.locale)
         itemView.setOnClickListener {
@@ -92,7 +92,7 @@ class TicketViewHolder(view: View) : TicketBaseViewHolder(view) {
     ) {
         numberText?.text = item.numbers
         val sourceString = "Progress: <b>${item.progress}</b> - Set: <b>${item.set}</b> "
-        setText?.text = Html.fromHtml(sourceString)
+        setText?.text = sourceString.platformFromHtml()
         dateText?.text =
             Date(item.timestamp).toDateFormat(itemView.context.resources.configuration.locale)
         itemView.setOnClickListener {

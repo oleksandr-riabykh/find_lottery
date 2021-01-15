@@ -168,4 +168,6 @@
     <string name="add_ticket_greeting">Enter manually the ticket numbers with the progressive and set, or use the scanner using the camera.</string>
     <string name="search_hint_ticket_number"><![CDATA[<ticket number>]]></string>
     <string name="map_title">Map</string>
+    <string name="contact_seller_warming">Do you want to contact the seller?</string>
+    <string name="location_rationale">"Please, enable location service in the application. It require enable all the application functionality."</string>
 </resources>
