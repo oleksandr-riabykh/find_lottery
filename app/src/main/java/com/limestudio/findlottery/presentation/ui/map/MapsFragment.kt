@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.showAlert
@@ -36,6 +37,7 @@ import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import java.io.IOException
 import java.util.*
 
 
@@ -101,10 +103,14 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     private fun loadCityTickets(location: LatLng) {
         if (Geocoder.isPresent()) {
-            val addresses: List<Address>? =
-                geoCoder?.getFromLocation(location.latitude, location.longitude, 1)
-            if (addresses?.isNotEmpty() == true) {
-                viewModel.loadAllCityTickets(addresses[0].locality ?: "bangkok")
+            try {
+                val addresses: List<Address>? =
+                    geoCoder?.getFromLocation(location.latitude, location.longitude, 1)
+                if (addresses?.isNotEmpty() == true) {
+                    viewModel.loadAllCityTickets(addresses[0].locality ?: "bangkok")
+                }
+            } catch (e: IOException) {
+                FirebaseCrashlytics.getInstance().recordException(e)
             }
         }
     }
