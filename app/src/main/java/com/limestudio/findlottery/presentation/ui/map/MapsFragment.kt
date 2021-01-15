@@ -71,7 +71,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(defaultBangkok))
         loadCityTickets(defaultBangkok)
-        googleMap.setOnCameraMoveListener {
+        googleMap.setOnCameraIdleListener {
             loadCityTickets(googleMap.cameraPosition.target)
         }
         googleMap.setOnInfoWindowClickListener { marker ->
@@ -104,10 +104,16 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private fun loadCityTickets(location: LatLng) {
         if (Geocoder.isPresent()) {
             try {
-                val addresses: List<Address>? =
-                    geoCoder?.getFromLocation(location.latitude, location.longitude, 1)
-                if (addresses?.isNotEmpty() == true) {
-                    viewModel.loadAllCityTickets(addresses[0].locality ?: "bangkok")
+                try {
+                    val addresses: List<Address>? =
+                        geoCoder?.getFromLocation(location.latitude, location.longitude, 1)
+                    if (addresses?.isNotEmpty() == true) {
+                        viewModel.loadAllCityTickets(
+                            addresses[0].locality ?: "krungthep"
+                        )
+                    }
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
             } catch (e: IOException) {
                 FirebaseCrashlytics.getInstance().recordException(e)
@@ -182,23 +188,37 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private fun onUsersUpdated(users: List<User>) {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync { map ->
-            val builder = LatLngBounds.Builder()
-            map.clear()
-            users.forEach { user ->
-                map.apply {
-                    val latLng = LatLng(
-                        user.location?.latitude ?: 0.0,
-                        user.location?.longitude ?: 0.0
+//            Thread {
+            try {
+                val builder = LatLngBounds.Builder()
+                map.clear()
+                users.forEach { user ->
+                    map.apply {
+                        val latLng = LatLng(
+                            user.location?.latitude ?: 0.0,
+                            user.location?.longitude ?: 0.0
+                        )
+                        val position = MarkerOptions().position(
+                            latLng
+                        ).title("${user.name} ${user.lastName}")
+                        builder.include(latLng)
+                        addMarker(position)
+                    }
+                    map.animateCamera(
+                        CameraUpdateFactory.newLatLngBounds(
+                            builder.build(),
+                            5,
+                            5,
+                            1
+                        )
                     )
-                    val position = MarkerOptions().position(
-                        latLng
-                    ).title("${user.name} ${user.lastName}")
-                    builder.include(latLng)
-                    addMarker(position)
+                    map.animateCamera(CameraUpdateFactory.zoomTo(10F))
                 }
-                map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 5, 5, 1))
-                map.animateCamera(CameraUpdateFactory.zoomTo(10F))
+            } catch (e: Exception) {
+                FirebaseCrashlytics.getInstance().recordException(e)
             }
+
+//            }.start()
         }
     }
 
