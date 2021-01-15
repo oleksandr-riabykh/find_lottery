@@ -142,7 +142,8 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 is SignUpScreenState.UserSaved -> {
                     if (loadingIndicator.isShowing) loadingIndicator.dismiss()
                     val intent = Intent(requireActivity(), OnboardingActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
                     activity?.finish()
                 }
