@@ -24,6 +24,7 @@
         android:id="@+id/ticketNumber"
         style="@style/EditTextAppStyle"
         android:layout_marginBottom="8dp"
+        android:maxLength="6"
         android:hint="@string/digit_ticket_number_hint"
         android:inputType="numberDecimal"
         android:nextFocusDown="@id/last_name" />
@@ -39,6 +40,7 @@
         android:id="@+id/progress"
         style="@style/EditTextAppStyle"
         android:layout_marginBottom="8dp"
+        android:maxLength="2"
         android:hint="@string/digit_progress_number_hint"
         android:inputType="numberDecimal"
         android:nextFocusDown="@id/last_name" />
@@ -54,6 +56,7 @@
         android:id="@+id/set"
         style="@style/EditTextAppStyle"
         android:layout_marginBottom="8dp"
+        android:maxLength="2"
         android:hint="@string/digit_set_number_hint"
         android:inputType="numberDecimal"
         android:nextFocusDown="@id/last_name"

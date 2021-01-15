@@ -2,8 +2,10 @@ package com.limestudio.findlottery.extensions
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -150,4 +152,11 @@ fun Date.isDayBeforeFuture(): Boolean {
 
 fun Date.upcomingStatus(): Int {
     return if (this.after(Date())) R.string.upcoming_t else 0
+}
+
+
+fun View.hideKeyboard() {
+    val imm: InputMethodManager =
+        this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(this.windowToken, 0)
 }

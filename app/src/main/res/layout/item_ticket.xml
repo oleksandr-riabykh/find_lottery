@@ -13,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
         android:paddingEnd="8dp">
 
         <ImageView
@@ -79,12 +77,14 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:contentDescription="@string/delete"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.20"
             app:srcCompat="@drawable/ic_bath"
-            app:tint="@color/colorBach" />
+            app:tint="@color/colorBach"
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/deleteButton"
@@ -92,11 +92,13 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:contentDescription="@string/delete"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.80"
-            app:srcCompat="@drawable/ic_trash" />
+            app:srcCompat="@drawable/ic_trash"
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/priceImageView"

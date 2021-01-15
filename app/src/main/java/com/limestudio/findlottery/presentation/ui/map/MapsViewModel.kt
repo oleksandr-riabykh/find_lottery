@@ -1,5 +1,6 @@
 package com.limestudio.findlottery.presentation.ui.map
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.limestudio.findlottery.data.models.Ticket
 import com.limestudio.findlottery.data.models.User
@@ -38,6 +39,7 @@ class MapsViewModel(
         savedCity = city
         mScope.launch(Dispatchers.IO + gerErrorHandler()) {
             val result = ticketsRepository.loadTicketsByCity(city)
+            Log.d("TAG_users", "loadAllCityTickets: result -> $result")
             val users = result.map { it.first }
             val tickets = result.map { pair -> pair.second }.flatten()
             withContext(Dispatchers.Main) {
@@ -51,5 +53,9 @@ class MapsViewModel(
 //                filteredTickets.postValue(tickets)
             }
         }
+    }
+
+    fun ticketSelected(ticket: Ticket) {
+        filteredUsers.postValue(allUsers.filter { user -> ticket.userId == user.id })
     }
 }

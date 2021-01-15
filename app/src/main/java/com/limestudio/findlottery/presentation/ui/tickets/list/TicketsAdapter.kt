@@ -22,15 +22,15 @@ class TicketAdapter(
     private val onClickItem: (item: Ticket) -> Unit,
     private val onDeleteItem: (item: Ticket) -> Unit
 ) :
-    RecyclerView.Adapter<HomeViewHolder>() {
+    RecyclerView.Adapter<TicketBaseViewHolder>() {
 
     private var mListOfItems = arrayListOf<Ticket>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketBaseViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_ticket, parent, false)
 
-        return HomeViewHolder(view)
+        return if (mode == MODE_VIEW) TicketLightViewHolder(view) else TicketViewHolder(view)
     }
 
     fun setData(items: List<Ticket>) {
@@ -41,15 +41,15 @@ class TicketAdapter(
 
     override fun getItemCount(): Int = mListOfItems.size
 
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TicketBaseViewHolder, position: Int) {
         val item = mListOfItems[position]
-        holder.bind(mode, item, onClickItem, { ticket, positionItem ->
+        holder.bind(item, onClickItem, { ticket, positionItem ->
             onDeleteItem(ticket)
             removeItem(positionItem)
         })
     }
 
-    fun removeItem(position: Int) {
+    private fun removeItem(position: Int) {
         mListOfItems.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, mListOfItems.size)
@@ -57,15 +57,12 @@ class TicketAdapter(
 }
 
 @Suppress("DEPRECATION")
-class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val numberText: TextView? = view.findViewById(R.id.number)
-    private val setText: TextView? = view.findViewById(R.id.set)
-    private val dateText: TextView? = view.findViewById(R.id.date)
-    private val deleteButton: ImageButton? = view.findViewById(R.id.deleteButton)
-    private val bath: ImageView? = view.findViewById(R.id.bath)
+abstract class TicketBaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    protected val numberText: TextView? = view.findViewById(R.id.number)
+    protected val setText: TextView? = view.findViewById(R.id.set)
+    protected val dateText: TextView? = view.findViewById(R.id.date)
 
-    fun bind(
-        mode: Int,
+    open fun bind(
         item: Ticket,
         onClickItem: (item: Ticket) -> Unit,
         onDeleteClick: (item: Ticket, position: Int) -> Unit
@@ -78,18 +75,39 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.setOnClickListener {
             onClickItem(item)
         }
-        if (mode == MODE_VIEW) {
-            deleteButton?.visibility = View.GONE
-            bath?.visibility = View.GONE
-        } else {
-            deleteButton?.setOnClickListener {
-                showAlert(
-                    R.string.remove_message_ticket,
-                    android.R.string.ok,
-                    android.R.string.cancel,
-                    { onDeleteClick(item, position) },
-                    {})
-            }
+    }
+}
+
+class TicketLightViewHolder(view: View) : TicketBaseViewHolder(view)
+
+@Suppress("DEPRECATION")
+class TicketViewHolder(view: View) : TicketBaseViewHolder(view) {
+    private val deleteButton: ImageButton? = view.findViewById(R.id.deleteButton)
+    private val bath: ImageView? = view.findViewById(R.id.bath)
+
+    override fun bind(
+        item: Ticket,
+        onClickItem: (item: Ticket) -> Unit,
+        onDeleteClick: (item: Ticket, position: Int) -> Unit
+    ) {
+        numberText?.text = item.numbers
+        val sourceString = "Progress: <b>${item.progress}</b> - Set: <b>${item.set}</b> "
+        setText?.text = Html.fromHtml(sourceString)
+        dateText?.text =
+            Date(item.timestamp).toDateFormat(itemView.context.resources.configuration.locale)
+        itemView.setOnClickListener {
+            onClickItem(item)
+        }
+        deleteButton?.visibility = View.VISIBLE
+        bath?.visibility = View.VISIBLE
+        deleteButton?.setOnClickListener {
+            showAlert(
+                R.string.remove_message_ticket,
+                android.R.string.ok,
+                android.R.string.cancel,
+                { onDeleteClick(item, position) },
+                {})
+
         }
     }
 }
