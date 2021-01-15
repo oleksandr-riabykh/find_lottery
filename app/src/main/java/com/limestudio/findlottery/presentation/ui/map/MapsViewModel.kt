@@ -43,7 +43,7 @@ class MapsViewModel(
             withContext(Dispatchers.Main) {
                 allUsers.clear()
                 allUsers.addAll(users)
-//                filteredUsers.postValue(users)
+                filteredUsers.postValue(users)
             }
             withContext(Dispatchers.Main) {
                 allTickets.clear()

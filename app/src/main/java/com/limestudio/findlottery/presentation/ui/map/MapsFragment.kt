@@ -1,9 +1,9 @@
 package com.limestudio.findlottery.presentation.ui.map
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.core.app.ActivityCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,10 +21,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.maps.android.clustering.ClusterItem
+import com.google.maps.android.clustering.ClusterManager
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.showAlert
@@ -45,6 +44,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private val viewModel: MapsViewModel by viewModels { viewModelFactory }
     private lateinit var viewAdapter: TicketAdapter
     private var geoCoder: Geocoder? = null
+    private lateinit var clusterManager: ClusterManager<SellerItem>
 
     private val callback = OnMapReadyCallback { googleMap ->
         handleMapCallback(googleMap, true)
@@ -54,41 +54,31 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         handleMapCallback(googleMap, false)
     }
 
-    var lastOpenned: Marker? = null
+    @SuppressLint("MissingPermission")
     private fun handleMapCallback(googleMap: GoogleMap, isLocationEnabled: Boolean) {
+        clusterManager = ClusterManager(context, googleMap)
+        googleMap.setOnInfoWindowClickListener(clusterManager)
+//        googleMap.setOnCameraIdleListener(clusterManager)
+        googleMap.setOnMarkerClickListener(clusterManager)
+        clusterManager.setOnClusterItemInfoWindowClickListener { item ->
+            requireActivity().showAlert(
+                item.title ?: "Seller",
+                "Do you want to contact the seller?"
+            ) {
+            }
+        }
         val defaultBangkok = LatLng(13.756385, 100.502118)
         if (isLocationEnabled) {
-            if (ActivityCompat.checkSelfPermission(
-                    requireActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    requireActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                googleMap.isMyLocationEnabled = isLocationEnabled
-            }
+            googleMap.isMyLocationEnabled = isLocationEnabled
+            googleMap.uiSettings.isCompassEnabled = true
+            googleMap.uiSettings.isZoomControlsEnabled = true
+
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(defaultBangkok))
         loadCityTickets(defaultBangkok)
         googleMap.setOnCameraIdleListener {
             loadCityTickets(googleMap.cameraPosition.target)
-        }
-        googleMap.setOnInfoWindowClickListener { marker ->
-            requireActivity().showAlert(marker.title, "Do you want to contact the seller?") {
-            }
-        }
-        googleMap.setOnMarkerClickListener { marker ->
-            if (lastOpenned != null) {
-                lastOpenned?.hideInfoWindow()
-                if (lastOpenned?.equals(marker) == true) {
-                    lastOpenned = null
-                    return@setOnMarkerClickListener true
-                }
-            }
-            marker.showInfoWindow()
-            lastOpenned = marker
-            return@setOnMarkerClickListener true
+            clusterManager.onCameraIdle()
         }
     }
 
@@ -187,38 +177,34 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     private fun onUsersUpdated(users: List<User>) {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync { map ->
-//            Thread {
+        mapFragment?.getMapAsync { googleMap ->
             try {
+                clusterManager.clearItems()
                 val builder = LatLngBounds.Builder()
-                map.clear()
-                users.forEach { user ->
-                    map.apply {
-                        val latLng = LatLng(
-                            user.location?.latitude ?: 0.0,
-                            user.location?.longitude ?: 0.0
-                        )
-                        val position = MarkerOptions().position(
-                            latLng
-                        ).title("${user.name} ${user.lastName}")
-                        builder.include(latLng)
-                        addMarker(position)
-                    }
-                    map.animateCamera(
-                        CameraUpdateFactory.newLatLngBounds(
-                            builder.build(),
-                            5,
-                            5,
-                            1
-                        )
+                val offsetItems = users.mapIndexed { index, user ->
+                    val latLng = LatLng(
+                        user.location?.latitude ?: 0.0,
+                        user.location?.longitude ?: 0.0
                     )
-                    map.animateCamera(CameraUpdateFactory.zoomTo(10F))
+                    builder.include(latLng)
+                    val offset = index / 60.0
+                    val lat = latLng.latitude.plus(offset)
+                    val lng = latLng.longitude.plus(offset)
+                    SellerItem(
+                        lat, lng, "${user.name} ${user.lastName}",
+                        user.phoneNumber ?: ""
+                    )
                 }
+                clusterManager.addItems(offsetItems)
+                googleMap.animateCamera(
+                    CameraUpdateFactory.newLatLngBounds(
+                        builder.build(),
+                        10
+                    )
+                )
             } catch (e: Exception) {
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
-
-//            }.start()
         }
     }
 
@@ -262,4 +248,35 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
+    inner class SellerItem(
+        lat: Double,
+        lng: Double,
+        title: String,
+        snippet: String
+    ) : ClusterItem {
+
+        private val position: LatLng
+        private val title: String
+        private val snippet: String
+
+        override fun getPosition(): LatLng {
+            return position
+        }
+
+        override fun getTitle(): String? {
+            return title
+        }
+
+        override fun getSnippet(): String? {
+            return snippet
+        }
+
+        init {
+            position = LatLng(lat, lng)
+            this.title = title
+            this.snippet = snippet
+        }
+    }
+
 }
+
