@@ -1,10 +1,8 @@
 package com.limestudio.findlottery.data.firebase
 
 import android.content.Context
-import android.location.Location
 import android.util.Log
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -76,6 +74,14 @@ class FirebaseManager(applicationContext: Context?) {
             .get()
             .await()
             .toObjects(User::class.java)
+
+    suspend fun getUsers()
+            : List<User> =
+        database.collection(TABLE_USERS)
+            .get()
+            .await()
+            .toObjects(User::class.java)
+
 
     fun addTicket(ticket: Ticket) {
         database.collection(TABLE_TICKETS).document(ticket.id).set(ticket.toMap())

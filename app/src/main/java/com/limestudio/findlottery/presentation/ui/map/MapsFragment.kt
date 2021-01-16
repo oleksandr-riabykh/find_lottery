@@ -37,6 +37,8 @@ import com.limestudio.findlottery.presentation.services.locationservice.Location
 import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
+import kotlinx.android.synthetic.main.fragment_maps.*
+import kotlinx.android.synthetic.main.notification_alert.view.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
@@ -170,6 +172,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 if (addresses?.isNotEmpty() == true) {
                     val city =
                         if (addresses[0].locality.isNullOrEmpty()) DEFAULT_CITY_NAME else addresses[0].locality
+                    city_location?.text = city.capitalize()
                     viewModel.loadAllCityTickets(city)
                 }
             } catch (e: Exception) {

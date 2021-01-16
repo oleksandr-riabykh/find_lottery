@@ -20,7 +20,7 @@ class MapsViewModel(
     private val allUsers = arrayListOf<User>()
     private val allTickets = arrayListOf<Ticket>()
 
-    private var savedCity = ""
+//    private var savedCity = ""
 
     fun filterTickets(inputNumber: String) {
         if (inputNumber.isBlank() || inputNumber.length < 2) {
@@ -35,8 +35,8 @@ class MapsViewModel(
     }
 
     fun loadAllCityTickets(city: String) {
-        if (city == savedCity) return
-        savedCity = city
+//        if (city == savedCity) return
+//        savedCity = city
         mScope.launch(Dispatchers.IO + gerErrorHandler()) {
             val result = ticketsRepository.loadTicketsByCity(city)
             Log.d("TAG_users", "loadAllCityTickets: result -> $result")

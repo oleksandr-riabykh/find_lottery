@@ -41,7 +41,8 @@ class TicketsRepository(val context: Context) : BaseRepository() {
 
     suspend fun loadTicketsByCity(city: String): List<Pair<User, List<Ticket>>> {
         val result = arrayListOf<Pair<User, List<Ticket>>>()
-        val users = FirebaseManager(null).getUsersByCity(city)
+//        val users = FirebaseManager(null).getUsersByCity(city)
+        val users = FirebaseManager(null).getUsers()
         users.forEach { user ->
             val tickets = FirebaseManager(null).getTicketsByUserId(user.id)
             result.add(Pair(user, tickets))
