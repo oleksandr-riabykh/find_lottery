@@ -11,10 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bigkoo.svprogresshud.SVProgressHUD
 import com.limestudio.findlottery.R
-import com.limestudio.findlottery.extensions.navigateTo
-import com.limestudio.findlottery.extensions.showToast
-import com.limestudio.findlottery.extensions.showWarning
-import com.limestudio.findlottery.extensions.showWinAlert
+import com.limestudio.findlottery.extensions.*
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_draws.*
 import java.util.*
@@ -59,7 +56,10 @@ class DrawsFragment : BaseFragment() {
                 false,
                 Bundle().apply {
                     putParcelable(SELECTED_DRAW, it)
-                    putString("title", it.date)
+                    putString(
+                        "title",
+                        Date(it.timestamp).toDateFormat(resources.configuration.locales[0])
+                    )
                 }
             )
         }, { viewModel.deleteDraw(it) })
@@ -117,7 +117,10 @@ class DrawsFragment : BaseFragment() {
                         false,
                         Bundle().apply {
                             putParcelable(SELECTED_DRAW, item.draw)
-                            putString("title", item.draw.date)
+                            putString(
+                                "title",
+                                Date(item.draw.timestamp).toDateFormat(resources.configuration.locales[0])
+                            )
                         }
                     )
                 }

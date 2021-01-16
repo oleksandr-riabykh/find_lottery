@@ -7,7 +7,6 @@ import kotlinx.android.parcel.Parcelize
 data class Draw(
     val id: String = "",
     val userId: String? = "",
-    val date: String? = "",
     val timestamp: Long = 0L,
     val rawData: String = "",
     var numberWinTickets: Int = 0,
@@ -19,8 +18,7 @@ data class Draw(
             "id" to id,
             "userId" to userId,
             "rawData" to rawData,
-            "timestamp" to timestamp,
-            "date" to date
+            "timestamp" to timestamp
         )
     }
 
@@ -29,8 +27,7 @@ data class Draw(
             id = id,
             userId = map["userId"].toString(),
             rawData = map["rawData"].toString(),
-            timestamp = map["timestamp"]?.toString()?.toLong() ?: System.currentTimeMillis(),
-            date = map["date"]?.toString(),
+            timestamp = map["timestamp"]?.toString()?.toLong() ?: System.currentTimeMillis()
         )
     }
 }

@@ -47,6 +47,7 @@ const val DEFAULT_CITY_NAME = "krungthep"
 const val ZOOM_LEVEL = 10f
 
 class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
+
     private val viewModel: MapsViewModel by viewModels { viewModelFactory }
     private lateinit var viewAdapter: TicketAdapter
     private var geoCoder: Geocoder? = null
@@ -65,6 +66,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         geoCoder = Geocoder(context, Locale.getDefault())
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     }
 
     companion object {
@@ -82,21 +84,26 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewAdapter = TicketAdapter(MODE_VIEW, {
+            search_view.hideKeyboard()
+            viewModel.ticketSelected(it)
+            (BottomSheetBehavior.from(bottom_sheet) as BottomSheetBehavior<*>).state =
+                BottomSheetBehavior.STATE_COLLAPSED
+        }, { })
+
+        checkLocationPermission()
+        initStateListener()
+        initUI()
+    }
+
+    private fun initUI() {
         val sheetBehavior = BottomSheetBehavior.from(bottom_sheet) as BottomSheetBehavior<*>
         sheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-//                        search_view.hideKeyboard()
-                    }
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-//                        btnBottomSheet.setText("Expand Sheet")
-                    }
                     BottomSheetBehavior.STATE_DRAGGING -> {
                         search_view.hideKeyboard()
-                    }
-                    BottomSheetBehavior.STATE_SETTLING -> {
                     }
                     else -> {
                     }
@@ -105,14 +112,9 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
-        requestLocationPermission()
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        initStateListener()
         search_view?.doOnTextChanged { text, _, _, _ ->
             text?.let { viewModel.filterTickets(it.toString()) }
         }
-
         search_view.setOnFocusChangeListener { _, hasFocus ->
             sheetBehavior.state =
                 if (hasFocus) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
@@ -120,18 +122,13 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         search_view.setOnClickListener {
             sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
-        search_view.setOnEditorActionListener { v, actionId, event ->
+        search_view.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 v.hideKeyboard()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
-        viewAdapter = TicketAdapter(MODE_VIEW, {
-            search_view.hideKeyboard()
-            viewModel.ticketSelected(it)
-            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }, { })
         tickets_recycler.apply {
             adapter = viewAdapter
             layoutManager = LinearLayoutManager(context)
@@ -164,28 +161,24 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    private fun loadCityTickets(location: LatLng) {
-        if (Geocoder.isPresent()) {
-            try {
-                val addresses: List<Address>? =
-                    geoCoder?.getFromLocation(location.latitude, location.longitude, 1)
-                if (addresses?.isNotEmpty() == true) {
-                    val city =
-                        if (addresses[0].locality.isNullOrEmpty()) DEFAULT_CITY_NAME else addresses[0].locality
-                    city_location?.text = city.capitalize()
-                    viewModel.loadAllCityTickets(city)
-                }
-            } catch (e: Exception) {
-                FirebaseCrashlytics.getInstance().recordException(e)
-            }
-        }
-    }
-
     private fun initStateListener() {
         viewModel.state.observe(this) { item ->
             when (item) {
                 is MapState.OnShowMessage -> {
                     showWarning(item.error.message)
+                }
+                is MapState.OnTicketSelected -> {
+
+                    val mapFragment =
+                        childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+                    mapFragment?.getMapAsync { googleMap ->
+                        googleMap.zoomCamera(
+                            LatLng(
+                                item.user.location?.latitude ?: 0.0,
+                                item.user.location?.longitude ?: 0.0
+                            ), 25f
+                        )
+                    }
                 }
                 else -> showWarning(R.string.operation_not_implemented)
             }
@@ -202,35 +195,44 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun onUsersUpdated(users: List<User>) {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync { googleMap ->
+        clusterManager.clearItems()
+        val builder = LatLngBounds.Builder()
+        val offsetItems = users.mapIndexed { index, user ->
+            val latLng = LatLng(
+                user.location?.latitude ?: DEFAULT_CITY_LOCATION.latitude,
+                user.location?.longitude ?: DEFAULT_CITY_LOCATION.longitude
+            )
+            builder.include(latLng)
+            val offset = index / 60.0
+            val lat = latLng.latitude.plus(offset)
+            val lng = latLng.longitude.plus(offset)
+            SellerItem(
+                lat, lng, "${user.name} ${user.lastName}",
+                user.phoneNumber ?: ""
+            )
+        }
+        clusterManager.addItems(offsetItems)
+        clusterManager.cluster()
+    }
+
+    private fun loadCityTickets(location: LatLng) {
+        if (Geocoder.isPresent()) {
             try {
-                clusterManager.clearItems()
-                val builder = LatLngBounds.Builder()
-                val offsetItems = users.mapIndexed { index, user ->
-                    val latLng = LatLng(
-                        user.location?.latitude ?: DEFAULT_CITY_LOCATION.latitude,
-                        user.location?.longitude ?: DEFAULT_CITY_LOCATION.longitude
-                    )
-                    builder.include(latLng)
-                    val offset = index / 60.0
-                    val lat = latLng.latitude.plus(offset)
-                    val lng = latLng.longitude.plus(offset)
-                    SellerItem(
-                        lat, lng, "${user.name} ${user.lastName}",
-                        user.phoneNumber ?: ""
-                    )
+                val addresses: List<Address>? =
+                    geoCoder?.getFromLocation(location.latitude, location.longitude, 1)
+                if (addresses?.isNotEmpty() == true) {
+                    val city =
+                        if (addresses[0].locality.isNullOrEmpty()) DEFAULT_CITY_NAME else addresses[0].locality
+                    city_location?.text = city.capitalize(Locale.ROOT)
+                    viewModel.loadAllCityTickets(city)
                 }
-                clusterManager.addItems(offsetItems)
-                clusterManager.cluster()
-                if (offsetItems.size == 1) googleMap.zoomCamera(offsetItems.first().position, 25f)
             } catch (e: Exception) {
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
         }
     }
 
-    private fun requestLocationPermission() {
+    private fun checkLocationPermission() {
         if (EasyPermissions.hasPermissions(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -249,15 +251,17 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     private fun trackingLocation() {
         val intent = Intent(requireActivity(), LocationService::class.java)
         requireActivity().startService(intent)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
+        (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)?.getMapAsync(
+            callback
+        )
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callbackDenied)
+        (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)?.getMapAsync(
+            callbackDenied
+        )
     }
 
     override fun onRequestPermissionsResult(
@@ -268,6 +272,21 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         val locationPermission = permissions.find { it == Manifest.permission.ACCESS_FINE_LOCATION }
         if (requestCode != ACCESS_FINE_LOCATION || locationPermission == null) return
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun moveCameraToCurrentLocation(googleMap: GoogleMap) {
+        var latLng = DEFAULT_CITY_LOCATION
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                location?.let {
+                    latLng = LatLng(
+                        it.latitude,
+                        it.longitude
+                    )
+                    googleMap.zoomCamera(latLng)
+                } ?: googleMap.zoomCamera(latLng)
+            }
     }
 
     inner class SellerItem(
@@ -298,21 +317,6 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             this.title = title
             this.snippet = snippet
         }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun moveCameraToCurrentLocation(googleMap: GoogleMap) {
-        var latLng = DEFAULT_CITY_LOCATION
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                location?.let {
-                    latLng = LatLng(
-                        it.latitude,
-                        it.longitude
-                    )
-                    googleMap.zoomCamera(latLng)
-                } ?: googleMap.zoomCamera(latLng)
-            }
     }
 }
 

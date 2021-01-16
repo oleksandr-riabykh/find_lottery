@@ -1,6 +1,5 @@
 package com.limestudio.findlottery.presentation.ui.map
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.limestudio.findlottery.data.models.Ticket
 import com.limestudio.findlottery.data.models.User
@@ -20,8 +19,6 @@ class MapsViewModel(
     private val allUsers = arrayListOf<User>()
     private val allTickets = arrayListOf<Ticket>()
 
-//    private var savedCity = ""
-
     fun filterTickets(inputNumber: String) {
         if (inputNumber.isBlank() || inputNumber.length < 2) {
             filteredTickets.postValue(listOf())
@@ -35,11 +32,8 @@ class MapsViewModel(
     }
 
     fun loadAllCityTickets(city: String) {
-//        if (city == savedCity) return
-//        savedCity = city
         mScope.launch(Dispatchers.IO + gerErrorHandler()) {
             val result = ticketsRepository.loadTicketsByCity(city)
-            Log.d("TAG_users", "loadAllCityTickets: result -> $result")
             val users = result.map { it.first }
             val tickets = result.map { pair -> pair.second }.flatten()
             withContext(Dispatchers.Main) {
@@ -50,12 +44,13 @@ class MapsViewModel(
             withContext(Dispatchers.Main) {
                 allTickets.clear()
                 allTickets.addAll(tickets)
-//                filteredTickets.postValue(tickets)
             }
         }
     }
 
     fun ticketSelected(ticket: Ticket) {
-        filteredUsers.postValue(allUsers.filter { user -> ticket.userId == user.id })
+        val filter = allUsers.filter { user -> ticket.userId == user.id }
+        filteredUsers.postValue(filter)
+        state.postValue(MapState.OnTicketSelected(ticket, filter.first()))
     }
 }

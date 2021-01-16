@@ -73,7 +73,6 @@ class TicketsRepository(val context: Context) : BaseRepository() {
                 val draw = Draw(
                     id = UUID.randomUUID().toString(),
                     userId = Firebase.auth.currentUser?.uid,
-                    date = date.toDateFormat(),
                     timestamp = date.time
                 )
                 FirebaseManager(null).addDraw(draw)

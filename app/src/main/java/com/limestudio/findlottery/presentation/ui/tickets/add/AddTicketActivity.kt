@@ -80,7 +80,6 @@ class AddTicketActivity : AppCompatActivity() {
                     userId = Firebase.auth.currentUser?.uid ?: "",
                     drawId = draw?.id ?: "",
                     timestamp = draw?.timestamp ?: System.currentTimeMillis(),
-                    date = draw?.date ?: "00",
                     numbers = ticketNumber?.text?.toString() ?: "",
                     set = set?.text?.toString() ?: "",
                     progress = progress?.text?.toString() ?: ""

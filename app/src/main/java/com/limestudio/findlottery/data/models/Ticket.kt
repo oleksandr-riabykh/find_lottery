@@ -10,7 +10,6 @@ data class Ticket(
     val userId: String = "",
     val drawId: String = "",
     val timestamp: Long = 0L,
-    val date: String = "",
     val numbers: String = "",
     val set: String = "",
     val progress: String = "",
@@ -22,7 +21,6 @@ data class Ticket(
             "userId" to userId,
             "drawId" to drawId,
             "timestamp" to timestamp,
-            "date" to date,
             "numbers" to numbers,
             "set" to set,
             "progress" to progress
@@ -36,7 +34,6 @@ data class Ticket(
             drawId = map["drawId"].toString(),
             timestamp = map["timestamp"]?.toString()?.toLong() ?: System.currentTimeMillis(),
             numbers = map["numbers"].toString(),
-            date = map["date"].toString(),
             set = map["set"].toString(),
             progress = map["progress"].toString(),
         )

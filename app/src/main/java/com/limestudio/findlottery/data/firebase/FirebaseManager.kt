@@ -13,6 +13,7 @@ import com.limestudio.findlottery.data.models.Ticket
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.toDateFormat
 import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
+import java.util.*
 
 
 const val TABLE_USERS = "users"
@@ -28,11 +29,6 @@ class FirebaseManager(applicationContext: Context?) {
     fun getDrawsByDate(date: String) =
         database.collection(TABLE_DRAWS).whereEqualTo("date", date)
             .get()
-
-//    suspend fun getDrawsByDateAsync(date: String): MutableList<Draw> =
-//        database.collection(TABLE_DRAWS).whereEqualTo("date", date.toDateFormat())
-//            .whereEqualTo("userId", Firebase.auth.currentUser?.uid)
-//            .get().await().toObjects(Draw::class.java)
 
     suspend fun getDrawsByDateAsync(date: String): MutableList<Draw> =
         Firebase.auth.currentUser?.uid?.let {
@@ -53,12 +49,16 @@ class FirebaseManager(applicationContext: Context?) {
             .await()
             .toObjects(Ticket::class.java)
 
-    suspend fun getTicketsByUserId(userId: String): List<Ticket> =
-        database.collection(TABLE_TICKETS).whereEqualTo("userId", userId)
-            .whereGreaterThan("timestamp", System.currentTimeMillis())
+    suspend fun getTicketsByUserId(userId: String): List<Ticket> {
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.add(Calendar.DATE, -12)
+        return database.collection(TABLE_TICKETS).whereEqualTo("userId", userId)
+            .whereGreaterThan("timestamp", calendar.time.time)
             .get()
             .await()
             .toObjects(Ticket::class.java)
+    }
+
 
     suspend fun getUserTicketsCount(): Int =
         database.collection(TABLE_TICKETS)
@@ -81,7 +81,6 @@ class FirebaseManager(applicationContext: Context?) {
             .get()
             .await()
             .toObjects(User::class.java)
-
 
     fun addTicket(ticket: Ticket) {
         database.collection(TABLE_TICKETS).document(ticket.id).set(ticket.toMap())
