@@ -314,6 +314,5 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 } ?: googleMap.zoomCamera(latLng)
             }
     }
-
 }
 
