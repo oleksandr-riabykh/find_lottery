@@ -33,7 +33,6 @@
             android:layout_marginStart="8dp"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -47,13 +46,31 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/date"
             app:layout_constraintTop_toBottomOf="@+id/date"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="12" />
+            tools:text="122434" />
+
+        <TextView
+            android:id="@+id/set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/number"
+            app:layout_constraintTop_toBottomOf="@+id/date"
+            app:layout_constraintVertical_bias="0.68"
+            tools:text="set(24) group(23)" />
 
         <TextView
             android:id="@+id/name"
@@ -62,7 +79,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -72,35 +90,6 @@
             tools:text="TextView" />
 
         <ImageView
-            android:id="@+id/bath"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:contentDescription="@string/delete"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.20"
-            app:srcCompat="@drawable/ic_bath"
-            app:tint="@color/colorBach"
-            tools:visibility="visible" />
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:contentDescription="@string/delete"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.80"
-            app:srcCompat="@drawable/ic_trash"
-            tools:visibility="visible" />
-
-        <ImageView
             android:id="@+id/priceImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,8 +97,6 @@
             android:contentDescription="@string/price"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/deleteButton"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/gradient"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_win"

@@ -45,7 +45,10 @@ class TicketsRepository(val context: Context) : BaseRepository() {
         val users = FirebaseManager(null).getUsers()
         users.forEach { user ->
             val tickets = FirebaseManager(null).getTicketsByUserId(user.id)
-            result.add(Pair(user, tickets))
+            result.add(Pair(user, tickets.map { ticket ->
+                ticket.userName = "${user.name} ${user.lastName}"
+                ticket
+            }))
         }
         return result
     }

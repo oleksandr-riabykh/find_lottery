@@ -22,7 +22,6 @@ import com.limestudio.findlottery.extensions.toDateFormat
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.ui.tickets.draws.SELECTED_DRAW
 import kotlinx.android.synthetic.main.activity_add_ticket.*
-import kotlinx.android.synthetic.main.activity_add_ticket.set
 import java.util.*
 
 class AddTicketActivity : AppCompatActivity() {
@@ -81,7 +80,7 @@ class AddTicketActivity : AppCompatActivity() {
                     drawId = draw?.id ?: "",
                     timestamp = draw?.timestamp ?: System.currentTimeMillis(),
                     numbers = ticketNumber?.text?.toString() ?: "",
-                    set = set?.text?.toString() ?: "",
+                    set = number?.text?.toString() ?: "",
                     progress = progress?.text?.toString() ?: ""
                 )
             )
@@ -95,7 +94,7 @@ class AddTicketActivity : AppCompatActivity() {
                 integrator.initiateScan()
             }
         }
-        set?.addTextChangedListener(object : TextWatcher {
+        number?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -136,7 +135,7 @@ class AddTicketActivity : AppCompatActivity() {
             showWarning(R.string.incorrect_qr)
             return
         }
-        set?.setText(splicedString[1])
+        number?.setText(splicedString[1])
         progress?.setText(splicedString[2])
         ticketNumber?.setText(splicedString[3])
     }
@@ -160,7 +159,7 @@ class AddTicketActivity : AppCompatActivity() {
                 }
                 is AddTicketState.InputSetValid -> {
 
-                    set.error =
+                    number.error =
                         if (!item.isValid) "Input is not valid, must have 2 digits " else null
                 }
                 else -> showWarning(R.string.operation_not_implemented)

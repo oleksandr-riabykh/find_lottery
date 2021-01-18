@@ -133,6 +133,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             adapter = viewAdapter
             layoutManager = LinearLayoutManager(context)
         }
+        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
 

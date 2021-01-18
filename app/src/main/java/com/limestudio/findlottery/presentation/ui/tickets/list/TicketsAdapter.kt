@@ -27,10 +27,12 @@ class TicketAdapter(
     private var mListOfItems = arrayListOf<Ticket>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketBaseViewHolder {
-        val view =
+        return if (mode == MODE_VIEW) TicketSearchViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_ticket_search, parent, false)
+        ) else TicketViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_ticket, parent, false)
-
-        return if (mode == MODE_VIEW) TicketLightViewHolder(view) else TicketViewHolder(view)
+        )
     }
 
     fun setData(items: List<Ticket>) {
@@ -58,27 +60,17 @@ class TicketAdapter(
 
 @Suppress("DEPRECATION")
 abstract class TicketBaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    protected val numberText: TextView? = view.findViewById(R.id.number)
-    protected val setText: TextView? = view.findViewById(R.id.set)
     protected val dateText: TextView? = view.findViewById(R.id.date)
+    protected val numberText: TextView? = view.findViewById(R.id.number)
+    protected val nameText: TextView? = view.findViewById(R.id.name)
 
     open fun bind(
         item: Ticket,
         onClickItem: (item: Ticket) -> Unit,
         onDeleteClick: (item: Ticket, position: Int) -> Unit
     ) {
-        numberText?.text = item.numbers
-        val sourceString = "Progress: <b>${item.progress}</b> - Set: <b>${item.set}</b> "
-        setText?.text = sourceString.platformFromHtml()
-        dateText?.text =
-            Date(item.timestamp).toDateFormat(itemView.context.resources.configuration.locale)
-        itemView.setOnClickListener {
-            onClickItem(item)
-        }
     }
 }
-
-class TicketLightViewHolder(view: View) : TicketBaseViewHolder(view)
 
 @Suppress("DEPRECATION")
 class TicketViewHolder(view: View) : TicketBaseViewHolder(view) {
@@ -90,10 +82,10 @@ class TicketViewHolder(view: View) : TicketBaseViewHolder(view) {
         onClickItem: (item: Ticket) -> Unit,
         onDeleteClick: (item: Ticket, position: Int) -> Unit
     ) {
-        numberText?.text = item.numbers
+        dateText?.text = item.numbers
         val sourceString = "Progress: <b>${item.progress}</b> - Set: <b>${item.set}</b> "
-        setText?.text = sourceString.platformFromHtml()
-        dateText?.text =
+        numberText?.text = sourceString.platformFromHtml()
+        nameText?.text =
             Date(item.timestamp).toDateFormat(itemView.context.resources.configuration.locale)
         itemView.setOnClickListener {
             onClickItem(item)
@@ -108,6 +100,27 @@ class TicketViewHolder(view: View) : TicketBaseViewHolder(view) {
                 { onDeleteClick(item, position) },
                 {})
 
+        }
+    }
+}
+
+@Suppress("DEPRECATION")
+class TicketSearchViewHolder(view: View) : TicketBaseViewHolder(view) {
+    private val setText: TextView? = view.findViewById(R.id.set)
+
+    override fun bind(
+        item: Ticket,
+        onClickItem: (item: Ticket) -> Unit,
+        onDeleteClick: (item: Ticket, position: Int) -> Unit
+    ) {
+        numberText?.text = item.numbers
+        nameText?.text = item.userName
+        val sourceString = "(Progress: <b>${item.progress}</b> - Set: <b>${item.set}</b>)"
+        setText?.text = sourceString.platformFromHtml()
+        dateText?.text =
+            Date(item.timestamp).toDateFormat(itemView.context.resources.configuration.locale)
+        itemView.setOnClickListener {
+            onClickItem(item)
         }
     }
 }

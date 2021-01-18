@@ -53,7 +53,7 @@
         android:text="@string/set_label" />
 
     <EditText
-        android:id="@+id/set"
+        android:id="@+id/number"
         style="@style/EditTextAppStyle"
         android:layout_marginBottom="8dp"
         android:maxLength="2"

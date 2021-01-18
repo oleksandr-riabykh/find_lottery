@@ -7,6 +7,7 @@ import java.util.*
 @Parcelize
 data class Ticket(
     val id: String = UUID.randomUUID().toString(),
+    var userName: String = "",
     val userId: String = "",
     val drawId: String = "",
     val timestamp: Long = 0L,
