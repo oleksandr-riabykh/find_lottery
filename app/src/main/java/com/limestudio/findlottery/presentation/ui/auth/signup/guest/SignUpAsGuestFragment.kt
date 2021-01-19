@@ -35,8 +35,7 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_signup_as_seller.*
 
-const val CODE_AVATAR = 1
-const val CODE_CARD = 2
+
 
 class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
 
@@ -45,6 +44,9 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     private lateinit var images: HashMap<Int, ImageModel?>
     private lateinit var loadingIndicator: SVProgressHUD
 
+    companion object {
+        private const val CODE_GUEST_STATUS = 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,39 +78,6 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
         validateSignUpData()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (resultCode) {
-            Activity.RESULT_OK -> {
-                data?.data?.let { uri ->
-                    var folder = "avatar"
-                    if (requestCode == CODE_AVATAR) {
-                        Picasso.get().load(uri).transform(CropCircleTransformation()).into(avatar)
-                        folder = "avatar"
-                    } else if (requestCode == CODE_CARD) {
-                        folder = "idcard"
-                        id_card.adjustViewBounds = true
-                        id_card.scaleType = ImageView.ScaleType.CENTER_CROP
-                        id_card.setPadding(0, 0, 0, 0)
-                        Picasso.get().load(uri).into(id_card)
-
-                    }
-                    images[requestCode] = ImageModel(
-                        uri,
-                        folder
-                    )
-                }
-
-            }
-            ImagePicker.RESULT_ERROR -> {
-                showWarning(ImagePicker.getError(data))
-            }
-            else -> {
-                showToast("Task Cancelled")
-            }
-        }
-    }
-
     private fun initSubscribe() {
         viewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
@@ -137,11 +106,8 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 id = firebaseUser.uid,
                                 name = first_name?.text.toString(),
                                 lastName = last_name?.text.toString(),
-                                phoneNumber = phone_number?.text.toString(),
-                                city = city?.selectedItem.toString().toLowerCase(),
-                                nationalId = national_id?.text.toString(),
-                                location = AppLocation(10.23, 120.42)
-//                                location = hashMapOf()
+                                location = AppLocation(10.23, 120.42),
+                                status = CODE_GUEST_STATUS
                             )
                         )
                     }

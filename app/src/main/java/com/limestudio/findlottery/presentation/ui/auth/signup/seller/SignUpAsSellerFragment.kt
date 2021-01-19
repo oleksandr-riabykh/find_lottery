@@ -35,9 +35,6 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_signup_as_seller.*
 
-const val CODE_AVATAR = 1
-const val CODE_CARD = 2
-
 class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
 
     private val viewModel: SignUpViewModel by viewModels { viewModelFactory }
@@ -45,6 +42,11 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     private lateinit var images: HashMap<Int, ImageModel?>
     private lateinit var loadingIndicator: SVProgressHUD
 
+    companion object {
+        private const val CODE_AVATAR = 1
+        private const val CODE_CARD = 2
+        private const val CODE_SELLER_STATUS = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,8 +163,8 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 phoneNumber = phone_number?.text.toString(),
                                 city = city?.selectedItem.toString().toLowerCase(),
                                 nationalId = national_id?.text.toString(),
-                                location = AppLocation(10.23, 120.42)
-//                                location = hashMapOf()
+                                location = AppLocation(10.23, 120.42),
+                                status = CODE_SELLER_STATUS
                             )
                         )
                     }
