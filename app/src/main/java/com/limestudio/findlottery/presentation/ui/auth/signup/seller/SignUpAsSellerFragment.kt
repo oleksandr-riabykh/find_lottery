@@ -1,4 +1,4 @@
-package com.limestudio.findlottery.presentation.ui.auth.signup
+package com.limestudio.findlottery.presentation.ui.auth.signup.seller
 
 import android.app.Activity
 import android.content.Intent
@@ -27,15 +27,18 @@ import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
+import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
+import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
+import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
 import com.limestudio.findlottery.presentation.ui.onboarding.OnboardingActivity
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
-import kotlinx.android.synthetic.main.fragment_signup.*
+import kotlinx.android.synthetic.main.fragment_signup_as_seller.*
 
 const val CODE_AVATAR = 1
 const val CODE_CARD = 2
 
-class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
+class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
 
     private val viewModel: SignUpViewModel by viewModels { viewModelFactory }
     private lateinit var auth: FirebaseAuth
@@ -54,7 +57,7 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_signup, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_signup_as_seller, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

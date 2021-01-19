@@ -24,16 +24,14 @@ class StartFragment : BaseFragment() {
         login_button.setOnClickListener { navigateTo(R.id.navigation_login, R.id.navigation_start) }
         signup_as_seller_button.setOnClickListener {
             navigateTo(
-                R.id.navigation_signup,
+                R.id.navigation_signup_as_seller,
                 R.id.navigation_start
             )
         }
         signup_as_guest_button.setOnClickListener {
-            startActivity(
-                Intent(
-                    requireActivity(),
-                    MainActivity::class.java
-                )
+            navigateTo(
+                R.id.navigation_signup_as_guest,
+                R.id.navigation_start
             )
         }
 
