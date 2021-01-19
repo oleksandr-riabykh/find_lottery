@@ -57,7 +57,7 @@
     <string name="signup_password_helper_text">Password must be at least 6 in length and have numeric characters</string>
     <string name="signup_reference_code_helper_text">Your reference code (Optional)</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="signup">SignUp</string>
+    <string name="signup_as_seller">SignUp</string>
     <string name="nick_name">Nick Name</string>
     <string name="done">Done</string>
 
@@ -100,7 +100,7 @@
     <string name="signup_nid_hinty"><![CDATA[<national id>]]></string>
     <string name="signup_nid_scan_title">NATIONAL ID SCAN DOCUMENT</string>
     <string name="register_now">Register Now</string>
-    <string name="login_as_guest">Login as guest</string>
+    <string name="signup_as_guest">Login as guest</string>
     <string name="signup_terms">By clicking \'Register Now\' you agree with to our terms and conditions without Reservations</string>
 
     <!--    Draws & tickets-->

@@ -22,13 +22,13 @@ class StartFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         login_button.setOnClickListener { navigateTo(R.id.navigation_login, R.id.navigation_start) }
-        sigup_button.setOnClickListener {
+        signup_as_seller_button.setOnClickListener {
             navigateTo(
                 R.id.navigation_signup,
                 R.id.navigation_start
             )
         }
-        guest_button.setOnClickListener {
+        signup_as_guest_button.setOnClickListener {
             startActivity(
                 Intent(
                     requireActivity(),
