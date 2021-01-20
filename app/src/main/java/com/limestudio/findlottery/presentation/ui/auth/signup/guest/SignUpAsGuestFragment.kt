@@ -1,17 +1,14 @@
 package com.limestudio.findlottery.presentation.ui.auth.signup.guest
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ImageView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.bigkoo.svprogresshud.SVProgressHUD
-import com.github.drjacky.imagepicker.ImagePicker
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -27,14 +24,12 @@ import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_STATUS
 import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
 import com.limestudio.findlottery.presentation.ui.onboarding.OnboardingActivity
-import com.squareup.picasso.Picasso
-import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_signup_as_seller.*
-
 
 
 class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
@@ -93,6 +88,7 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 is SignUpScreenState.UserSaved -> {
                     if (loadingIndicator.isShowing) loadingIndicator.dismiss()
                     val intent = Intent(requireActivity(), OnboardingActivity::class.java)
+                        .putExtra(CODE_USER_STATUS, CODE_GUEST_STATUS)
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)

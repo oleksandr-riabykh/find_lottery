@@ -7,21 +7,29 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.extensions.showWarning
+import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.MainActivity
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
+import com.limestudio.findlottery.presentation.ui.auth.AuthState
+import com.limestudio.findlottery.presentation.ui.auth.AuthViewModel
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_STATUS
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : BaseFragment() {
+
+    private val viewModel: AuthViewModel by viewModels { Injection.provideViewModelFactory(requireContext()) }
 
     private lateinit var auth: FirebaseAuth
 
@@ -35,6 +43,11 @@ class LoginFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_login, container, false)
 
+    override fun onDestroy() {
+        Log.d("LoginFragment", "onDestroy")
+        super.onDestroy()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AuthActivity).showToolbar()
@@ -44,6 +57,19 @@ class LoginFragment : BaseFragment() {
                 R.id.navigation_login
             )
         }
+
+        viewModel.state.observe(requireActivity(), { state ->
+            when (state) {
+                is AuthState.OnUserStatusCheckResult -> {
+                    val intent = Intent(requireActivity(), MainActivity::class.java)
+                        .putExtra(CODE_USER_STATUS, state.status)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
+                else -> {}
+            }
+        })
+
         login_button.setOnClickListener {
             val userEmail = email?.text.toString()
             val pass = password?.text.toString()
@@ -53,8 +79,7 @@ class LoginFragment : BaseFragment() {
                 auth.signInWithEmailAndPassword(userEmail, pass)
                     .addOnCompleteListener(requireActivity()) { task ->
                         if (task.isSuccessful) {
-                            startActivity(Intent(requireActivity(), MainActivity::class.java))
-                            requireActivity().finish()
+                            viewModel.checkUserStatus()
                         } else {
                             showWarning("Authentication failure: Please, make you have an account")
                         }

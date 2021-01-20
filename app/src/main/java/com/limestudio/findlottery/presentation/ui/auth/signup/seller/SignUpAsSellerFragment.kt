@@ -27,6 +27,7 @@ import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_STATUS
 import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
@@ -147,6 +148,7 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 is SignUpScreenState.UserSaved -> {
                     if (loadingIndicator.isShowing) loadingIndicator.dismiss()
                     val intent = Intent(requireActivity(), OnboardingActivity::class.java)
+                        .putExtra(CODE_USER_STATUS, CODE_SELLER_STATUS)
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)

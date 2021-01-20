@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.extensions.navigateTo
-import com.limestudio.findlottery.presentation.MainActivity
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import kotlinx.android.synthetic.main.fragment_start.*

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.limestudio.findlottery.data.repository.ChatRepository
 import com.limestudio.findlottery.data.repository.TicketsRepository
 import com.limestudio.findlottery.data.repository.UsersRepository
+import com.limestudio.findlottery.presentation.ui.auth.AuthViewModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
 import com.limestudio.findlottery.presentation.ui.chat.ChatViewModel
 import com.limestudio.findlottery.presentation.ui.map.MapsViewModel
@@ -36,6 +37,9 @@ class ViewModelFactory(
             ) as T
             modelClass.isAssignableFrom(MapsViewModel::class.java) -> MapsViewModel(
                 ticketDataSource
+            ) as T
+            modelClass.isAssignableFrom(AuthViewModel::class.java) -> AuthViewModel(
+                userDataSource
             ) as T
             modelClass.isAssignableFrom(SignUpViewModel::class.java) -> SignUpViewModel() as T
             else -> throw IllegalArgumentException("Unknown ViewModel class")
