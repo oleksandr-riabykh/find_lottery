@@ -28,31 +28,31 @@
             app:layout_constraintVertical_bias="0.65999997" />
 
         <Button
-            android:id="@+id/sigup_button"
+            android:id="@+id/signup_as_seller_button"
             style="@style/BlueButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/signup"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guest_button"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/guest_button"
-            style="@style/GreenButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/login_as_guest"
+            android:text="@string/signup_as_seller"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_button"
             app:layout_constraintVertical_bias="0.0" />
 
+        <Button
+            android:id="@+id/signup_as_guest_button"
+            style="@style/GreenButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/signup_as_guest"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_as_seller_button"
+            app:layout_constraintVertical_bias="0.0" />
+        
         <TextView
             android:id="@+id/privacy_textView"
             android:layout_width="wrap_content"

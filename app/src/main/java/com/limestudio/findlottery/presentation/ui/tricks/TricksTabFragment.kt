@@ -25,7 +25,7 @@ class TricksTabFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         tabAdapter = TricksTabAdapter(this)
         tabAdapter.addFragment(TricksListFragment.newInstance(UserType.SELLER), "Recommended")
-        tabAdapter.addFragment(TricksListFragment.newInstance(UserType.USER), "Forbidden")
+        tabAdapter.addFragment(TricksListFragment.newInstance(UserType.GUEST), "Forbidden")
         viewPager.adapter = tabAdapter
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabAdapter.getTitle(position)

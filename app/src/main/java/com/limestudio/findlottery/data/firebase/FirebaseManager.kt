@@ -127,8 +127,18 @@ class FirebaseManager(applicationContext: Context?) {
         database.collection(TABLE_TICKETS).document(ticket.id).delete().await()
     }
 
-    suspend fun updateUserLocation(userId: String, location: LatLng) {
+    fun updateUserLocation(userId: String, location: LatLng) {
         database.collection(TABLE_USERS).document(userId).update("location", location)
+    }
+
+    suspend fun userStatus(userId: String): Int? {
+        return database
+            .collection(TABLE_USERS)
+            .document(userId)
+            .get()
+            .await()
+            .toObject(User::class.java)
+            ?.status
     }
 
     companion object : SingletonHolder<FirebaseManager, Context?>(::FirebaseManager)
