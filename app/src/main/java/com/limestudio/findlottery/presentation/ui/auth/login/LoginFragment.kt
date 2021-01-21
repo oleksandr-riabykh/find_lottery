@@ -7,7 +7,6 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import com.limestudio.findlottery.presentation.ui.auth.AuthState
 import com.limestudio.findlottery.presentation.ui.auth.AuthViewModel
-import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_STATUS
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : BaseFragment() {
@@ -57,7 +56,7 @@ class LoginFragment : BaseFragment() {
             when (state) {
                 is AuthState.StartMainActivity -> {
                     val intent = Intent(requireActivity(), MainActivity::class.java)
-                        .putExtra(CODE_USER_STATUS, state.status)
+                        .putExtra(CODE_USER_TYPE, state.status)
                     startActivity(intent)
                     requireActivity().finish()
                 }
@@ -80,7 +79,7 @@ class LoginFragment : BaseFragment() {
                 auth.signInWithEmailAndPassword(userEmail, pass)
                     .addOnCompleteListener(requireActivity()) { task ->
                         if (task.isSuccessful) {
-                            viewModel.checkUserStatus()
+                            viewModel.checkUserType()
                         } else {
                             showWarning("Authentication failure: Please, make you have an account")
                         }

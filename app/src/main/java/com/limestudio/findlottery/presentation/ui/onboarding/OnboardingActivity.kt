@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.presentation.MainActivity
-import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_STATUS
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
 import kotlinx.android.synthetic.main.activity_onboarding.done_button as doneButton
 import kotlinx.android.synthetic.main.activity_onboarding.skip_label as skipLabel
 import kotlinx.android.synthetic.main.activity_onboarding.tab_layout as tabLayout
@@ -27,13 +27,13 @@ class OnboardingActivity : AppCompatActivity(), (Boolean) -> Unit {
         doneButton.setOnClickListener {
             startActivity(
                 Intent(applicationContext, MainActivity::class.java)
-                    .putExtra(CODE_USER_STATUS, intent.extras?.getInt(CODE_USER_STATUS))
+                    .putExtra(CODE_USER_TYPE, intent.extras?.getInt(CODE_USER_TYPE))
             )
         }
         skipLabel.setOnClickListener {
             startActivity(
                 Intent(applicationContext, MainActivity::class.java)
-                    .putExtra(CODE_USER_STATUS, intent.extras?.getInt(CODE_USER_STATUS))
+                    .putExtra(CODE_USER_TYPE, intent.extras?.getInt(CODE_USER_TYPE))
             )
         }
     }

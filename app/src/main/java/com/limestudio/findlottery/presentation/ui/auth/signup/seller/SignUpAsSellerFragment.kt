@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
+import com.limestudio.findlottery.data.UserType
 import com.limestudio.findlottery.data.models.AppLocation
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.navigateTo
@@ -27,7 +28,7 @@ import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
-import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_STATUS
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
 import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
@@ -46,7 +47,6 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     companion object {
         private const val CODE_AVATAR = 1
         private const val CODE_CARD = 2
-        private const val CODE_SELLER_STATUS = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,7 +148,7 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 is SignUpScreenState.UserSaved -> {
                     if (loadingIndicator.isShowing) loadingIndicator.dismiss()
                     val intent = Intent(requireActivity(), OnboardingActivity::class.java)
-                        .putExtra(CODE_USER_STATUS, CODE_SELLER_STATUS)
+                        .putExtra(CODE_USER_TYPE, UserType.SELLER.value)
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
@@ -166,7 +166,7 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 city = city?.selectedItem.toString().toLowerCase(),
                                 nationalId = national_id?.text.toString(),
                                 location = AppLocation(10.23, 120.42),
-                                status = CODE_SELLER_STATUS
+                                status = UserType.SELLER.value
                             )
                         )
                     }

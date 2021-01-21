@@ -7,13 +7,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-const val CODE_USER_STATUS = "status"
+const val CODE_USER_TYPE = "user_type"
 
 class AuthViewModel(private val repository: UsersRepository) : BaseViewModel() {
 
     val state = SingleLiveEvent<AuthState>()
 
-    fun checkUserStatus() {
+    fun checkUserType() {
         mScope.launch (Dispatchers.IO + gerErrorHandler()){
             val status = async { repository.userStatus() }
             val result = status.await()

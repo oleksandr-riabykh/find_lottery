@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
+import com.limestudio.findlottery.data.UserType
 import com.limestudio.findlottery.data.models.AppLocation
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.navigateTo
@@ -24,7 +25,7 @@ import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
-import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_STATUS
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
 import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
@@ -38,10 +39,6 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     private lateinit var auth: FirebaseAuth
     private lateinit var images: HashMap<Int, ImageModel?>
     private lateinit var loadingIndicator: SVProgressHUD
-
-    companion object {
-        private const val CODE_GUEST_STATUS = 0
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,7 +85,7 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 is SignUpScreenState.UserSaved -> {
                     if (loadingIndicator.isShowing) loadingIndicator.dismiss()
                     val intent = Intent(requireActivity(), OnboardingActivity::class.java)
-                        .putExtra(CODE_USER_STATUS, CODE_GUEST_STATUS)
+                        .putExtra(CODE_USER_TYPE, UserType.GUEST.value)
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
@@ -103,7 +100,7 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 name = first_name?.text.toString(),
                                 lastName = last_name?.text.toString(),
                                 location = AppLocation(10.23, 120.42),
-                                status = CODE_GUEST_STATUS
+                                status = UserType.GUEST.value
                             )
                         )
                     }

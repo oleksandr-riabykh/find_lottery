@@ -15,7 +15,7 @@ import com.limestudio.findlottery.presentation.ui.auth.AuthViewModel
 import com.limestudio.findlottery.presentation.base.BaseActivity
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import com.limestudio.findlottery.presentation.ui.auth.AuthState
-import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_STATUS
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
 
 class SplashActivity : BaseActivity() {
 
@@ -34,7 +34,7 @@ class SplashActivity : BaseActivity() {
             when (state) {
                 is AuthState.StartMainActivity -> {
                     startActivity(Intent(this, MainActivity::class.java)
-                        .putExtra(CODE_USER_STATUS, state.status))
+                        .putExtra(CODE_USER_TYPE, state.status))
                     finish()
                 }
                 is AuthState.StartRelogin -> {
@@ -54,7 +54,7 @@ class SplashActivity : BaseActivity() {
                 finish()
             }
             if (firebaseUser != null) {
-                viewModel.checkUserStatus()
+                viewModel.checkUserType()
             }
         }
 }
