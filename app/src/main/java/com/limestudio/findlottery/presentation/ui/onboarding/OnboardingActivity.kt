@@ -27,13 +27,13 @@ class OnboardingActivity : AppCompatActivity(), (Boolean) -> Unit {
         doneButton.setOnClickListener {
             startActivity(
                 Intent(applicationContext, MainActivity::class.java)
-                    .putExtra(CODE_USER_STATUS, intent.extras?.getInt(CODE_USER_STATUS) ?: 0)
+                    .putExtra(CODE_USER_STATUS, intent.extras?.getInt(CODE_USER_STATUS))
             )
         }
         skipLabel.setOnClickListener {
             startActivity(
                 Intent(applicationContext, MainActivity::class.java)
-                    .putExtra(CODE_USER_STATUS, intent.extras?.getInt(CODE_USER_STATUS) ?: 0)
+                    .putExtra(CODE_USER_STATUS, intent.extras?.getInt(CODE_USER_STATUS))
             )
         }
     }

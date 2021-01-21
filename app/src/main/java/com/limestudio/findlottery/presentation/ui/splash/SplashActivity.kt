@@ -39,7 +39,7 @@ class SplashActivity : BaseActivity() {
                 }
                 is AuthState.StartRelogin -> {
                     Firebase.auth.signOut()
-                    showWarning("Something went wrong, please re-login")
+                    showWarning(R.string.please_relogin)
                 }
                 else -> {}
             }

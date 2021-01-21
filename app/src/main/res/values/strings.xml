@@ -147,6 +147,7 @@
     <string name="null_pointer_exception">Null pointer error</string>
     <string name="timeout_exception">Timeout error</string>
     <string name="illegal_state_exception">Illegal state error</string>
+    <string name="please_relogin">"Something went wrong, please re-login"</string>
 
     <!--    notifications-->
     <string name="channel_description">Get lucky…</string>

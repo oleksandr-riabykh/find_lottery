@@ -62,7 +62,7 @@ class LoginFragment : BaseFragment() {
                     requireActivity().finish()
                 }
                 is AuthState.StartRelogin -> {
-                    showWarning("Something went wrong, please re-login")
+                    showWarning(R.string.please_relogin)
                     email.text.clear()
                     password.text.clear()
                     password.clearFocus()
