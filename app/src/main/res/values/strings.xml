@@ -27,7 +27,7 @@
     <string name="how_it_was">how it was?</string>
 
     <!--    Errors-->
-    <string name="error_unknown">Sorry, something bad happens!</string>
+    <string name="error_unknown">Sorry, something bad happens! Please, try again later.</string>
     <string name="error_http">Network error</string>
     <string name="error_socket">Network error</string>
     <string name="error_null_pointer">Field is empty in the response!</string>

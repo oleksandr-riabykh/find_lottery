@@ -12,7 +12,7 @@ data class User(
     val city: String? = "",
     val location: AppLocation? = null,
     val nationalId: String? = "",
-    val status: Int? = null
+    val type: Int? = 0
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {
         return mapOf(
@@ -23,7 +23,7 @@ data class User(
             "location" to location,
             "city" to city,
             "nationalId" to nationalId,
-            "status" to status
+            "type" to type
         )
     }
 }

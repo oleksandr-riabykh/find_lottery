@@ -28,14 +28,8 @@ class SignUpViewModel : BaseViewModel() {
         }
     }
 
-    fun addUser(user: User) {
-        mScope.launch(Dispatchers.IO + gerErrorHandler()) {
-            FirebaseManager.getInstance(null).addUser(user)
-            withContext(Dispatchers.Main) {
-                state.postValue(SignUpScreenState.UserSaved)
-            }
-        }
-    }
+    fun addUser(user: User) = FirebaseManager.getInstance(null)
+        .addUser(user) { state.postValue(SignUpScreenState.UserSaved) }
 
     fun validateEmailAddress(email: String): Boolean = email.validateEmailAddress()
 

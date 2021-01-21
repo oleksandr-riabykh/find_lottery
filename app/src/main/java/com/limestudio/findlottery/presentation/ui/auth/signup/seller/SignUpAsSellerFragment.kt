@@ -25,7 +25,6 @@ import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.extensions.showToast
 import com.limestudio.findlottery.extensions.showWarning
-import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
@@ -52,7 +51,6 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
-        viewModelFactory = Injection.provideViewModelFactory(requireContext())
         images = hashMapOf()
         loadingIndicator = SVProgressHUD(requireContext())
     }
@@ -166,7 +164,7 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 city = city?.selectedItem.toString().toLowerCase(),
                                 nationalId = national_id?.text.toString(),
                                 location = AppLocation(10.23, 120.42),
-                                status = UserType.SELLER.value
+                                type = UserType.SELLER.value
                             )
                         )
                     }

@@ -114,9 +114,10 @@ class FirebaseManager(applicationContext: Context?) {
         return existingUrl
     }
 
-    suspend fun addUser(user: User): Void =
-        database.collection(TABLE_USERS).document(user.id).set(user.toMap()).await()
-
+    fun addUser(user: User, onSuccess: () -> Unit) {
+        database.collection(TABLE_USERS).document(user.id).set(user.toMap())
+            .addOnSuccessListener { onSuccess() }
+    }
 
     suspend fun deleteDraw(draw: Draw) {
         database.collection(TABLE_DRAWS).document(draw.id).delete().await()
@@ -138,7 +139,7 @@ class FirebaseManager(applicationContext: Context?) {
             .get()
             .await()
             .toObject(User::class.java)
-            ?.status
+            ?.type
     }
 
     companion object : SingletonHolder<FirebaseManager, Context?>(::FirebaseManager)

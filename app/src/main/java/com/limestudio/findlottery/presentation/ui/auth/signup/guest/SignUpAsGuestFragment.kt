@@ -19,14 +19,11 @@ import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.UserType
 import com.limestudio.findlottery.data.models.AppLocation
 import com.limestudio.findlottery.data.models.User
-import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.extensions.showToast
 import com.limestudio.findlottery.extensions.showWarning
-import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
-import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
 import com.limestudio.findlottery.presentation.ui.onboarding.OnboardingActivity
@@ -37,14 +34,11 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
 
     private val viewModel: SignUpViewModel by viewModels { viewModelFactory }
     private lateinit var auth: FirebaseAuth
-    private lateinit var images: HashMap<Int, ImageModel?>
     private lateinit var loadingIndicator: SVProgressHUD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
-        viewModelFactory = Injection.provideViewModelFactory(requireContext())
-        images = hashMapOf()
         loadingIndicator = SVProgressHUD(requireContext())
     }
 
@@ -89,40 +83,30 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
-
                     activity?.finishAndRemoveTask();
                 }
-                is SignUpScreenState.FilesUploaded -> {
-                    auth.currentUser?.let { firebaseUser ->
-                        viewModel.addUser(
-                            User(
-                                id = firebaseUser.uid,
-                                name = first_name?.text.toString(),
-                                lastName = last_name?.text.toString(),
-                                location = AppLocation(10.23, 120.42),
-                                status = UserType.GUEST.value
-                            )
-                        )
-                    }
-                }
-                is SignUpScreenState.UploadError -> {
-                    showWarning("Error to upload the file")
-                    if (loadingIndicator.isShowing) loadingIndicator.dismiss()
+                else -> {
                 }
             }
+        })
+        viewModel.error.observe(viewLifecycleOwner, { error ->
+            if (loadingIndicator.isShowing) loadingIndicator.dismiss()
+            showWarning(error.message)
         })
     }
 
     override fun onComplete(authResult: Task<AuthResult>) {
         if (authResult.isSuccessful) {
-            if (auth.currentUser != null) {
-                viewModel.uploadImages(auth.currentUser!!.uid, images)
-            } else {
-                navigateTo(
-                    R.id.navigation_login,
-                    R.id.navigation_start, false
+            auth.currentUser?.let {
+                viewModel.addUser(
+                    User(
+                        id = it.uid,
+                        name = first_name?.text.toString(),
+                        lastName = last_name?.text.toString(),
+                        location = AppLocation(10.23, 120.42),
+                        type = UserType.GUEST.value
+                    )
                 )
-                if (loadingIndicator.isShowing) loadingIndicator.dismiss()
             }
         } else {
             if (loadingIndicator.isShowing) loadingIndicator.dismiss()
