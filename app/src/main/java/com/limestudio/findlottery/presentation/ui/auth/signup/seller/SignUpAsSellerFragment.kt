@@ -1,4 +1,4 @@
-package com.limestudio.findlottery.presentation.ui.auth.signup
+package com.limestudio.findlottery.presentation.ui.auth.signup.seller
 
 import android.app.Activity
 import android.content.Intent
@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
+import com.limestudio.findlottery.data.UserType
 import com.limestudio.findlottery.data.models.AppLocation
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.navigateTo
@@ -27,21 +28,26 @@ import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
+import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
+import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
+import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
+import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
 import com.limestudio.findlottery.presentation.ui.onboarding.OnboardingActivity
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
-import kotlinx.android.synthetic.main.fragment_signup.*
+import kotlinx.android.synthetic.main.fragment_signup_as_seller.*
 
-const val CODE_AVATAR = 1
-const val CODE_CARD = 2
-
-class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
+class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
 
     private val viewModel: SignUpViewModel by viewModels { viewModelFactory }
     private lateinit var auth: FirebaseAuth
     private lateinit var images: HashMap<Int, ImageModel?>
     private lateinit var loadingIndicator: SVProgressHUD
 
+    companion object {
+        private const val CODE_AVATAR = 1
+        private const val CODE_CARD = 2
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +60,7 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_signup, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_signup_as_seller, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -142,6 +148,7 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 is SignUpScreenState.UserSaved -> {
                     if (loadingIndicator.isShowing) loadingIndicator.dismiss()
                     val intent = Intent(requireActivity(), OnboardingActivity::class.java)
+                        .putExtra(CODE_USER_TYPE, UserType.SELLER.value)
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
@@ -158,8 +165,8 @@ class SignUpFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 phoneNumber = phone_number?.text.toString(),
                                 city = city?.selectedItem.toString().toLowerCase(),
                                 nationalId = national_id?.text.toString(),
-                                location = AppLocation(10.23, 120.42)
-//                                location = hashMapOf()
+                                location = AppLocation(10.23, 120.42),
+                                status = UserType.SELLER.value
                             )
                         )
                     }

@@ -1,6 +1,6 @@
 package com.limestudio.findlottery.data
 
-enum class UserType(value: String) {
-    SELLER("SELLER"),
-    USER("USER")
+enum class UserType(val value: Int) {
+    SELLER(1),
+    GUEST(0)
 }

@@ -21,7 +21,7 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_start_to_signup"
-            app:destination="@id/navigation_signup"
+            app:destination="@id/navigation_signup_as_seller"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -54,8 +54,14 @@
         tools:layout="@layout/fragment_forgot_password" />
 
     <fragment
-        android:id="@+id/navigation_signup"
-        android:name="com.limestudio.findlottery.presentation.ui.auth.signup.SignUpFragment"
+        android:id="@+id/navigation_signup_as_seller"
+        android:name="com.limestudio.findlottery.presentation.ui.auth.signup.seller.SignUpAsSellerFragment"
         android:label="@string/create_account"
-        tools:layout="@layout/fragment_signup" />
+        tools:layout="@layout/fragment_signup_as_seller" />
+
+    <fragment
+        android:id="@+id/navigation_signup_as_guest"
+        android:name="com.limestudio.findlottery.presentation.ui.auth.signup.guest.SignUpAsGuestFragment"
+        android:label="@string/create_account"
+        tools:layout="@layout/fragment_signup_as_seller" />
 </navigation>

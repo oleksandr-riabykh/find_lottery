@@ -54,8 +54,8 @@ class TricksListFragment : Fragment(), OnListTrickInteractionListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val type = if (arguments?.getString(ARG_TRICK_TYPE)
-                ?.equals(UserType.USER.name) == true
-        ) UserType.USER else UserType.SELLER
+                ?.equals(UserType.GUEST.name) == true
+        ) UserType.GUEST else UserType.SELLER
         viewModel.loadData(type)
         if (recyclerView is RecyclerView) {
             with(recyclerView) {

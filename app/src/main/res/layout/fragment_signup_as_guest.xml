@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appBackground"
+    android:padding="16dp"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/main_container_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <TextView
+                style="@style/AuthEditTitle"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/signup_name_title" />
+
+            <EditText
+                android:id="@+id/first_name"
+                style="@style/EditTextAppStyle"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/signup_name_hint"
+                android:inputType="textPersonName"
+                android:nextFocusDown="@id/last_name" />
+
+            <TextView
+                style="@style/AuthEditTitle"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/signup_lastname_title" />
+
+            <EditText
+                android:id="@+id/last_name"
+                style="@style/EditTextAppStyle"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/signup_last_name_hint"
+                android:inputType="textPersonName"
+                android:nextFocusDown="@id/email" />
+
+            <TextView
+                style="@style/AuthEditTitle"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/signup_email_title" />
+
+            <EditText
+                android:id="@+id/email"
+                style="@style/EditTextAppStyle"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/signup_email_hint"
+                android:inputType="textEmailAddress"
+                android:nextFocusDown="@id/password" />
+
+            <TextView
+                style="@style/AuthEditTitle"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/signup_password_title" />
+
+            <EditText
+                android:id="@+id/password"
+                style="@style/EditTextAppStyle"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/signup_password_hint"
+                android:inputType="textPassword"
+                android:nextFocusDown="@id/city" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/AuthSubTitle"
+            android:layout_marginTop="@dimen/auth_top_margin"
+            android:layout_marginBottom="8dp"
+            android:text="@string/signup_terms"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_above="@id/signup_button"/>
+
+        <Button
+            android:id="@+id/signup_button"
+            style="@style/BlueButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/register_now"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+</ScrollView>
