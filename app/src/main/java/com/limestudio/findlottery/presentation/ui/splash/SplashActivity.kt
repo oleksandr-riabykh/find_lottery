@@ -2,11 +2,13 @@ package com.limestudio.findlottery.presentation.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
+import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.MainActivity
 import com.limestudio.findlottery.presentation.ui.auth.AuthViewModel
@@ -30,10 +32,14 @@ class SplashActivity : BaseActivity() {
 
         viewModel.state.observe(this, { state ->
             when (state) {
-                is AuthState.OnUserStatusCheckResult -> {
+                is AuthState.StartMainActivity -> {
                     startActivity(Intent(this, MainActivity::class.java)
                         .putExtra(CODE_USER_STATUS, state.status))
                     finish()
+                }
+                is AuthState.StartRelogin -> {
+                    Firebase.auth.signOut()
+                    showWarning("Something went wrong, please re-login")
                 }
                 else -> {}
             }

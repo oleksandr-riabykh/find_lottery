@@ -14,11 +14,11 @@ class UsersRepository(val context: Context) : BaseRepository() {
         return arrayListOf()
     }
 
-    suspend fun userStatus(): Int {
+    suspend fun userStatus(): Int? {
         return withContext(mScope.coroutineContext + Dispatchers.IO) {
             return@withContext FirebaseAuth.getInstance().currentUser?.uid?.let {
                 FirebaseManager(null).userStatus(it)
-            } ?: 0
+            }
         }
     }
 

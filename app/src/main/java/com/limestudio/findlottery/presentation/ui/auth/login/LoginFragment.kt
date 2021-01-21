@@ -43,11 +43,6 @@ class LoginFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_login, container, false)
 
-    override fun onDestroy() {
-        Log.d("LoginFragment", "onDestroy")
-        super.onDestroy()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AuthActivity).showToolbar()
@@ -60,11 +55,17 @@ class LoginFragment : BaseFragment() {
 
         viewModel.state.observe(requireActivity(), { state ->
             when (state) {
-                is AuthState.OnUserStatusCheckResult -> {
+                is AuthState.StartMainActivity -> {
                     val intent = Intent(requireActivity(), MainActivity::class.java)
                         .putExtra(CODE_USER_STATUS, state.status)
                     startActivity(intent)
                     requireActivity().finish()
+                }
+                is AuthState.StartRelogin -> {
+                    showWarning("Something went wrong, please re-login")
+                    email.text.clear()
+                    password.text.clear()
+                    password.clearFocus()
                 }
                 else -> {}
             }

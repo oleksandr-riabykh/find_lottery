@@ -16,7 +16,10 @@ class AuthViewModel(private val repository: UsersRepository) : BaseViewModel() {
     fun checkUserStatus() {
         mScope.launch (Dispatchers.IO + gerErrorHandler()){
             val status = async { repository.userStatus() }
-            state.postValue(AuthState.OnUserStatusCheckResult(status.await()))
+            val result = status.await()
+            if (result == null)
+                state.postValue(AuthState.StartRelogin)
+            else state.postValue(AuthState.StartMainActivity(result))
         }
     }
 }
