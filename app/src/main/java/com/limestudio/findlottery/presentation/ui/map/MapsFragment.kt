@@ -204,7 +204,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 user.location?.longitude ?: DEFAULT_CITY_LOCATION.longitude
             )
             builder.include(latLng)
-            val offset = index / 60.0
+            val offset = index / 2.0
             val lat = latLng.latitude.plus(offset)
             val lng = latLng.longitude.plus(offset)
             SellerItem(
