@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:maxWidth="300dp"
+        android:padding="6dp"
+        android:background="@drawable/button_background_blue_selected">
+
+        <TextView
+            android:id="@+id/seller_name"
+            android:layout_width="70dp"
+            android:layout_height="15dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/black"
+            android:text="Seller"/>
+
+        <TextView
+            android:id="@+id/seller_message_text"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:minHeight="15dp"
+
+            android:layout_below="@id/seller_name"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/black"
+            android:text="Hi! Can I help you?"/>
+
+        <TextView
+            android:id="@+id/seller_message_time"
+            android:layout_width="30dp"
+            android:layout_height="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/seller_message_text"
+            android:textColor="@color/black"
+            android:text="12:47"
+            android:textSize="8sp"/>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
