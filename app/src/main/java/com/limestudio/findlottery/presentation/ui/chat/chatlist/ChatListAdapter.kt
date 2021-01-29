@@ -1,4 +1,4 @@
-package com.limestudio.findlottery.presentation.ui.chat
+package com.limestudio.findlottery.presentation.ui.chat.chatlist
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.Ticket
+import com.limestudio.findlottery.presentation.ui.chat.OnChatInteractionListener
 import com.squareup.picasso.Picasso
 
-class ChatAdapter(
+class ChatListAdapter(
     private val mListener: OnChatInteractionListener?
 ) :
-    RecyclerView.Adapter<ChatAdapter.PostViewHolder>() {
+    RecyclerView.Adapter<ChatListAdapter.PostViewHolder>() {
 
     class PostViewHolder(
         val mView: View,
