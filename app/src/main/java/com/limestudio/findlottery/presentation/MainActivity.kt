@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_map,
                 R.id.navigation_drawsFragment,
-                R.id.navigation_messages,
+                R.id.navigation_chat_list,
                 R.id.navigation_profile
             )
         )

@@ -23,7 +23,6 @@ class ViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(ChatViewModel::class.java) -> ChatViewModel(
-                ticketDataSource,
                 chatDataSource
             ) as T
             modelClass.isAssignableFrom(AddTicketViewModel::class.java) -> AddTicketViewModel(

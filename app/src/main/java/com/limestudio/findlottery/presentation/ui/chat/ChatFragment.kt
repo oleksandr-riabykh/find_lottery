@@ -8,14 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.ui.ViewModelFactory
+import com.limestudio.findlottery.presentation.ui.chat.chatlist.ARG_POST_ID
+import kotlinx.android.synthetic.main.fragment_chat.*
 
-internal const val ARG_POST_ID = "postID"
-
-class MessageDetailsFragment : Fragment() {
+class ChatFragment : Fragment() {
 
     private lateinit var viewModelFactory: ViewModelFactory
 
@@ -39,14 +38,10 @@ class MessageDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postId?.let {
-            viewModel.loadPostById(it)
+
+        send_button.setOnClickListener {
+            viewModel.sendMessage(message_edit_text.text.toString())
         }
-        viewModel.selectedPost.observe(viewLifecycleOwner, Observer {
-//            titleTextView.text = it.numbers
-//            descriptionTextView.text = it.numbers.platformFromHtml()
-//            Picasso.get().load(it.numbers).placeholder(R.drawable.ic_profile).into(imageView)
-        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

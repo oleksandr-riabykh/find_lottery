@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_maps">
         <action
             android:id="@+id/action_map_to_message"
-            app:destination="@id/navigation_messages"
+            app:destination="@id/navigation_chat"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -37,7 +37,7 @@
         tools:layout="@layout/fragment_seller_profile">
         <action
             android:id="@+id/action_map_to_message"
-            app:destination="@id/navigation_messages"
+            app:destination="@id/navigation_chat"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -63,11 +63,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_message_details"
-        android:name="com.limestudio.findlottery.presentation.ui.chat.MessageDetailsFragment"
+        android:id="@+id/navigation_chat"
+        android:name="com.limestudio.findlottery.presentation.ui.chat.ChatFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_chat" />
-
 
     <fragment
         android:id="@+id/navigation_game_details"
@@ -77,7 +76,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_messages"
+        android:id="@+id/navigation_chat_list"
         android:name="com.limestudio.findlottery.presentation.ui.chat.chatlist.ChatListFragment"
         android:label="@string/tricks"
         tools:layout="@layout/fragment_tricks" />

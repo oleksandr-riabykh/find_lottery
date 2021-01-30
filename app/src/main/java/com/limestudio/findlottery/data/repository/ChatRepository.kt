@@ -1,56 +1,27 @@
 package com.limestudio.findlottery.data.repository
 
 import android.content.Context
-import com.limestudio.findlottery.data.models.Draw
-import com.limestudio.findlottery.data.models.Ticket
+import com.limestudio.findlottery.data.firebase.FirebaseDB
+import com.limestudio.findlottery.data.models.Message
 import com.limestudio.findlottery.data.network.NetworkManager
-import java.util.*
 
-class ChatRepository(val context: Context) : BaseRepository() {
+class ChatRepository(val context: Context, val db: FirebaseDB) : BaseRepository() {
 
     private val networkManager = NetworkManager()
 
-    suspend fun getPostById(id: String): Ticket? {
-        return null
-    }
-
-    suspend fun getTickets(): ArrayList<Ticket> {
-        val uiFeed = arrayListOf<Ticket>()
-        return if (uiFeed.isNotEmpty()) uiFeed else getTicketNetwork()
-    }
-
-    private suspend fun getTicketNetwork() = networkManager.webservice.getFeed()
-
-    fun saveTicket(ticket: Ticket) {
-        TODO("Not yet implemented")
-    }
-
-    fun deleteTicket(ticket: Ticket) {
-
-    }
-
-    fun loadTickets(ticketData: Long) = listOf<Ticket>()
-
-
-    fun loadDraws(): List<Draw> = listOf()
-
-    fun createDraw(date: Date): Draw {
-        TODO("Not yet implemented")
-    }
-
-    fun deleteDraw(draw: Any) {
-        TODO("Not yet implemented")
+    fun sendMessage(message: Message) {
+        db.sendMessage(message)
     }
 
     companion object {
         @Volatile
         private var INSTANCE: ChatRepository? = null
 
-        fun getInstance(context: Context): ChatRepository =
+        fun getInstance(context: Context, db: FirebaseDB): ChatRepository =
             INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildRepository(context).also { INSTANCE = it }
+                INSTANCE ?: buildRepository(context, db).also { INSTANCE = it }
             }
 
-        private fun buildRepository(context: Context) = ChatRepository(context)
+        private fun buildRepository(context: Context, db: FirebaseDB) = ChatRepository(context, db)
     }
 }

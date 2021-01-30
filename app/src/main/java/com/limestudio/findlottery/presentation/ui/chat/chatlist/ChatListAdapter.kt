@@ -15,9 +15,9 @@ import com.squareup.picasso.Picasso
 class ChatListAdapter(
     private val mListener: OnChatInteractionListener?
 ) :
-    RecyclerView.Adapter<ChatListAdapter.PostViewHolder>() {
+    RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder>() {
 
-    class PostViewHolder(
+    class ChatListViewHolder(
         val mView: View,
         val titleTextView: TextView,
         val descriptionTextView: TextView,
@@ -37,10 +37,10 @@ class ChatListAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PostViewHolder {
+    ): ChatListViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_post, parent, false) as View
-        return PostViewHolder(
+        return ChatListViewHolder(
             itemView,
             itemView.findViewById(R.id.item_title),
             itemView.findViewById(R.id.item_description),
@@ -48,7 +48,7 @@ class ChatListAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChatListViewHolder, position: Int) {
         with(holder.mView) {
             tag = mDataset[position]
             setOnClickListener(mOnClickListener)

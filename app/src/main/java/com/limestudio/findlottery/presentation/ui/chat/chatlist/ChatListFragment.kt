@@ -13,10 +13,11 @@ import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.ui.ViewModelFactory
-import com.limestudio.findlottery.presentation.ui.chat.ARG_POST_ID
 import com.limestudio.findlottery.presentation.ui.chat.ChatViewModel
 import com.limestudio.findlottery.presentation.ui.chat.OnChatInteractionListener
 import kotlinx.android.synthetic.main.recycler.recycler_view as recyclerView
+
+internal const val ARG_POST_ID = "postID"
 
 class ChatListFragment : Fragment(), OnChatInteractionListener {
 
@@ -31,10 +32,10 @@ class ChatListFragment : Fragment(), OnChatInteractionListener {
     ): View? {
         viewModelFactory = Injection.provideViewModelFactory(requireContext())
         chatListAdapter = ChatListAdapter(this)
-        viewModel.posts.observe(viewLifecycleOwner, Observer {
-            chatListAdapter.addData(it)
-
-        })
+//        viewModel.posts.observe(viewLifecycleOwner, Observer {
+//            chatListAdapter.addData(it)
+//
+//        })
         viewModel.error.observe(viewLifecycleOwner, Observer { showWarning(it.message) })
         return inflater.inflate(R.layout.recycler, container, false)
     }
@@ -44,12 +45,12 @@ class ChatListFragment : Fragment(), OnChatInteractionListener {
         recyclerView.apply {
             adapter = chatListAdapter
         }
-        viewModel.loadPosts()
+//        viewModel.loadPosts()
     }
 
     override fun onPostClicked(item: Ticket) {
         navigateTo(
-            R.id.navigation_message_details,
+            R.id.navigation_chat,
             R.id.navigation_map,
             false,
             bundle = Bundle().apply {

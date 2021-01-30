@@ -28,10 +28,7 @@ import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
-import com.limestudio.findlottery.extensions.hideKeyboard
-import com.limestudio.findlottery.extensions.showAlert
-import com.limestudio.findlottery.extensions.showWarning
-import com.limestudio.findlottery.extensions.zoomCamera
+import com.limestudio.findlottery.extensions.*
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.services.locationservice.LocationService
 import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
@@ -147,6 +144,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 item.title,
                 getString(R.string.contact_seller_warming)
             ) {
+                openChatWithSeller(item)
             }
         }
         if (isLocationEnabled) {
@@ -318,6 +316,12 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             this.title = title
             this.snippet = snippet
         }
+    }
+
+    private fun openChatWithSeller(seller: SellerItem) {
+        val bundle = Bundle()
+        bundle.putString("seller", seller.title)
+        navigateTo(R.id.navigation_chat, R.id.navigation_map, false, bundle)
     }
 }
 
