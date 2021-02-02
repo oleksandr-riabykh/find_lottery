@@ -11,6 +11,7 @@ import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import kotlinx.android.synthetic.main.fragment_start.*
+import kotlin.random.Random
 
 class StartFragment : BaseFragment() {
     override fun onCreateView(
@@ -20,6 +21,13 @@ class StartFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        logo.setImageResource(
+            arrayOf(
+                R.drawable.ic_splash_0,
+                R.drawable.ic_splash_1,
+                R.drawable.ic_splash_2
+            )[Random.nextInt(3)]
+        )
         login_button.setOnClickListener { navigateTo(R.id.navigation_login, R.id.navigation_start) }
         signup_as_seller_button.setOnClickListener {
             navigateTo(

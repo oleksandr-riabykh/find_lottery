@@ -11,39 +11,44 @@ import com.limestudio.findlottery.R
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.MainActivity
-import com.limestudio.findlottery.presentation.ui.auth.AuthViewModel
 import com.limestudio.findlottery.presentation.base.BaseActivity
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import com.limestudio.findlottery.presentation.ui.auth.AuthState
+import com.limestudio.findlottery.presentation.ui.auth.AuthViewModel
 import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
 
 class SplashActivity : BaseActivity() {
 
     private val viewModel: AuthViewModel by viewModels { Injection.provideViewModelFactory(this) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_splash)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.hide()
-
         FirebaseAuth.getInstance().addAuthStateListener(authStateListener)
 
         viewModel.state.observe(this, { state ->
             when (state) {
                 is AuthState.StartMainActivity -> {
-                    startActivity(Intent(this, MainActivity::class.java)
-                        .putExtra(CODE_USER_TYPE, state.status))
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                            .putExtra(CODE_USER_TYPE, state.status)
+                    )
                     finish()
                 }
                 is AuthState.StartRelogin -> {
                     Firebase.auth.signOut()
                     showWarning(R.string.please_relogin)
                 }
-                else -> {}
+                else -> {
+                }
             }
         })
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
     }
 
     private val authStateListener =
