@@ -21,6 +21,7 @@ class DrawsAdapter(
     RecyclerView.Adapter<HomeViewHolder>() {
 
     private var mListOfItems = arrayListOf<Draw>()
+    private var viewMode = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view =
@@ -39,7 +40,7 @@ class DrawsAdapter(
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = mListOfItems[position]
-        holder.bind(item, onClickItem, { draw, _position ->
+        holder.bind(viewMode, item, onClickItem, { draw, _position ->
             onDeleteClick(draw)
             removeItem(_position)
         })
@@ -49,6 +50,10 @@ class DrawsAdapter(
         mListOfItems.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, mListOfItems.size)
+    }
+
+    fun setViewMode() {
+        viewMode = true
     }
 }
 
@@ -60,6 +65,7 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     @SuppressLint("SetTextI18n")
     fun bind(
+        isViewMode: Boolean,
         item: Draw,
         onClickItem: (item: Draw) -> Unit,
         onDeleteClick: (item: Draw, position: Int) -> Unit
@@ -77,6 +83,7 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.setOnClickListener {
             onClickItem(item)
         }
+        if (isViewMode) deleteButton?.visibility = View.GONE
         deleteButton?.setOnClickListener {
             showAlert(
                 R.string.remove_message_draw,

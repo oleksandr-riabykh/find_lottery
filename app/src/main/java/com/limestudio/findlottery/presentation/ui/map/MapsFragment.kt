@@ -28,12 +28,10 @@ import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
-import com.limestudio.findlottery.extensions.hideKeyboard
-import com.limestudio.findlottery.extensions.showAlert
-import com.limestudio.findlottery.extensions.showWarning
-import com.limestudio.findlottery.extensions.zoomCamera
+import com.limestudio.findlottery.extensions.*
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.services.locationservice.LocationService
+import com.limestudio.findlottery.presentation.ui.profile.SELECTED_USER
 import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
@@ -147,6 +145,14 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 item.title,
                 getString(R.string.contact_seller_warming)
             ) {
+                navigateTo(
+                    R.id.navigation_profile,
+                    R.id.navigation_map,
+                    false,
+                    Bundle().apply {
+                        putString(SELECTED_USER, item.userId)
+                    }
+                )
             }
         }
         if (isLocationEnabled) {
@@ -209,7 +215,8 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             val lng = latLng.longitude.plus(offset)
             SellerItem(
                 lat, lng, "${user.name} ${user.lastName}",
-                user.phoneNumber ?: ""
+                user.phoneNumber ?: "",
+                user.id
             )
         }
         clusterManager.addItems(offsetItems)
@@ -294,11 +301,13 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         lat: Double,
         lng: Double,
         title: String,
-        snippet: String
+        snippet: String,
+        val userId: String
     ) : ClusterItem {
 
         private val position: LatLng
         private val title: String
+
         private val snippet: String
 
         override fun getPosition(): LatLng {
@@ -308,6 +317,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         override fun getTitle(): String {
             return title
         }
+
 
         override fun getSnippet(): String {
             return snippet

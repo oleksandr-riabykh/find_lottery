@@ -41,10 +41,11 @@ class ProfileViewModel(
         }
     }
 
-    fun loadData() {
+    fun loadData(userId: String?) {
         mScope.launch(Dispatchers.IO + gerErrorHandler()) {
 
-            var drawsResult = ticketsRepository.loadDraws()
+            var drawsResult =
+                userId?.let { ticketsRepository.loadDraws(it) } ?: ticketsRepository.loadDraws()
             drawsResult = drawsResult.map {
                 val tickets = ticketsRepository.loadTickets(it)
                 it.numberWinTickets = tickets.count { ticket -> ticket.isTicketWon() }

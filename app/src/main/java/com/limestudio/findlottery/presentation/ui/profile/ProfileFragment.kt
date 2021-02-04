@@ -26,6 +26,8 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import java.util.*
 
 
+const val SELECTED_USER = "selected_user"
+
 class ProfileFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +50,10 @@ class ProfileFragment : BaseFragment() {
         initAdapter()
         initViews()
         initStateListener()
-        profileViewModel.loadData()
-        profileViewModel.getUser()
+        profileViewModel.loadData(arguments?.get(SELECTED_USER)?.toString())
+        profileViewModel.getUser(
+            arguments?.get(SELECTED_USER)?.toString() ?: Firebase.auth.currentUser?.uid ?: ""
+        )
     }
 
     private fun initAdapter() {
@@ -88,11 +92,13 @@ class ProfileFragment : BaseFragment() {
         profileViewModel.user.observe(viewLifecycleOwner, { user ->
             if (hudSync.isShowing) hudSync.dismiss()
             username_text_view?.text = "${user.name} ${user.lastName}"
-            city_text_view?.text =
-                user.city?.substring(0, 1)?.toUpperCase(Locale.ROOT) + user.city?.substring(1)
-                    ?.toLowerCase(Locale.ROOT)
-            nationalid_text_view?.text =
-                getString(R.string.national_id_s1, user.nationalId?.toUpperCase(Locale.ROOT))
+            if (user.city?.isNotEmpty() == true)
+                city_text_view?.text =
+                    user.city.substring(0, 1).toUpperCase(Locale.ROOT) + user.city.substring(1)
+                        .toLowerCase(Locale.ROOT)
+            if (user.nationalId?.isNotEmpty() == true)
+                nationalid_text_view?.text =
+                    getString(R.string.national_id_s1, user.nationalId.toUpperCase(Locale.ROOT))
         }
         )
         profileViewModel.avatarUrl.observe(viewLifecycleOwner, { item ->
@@ -113,6 +119,8 @@ class ProfileFragment : BaseFragment() {
         )
         profileViewModel.draws.observe(viewLifecycleOwner, { items ->
             if (hudSync.isShowing) hudSync.dismiss()
+            if (arguments?.get(SELECTED_USER)?.toString()?.isNotEmpty() == true)
+                viewAdapter.setViewMode()
             viewAdapter.setData(items)
         }
         )
