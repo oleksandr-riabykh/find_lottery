@@ -9,6 +9,7 @@ import com.limestudio.findlottery.presentation.ui.auth.AuthViewModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
 import com.limestudio.findlottery.presentation.ui.chat.ChatViewModel
 import com.limestudio.findlottery.presentation.ui.map.MapsViewModel
+import com.limestudio.findlottery.presentation.ui.profile.ProfileViewModel
 import com.limestudio.findlottery.presentation.ui.tickets.add.AddTicketViewModel
 import com.limestudio.findlottery.presentation.ui.tickets.draws.DrawsViewModel
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketsViewModel
@@ -40,6 +41,10 @@ class ViewModelFactory(
             ) as T
             modelClass.isAssignableFrom(AuthViewModel::class.java) -> AuthViewModel(
                 userDataSource
+            ) as T
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(
+                userDataSource,
+                ticketDataSource
             ) as T
             modelClass.isAssignableFrom(SignUpViewModel::class.java) -> SignUpViewModel() as T
             else -> throw IllegalArgumentException("Unknown ViewModel class")

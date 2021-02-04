@@ -1,5 +1,6 @@
 package com.limestudio.findlottery.data.repository
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.limestudio.findlottery.data.firebase.FirebaseManager
@@ -10,8 +11,24 @@ import java.util.*
 
 class UsersRepository(val context: Context) : BaseRepository() {
 
-    suspend fun getUserById(userId: String): ArrayList<User> {
-        return arrayListOf()
+    suspend fun getUser(userId: String): User {
+        return FirebaseManager(null).getUser(userId)
+    }
+
+    fun getUserAvatar(
+        filename: String,
+        onSuccess: (url: String) -> Unit,
+        onFailure: (error: Exception) -> Unit
+    ) {
+        FirebaseManager(null).getImageUri("avatar", filename, onSuccess, onFailure)
+    }
+
+    fun getUserIdCard(
+        filename: String,
+        onSuccess: (url: String) -> Unit,
+        onFailure: (error: Exception) -> Unit
+    ) {
+        FirebaseManager(null).getImageUri("idcard", filename, onSuccess, onFailure)
     }
 
     suspend fun userStatus(): Int? {
@@ -23,6 +40,7 @@ class UsersRepository(val context: Context) : BaseRepository() {
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         @Volatile
         private var INSTANCE: UsersRepository? = null
 

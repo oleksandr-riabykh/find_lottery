@@ -27,7 +27,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/add_your_selfie"
-            android:src="@drawable/avatar_cyrcle" />
+            android:src="@drawable/avatar_circle" />
 
         <TextView
             style="@style/AuthEditTitle"

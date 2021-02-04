@@ -12,6 +12,8 @@ data class User(
     val city: String? = "",
     val location: AppLocation? = null,
     val nationalId: String? = "",
+    val avatar: String? = "",
+    val photoId: String? = "",
     val type: Int? = 0
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {

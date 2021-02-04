@@ -114,6 +114,24 @@ class FirebaseManager(applicationContext: Context?) {
         return existingUrl
     }
 
+    fun getImageUri(
+        folder: String,
+        filename: String,
+        onSuccess: (url: String) -> Unit,
+        onFailure: (error: Exception) -> Unit
+    ) {
+        val paths = "/$folder/$filename.jpg"
+        Log.d("iages_test", "paths: $paths")
+        val reference = FirebaseStorage.getInstance().reference
+        reference.child(paths).downloadUrl.addOnSuccessListener {
+            Log.d("iages_test", "getImageUri: $it")
+            onSuccess(it.toString())
+        }.addOnFailureListener {
+            Log.d("iages_test", "getImageUri: $it")
+            onFailure(it)
+        }
+    }
+
     fun addUser(user: User, onSuccess: () -> Unit) {
         database.collection(TABLE_USERS).document(user.id).set(user.toMap())
             .addOnSuccessListener { onSuccess() }
@@ -141,6 +159,10 @@ class FirebaseManager(applicationContext: Context?) {
             .toObject(User::class.java)
             ?.type
     }
+
+    suspend fun getUser(userId: String): User =
+        database.collection(TABLE_USERS).document(userId).get().await().toObject(User::class.java)
+            ?: User()
 
     companion object : SingletonHolder<FirebaseManager, Context?>(::FirebaseManager)
 }
