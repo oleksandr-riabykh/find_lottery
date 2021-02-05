@@ -54,7 +54,7 @@ private constructor() : IAdsManager {
 
     companion object {
         private const val INIT_ADD_ERROR_CODE = -1
-        private const val GOOGLE_ADS_INTERSTITIAL = "ca-app-pub-2875545079088709/6652418546"
+        private const val GOOGLE_ADS_INTERSTITIAL = "ca-app-pub-2875545079088709/6779447998"
         fun newBuilder(): Builder {
             return AdsManager().Builder()
         }

@@ -66,8 +66,7 @@ class TicketsFragment : BaseFragment() {
                     showWarning(item.error.message)
                 }
                 is TicketsState.ShowInterstitial -> {
-//                    if (item.shouldShow) loadInterstitial() else AddTicketActivity.start(
-                    AddTicketActivity.start(
+                    if (item.shouldShow) loadInterstitial() else AddTicketActivity.start(
                         requireActivity(),
                         arguments?.getParcelable(SELECTED_DRAW)
                     )
