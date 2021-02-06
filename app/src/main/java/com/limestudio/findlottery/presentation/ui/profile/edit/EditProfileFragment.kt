@@ -28,7 +28,7 @@ import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
-import com.limestudio.findlottery.presentation.ui.profile.SELECTED_PROFILE
+import com.limestudio.findlottery.presentation.ui.profile.SELECTED_USER
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_edit_profile.city
 import java.util.*
@@ -89,7 +89,7 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 )
                 .start(CODE_CARD)
         }
-        arguments?.getParcelable<User>(SELECTED_PROFILE)?.let { user ->
+        arguments?.getParcelable<User>(SELECTED_USER)?.let { user ->
             first_name?.setText(user.name)
             last_name?.setText(user.lastName)
             phone_number?.setText(user.phoneNumber)

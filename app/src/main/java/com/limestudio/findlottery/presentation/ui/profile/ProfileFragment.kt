@@ -26,8 +26,7 @@ import java.util.*
 
 
 const val SELECTED_USER = "selected_user"
-
-const val SELECTED_PROFILE = "selected_profile"
+const val ARG_VIEW_MODE = "view_mode"
 class ProfileFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +65,7 @@ class ProfileFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.profile_menu, menu)
+        if (arguments?.get(SELECTED_USER) == null) inflater.inflate(R.menu.profile_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -79,7 +78,7 @@ class ProfileFragment : BaseFragment() {
                     R.id.navigation_profile,
                     false,
                     Bundle().apply {
-                        putParcelable(SELECTED_PROFILE, mUser)
+                        putParcelable(SELECTED_USER, mUser)
                     }
                 )
                 true
@@ -96,6 +95,7 @@ class ProfileFragment : BaseFragment() {
                 false,
                 Bundle().apply {
                     putParcelable(SELECTED_DRAW, it)
+                    putBoolean(ARG_VIEW_MODE, arguments?.get(SELECTED_USER) != null)
                     putString(
                         "title",
                         Date(it.timestamp).toDateFormat(resources.configuration.locales[0])
@@ -112,6 +112,7 @@ class ProfileFragment : BaseFragment() {
             adapter = viewAdapter
             layoutManager = LinearLayoutManager(context)
         }
+        if (arguments?.get(SELECTED_USER) != null) logout_button.visibility = View.GONE
         logout_button.setOnClickListener {
             Firebase.auth.signOut()
             startActivity(Intent(requireActivity(), AuthActivity::class.java))
@@ -127,11 +128,11 @@ class ProfileFragment : BaseFragment() {
             username_text_view?.text = "${mUser.name} ${mUser.lastName}"
             if (user.city?.isNotEmpty() == true)
                 city_text_view?.text =
-                    mUser.city.substring(0, 1).toUpperCase(Locale.ROOT) + mUser.city.substring(1)
-                        .toLowerCase(Locale.ROOT)
+                    mUser.city?.substring(0, 1)?.toUpperCase(Locale.ROOT) + mUser.city?.substring(1)
+                        ?.toLowerCase(Locale.ROOT)
             if (user.nationalId?.isNotEmpty() == true)
                 nationalid_text_view?.text =
-                    getString(R.string.national_id_s1, mUser.nationalId.toUpperCase(Locale.ROOT))
+                    getString(R.string.national_id_s1, mUser.nationalId?.toUpperCase(Locale.ROOT))
         }
         )
         profileViewModel.avatarUrl.observe(viewLifecycleOwner, { item ->

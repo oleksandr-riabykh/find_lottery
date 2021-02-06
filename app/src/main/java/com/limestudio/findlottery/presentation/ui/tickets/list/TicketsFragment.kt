@@ -14,6 +14,7 @@ import com.limestudio.findlottery.ads.AdsManager
 import com.limestudio.findlottery.data.models.Draw
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseFragment
+import com.limestudio.findlottery.presentation.ui.profile.ARG_VIEW_MODE
 import com.limestudio.findlottery.presentation.ui.tickets.add.AddTicketActivity
 import com.limestudio.findlottery.presentation.ui.tickets.draws.SELECTED_DRAW
 import kotlinx.android.synthetic.main.tickets_fragment.*
@@ -41,6 +42,7 @@ class TicketsFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(context)
         }
         initStateListener()
+        if (arguments?.getBoolean(ARG_VIEW_MODE) == true) addTicket.visibility = View.GONE
         addTicket?.setOnClickListener {
             viewModel.checkInterstitial()
         }
