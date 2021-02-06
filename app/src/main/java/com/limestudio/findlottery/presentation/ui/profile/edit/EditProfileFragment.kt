@@ -1,4 +1,4 @@
-package com.limestudio.findlottery.presentation.ui.auth.signup.seller
+package com.limestudio.findlottery.presentation.ui.profile.edit
 
 import android.app.Activity
 import android.content.Intent
@@ -20,23 +20,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
-import com.limestudio.findlottery.data.UserType
-import com.limestudio.findlottery.data.models.AppLocation
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.extensions.showToast
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseFragment
-import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
-import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
 import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpScreenState
 import com.limestudio.findlottery.presentation.ui.auth.signup.SignUpViewModel
-import com.limestudio.findlottery.presentation.ui.onboarding.OnboardingActivity
-import kotlinx.android.synthetic.main.fragment_signup_as_seller.*
+import com.limestudio.findlottery.presentation.ui.profile.SELECTED_PROFILE
+import kotlinx.android.synthetic.main.fragment_edit_profile.*
+import kotlinx.android.synthetic.main.fragment_edit_profile.city
 import java.util.*
 
-class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
+class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
 
     private val viewModel: SignUpViewModel by viewModels { viewModelFactory }
     private lateinit var auth: FirebaseAuth
@@ -58,20 +55,16 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_signup_as_seller, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_edit_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AuthActivity).showToolbar()
         initSubscribe()
         signup_button.setOnClickListener {
             if (isSignUpDataValid()) {
-                val userEmail = email?.text.toString()
-                val pass = password?.text.toString()
-
-                auth.createUserWithEmailAndPassword(userEmail, pass)
-                    .addOnCompleteListener(requireActivity(), this)
-                if (!loadingIndicator.isShowing) loadingIndicator.show()
+                if (auth.currentUser != null) {
+                    viewModel.uploadImages(auth.currentUser!!.uid, images)
+                }
             }
         }
         validateSignUpData()
@@ -79,22 +72,38 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             ImagePicker.with(this)
                 .crop()
                 .cropSquare()
-                .compress(720)
+                .compress(1024)
                 .maxResultSize(
-                    720,
-                    720
+                    1080,
+                    1080
                 )
                 .start(CODE_AVATAR)
         }
         id_card.setOnClickListener {
             ImagePicker.with(this)
                 .crop()
-                .compress(720)
+                .compress(1024)
                 .maxResultSize(
-                    720,
-                    720
+                    1080,
+                    1080
                 )
                 .start(CODE_CARD)
+        }
+        arguments?.getParcelable<User>(SELECTED_PROFILE)?.let { user ->
+            first_name?.setText(user.name)
+            last_name?.setText(user.lastName)
+            phone_number?.setText(user.phoneNumber)
+            national_id?.setText(user.nationalId)
+            email?.setText(auth.currentUser?.email)
+            city?.setSelection(
+                resources.getStringArray(R.array.cities).map { it.toLowerCase(Locale.ROOT) }
+                    .indexOf(user.city)
+            )
+            Glide.with(requireActivity()).load(user.photoId).into(id_card)
+            id_card.adjustViewBounds = true
+            id_card.scaleType = ImageView.ScaleType.CENTER_CROP
+            id_card.setPadding(0, 0, 0, 0)
+            Glide.with(requireActivity()).load(user.avatar).into(avatar)
         }
     }
 
@@ -136,22 +145,14 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             when (state) {
                 is SignUpScreenState.ShowProgressBar -> if (!loadingIndicator.isShowing) loadingIndicator.show()
                 is SignUpScreenState.HideProgressBar -> if (loadingIndicator.isShowing) loadingIndicator.dismiss()
-                is SignUpScreenState.ShowMessage -> {
-                    showToast(state.messageId)
-                }
+                is SignUpScreenState.ShowMessage -> showToast(state.messageId)
                 is SignUpScreenState.ShowMessageString -> {
                     showToast(state.message)
                     if (loadingIndicator.isShowing) loadingIndicator.dismiss()
                 }
                 is SignUpScreenState.UserSaved -> {
                     if (loadingIndicator.isShowing) loadingIndicator.dismiss()
-                    val intent = Intent(requireActivity(), OnboardingActivity::class.java)
-                        .putExtra(CODE_USER_TYPE, UserType.SELLER.value)
-                    intent.flags =
-                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    startActivity(intent)
-
-                    activity?.finishAndRemoveTask()
+                    activity?.onBackPressed()
                 }
                 is SignUpScreenState.FilesUploaded -> {
                     auth.currentUser?.let { firebaseUser ->
@@ -162,11 +163,10 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 lastName = last_name?.text.toString(),
                                 phoneNumber = phone_number?.text.toString(),
                                 city = city?.selectedItem.toString().toLowerCase(Locale.ROOT),
-                                nationalId = national_id?.text.toString(),
-                                location = AppLocation(10.23, 120.42),
-                                type = UserType.SELLER.value
+                                nationalId = national_id?.text.toString()
                             )
                         )
+                        email?.text?.toString()?.let { firebaseUser.updateEmail(it) }
                     }
                 }
                 is SignUpScreenState.UploadError -> {
@@ -223,14 +223,6 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             ) { it.isNotEmpty() },
             Field(email, getString(R.string.signup_empty_field_error_message)) { it.isNotEmpty() },
             Field(
-                password,
-                getString(R.string.signup_empty_field_error_message)
-            ) { it.isNotEmpty() },
-            Field(
-                password,
-                getString(R.string.signup_password_helper_text)
-            ) { viewModel.isPasswordContainsNumber(it) },
-            Field(
                 email,
                 getString(R.string.signup_invalid_email_error_message)
             ) { viewModel.validateEmailAddress(it) }
@@ -257,13 +249,6 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             if ((email?.text?.isNotEmpty() == true) && !hasFocus) {
                 if (!viewModel.validateEmailAddress(email?.text.toString()))
                     email.error = getString(R.string.signup_invalid_email_error_message)
-            }
-        }
-        password?.doOnTextChanged { text, _, _, _ ->
-            if (text?.isEmpty() == true) {
-                password.error = getString(R.string.signup_empty_field_error_message)
-            } else {
-                password.error = null
             }
         }
     }

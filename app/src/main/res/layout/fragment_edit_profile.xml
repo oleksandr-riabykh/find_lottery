@@ -84,21 +84,6 @@
             android:layout_gravity="start"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/signup_password_title" />
-
-        <EditText
-            android:id="@+id/password"
-            style="@style/EditTextAppStyle"
-            android:layout_marginBottom="8dp"
-            android:hint="@string/signup_password_hint"
-            android:inputType="textPassword"
-            android:nextFocusDown="@id/city" />
-
-        <TextView
-            style="@style/AuthEditTitle"
-            android:layout_gravity="start"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:text="@string/signup_city_title" />
 
         <Spinner
@@ -170,25 +155,12 @@
                 android:src="@drawable/ic_camera" />
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/textView3"
-            style="@style/AuthSubTitle"
-            android:layout_marginTop="@dimen/auth_top_margin"
-            android:layout_marginBottom="8dp"
-            android:text="@string/signup_terms"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
         <Button
             android:id="@+id/signup_button"
             style="@style/BlueButtonStyle"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/register_now" />
+            android:text="@string/save" />
     </LinearLayout>
 
 </ScrollView>

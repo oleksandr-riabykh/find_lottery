@@ -3,6 +3,7 @@ package com.limestudio.findlottery.presentation
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -12,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,15 +37,16 @@ class MainActivity : AppCompatActivity() {
         actionBar?.setBackgroundDrawable(ColorDrawable(Color.BLACK))
     }
 
-    fun setTitleC(string: String) {
-        title = string
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
-            else -> super.onOptionsItemSelected(item);
+            else -> super.onOptionsItemSelected(item)
         }
-        return true
+        return false
     }
 }

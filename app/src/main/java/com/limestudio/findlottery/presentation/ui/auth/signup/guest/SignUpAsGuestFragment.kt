@@ -98,7 +98,7 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     override fun onComplete(authResult: Task<AuthResult>) {
         if (authResult.isSuccessful) {
             auth.currentUser?.let {
-                viewModel.addUser(
+                viewModel.updateUser(
                     User(
                         id = it.uid,
                         name = first_name?.text.toString(),

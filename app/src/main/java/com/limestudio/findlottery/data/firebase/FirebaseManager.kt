@@ -120,10 +120,8 @@ class FirebaseManager(applicationContext: Context?) {
         onSuccess: (url: String) -> Unit,
         onFailure: (error: Exception) -> Unit
     ) {
-        val paths = "/$folder/$filename.jpg"
-        Log.d("iages_test", "paths: $paths")
-        val reference = FirebaseStorage.getInstance().reference
-        reference.child(paths).downloadUrl.addOnSuccessListener {
+        val reference = FirebaseStorage.getInstance().reference.child("images/$folder")
+        reference.child("$filename.jpg").downloadUrl.addOnSuccessListener {
             Log.d("iages_test", "getImageUri: $it")
             onSuccess(it.toString())
         }.addOnFailureListener {
@@ -132,7 +130,7 @@ class FirebaseManager(applicationContext: Context?) {
         }
     }
 
-    fun addUser(user: User, onSuccess: () -> Unit) {
+    fun updateUser(user: User, onSuccess: () -> Unit) {
         database.collection(TABLE_USERS).document(user.id).set(user.toMap())
             .addOnSuccessListener { onSuccess() }
     }

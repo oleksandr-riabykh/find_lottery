@@ -13,9 +13,7 @@ import com.limestudio.findlottery.R
 import com.limestudio.findlottery.extensions.platformFromHtml
 import com.limestudio.findlottery.presentation.Injection
 import com.limestudio.findlottery.presentation.ui.ViewModelFactory
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_post.description as descriptionTextView
-import kotlinx.android.synthetic.main.fragment_post.image as imageView
 import kotlinx.android.synthetic.main.fragment_post.title as titleTextView
 
 internal const val ARG_POST_ID = "postID"
@@ -50,7 +48,7 @@ class MessageDetailsFragment : Fragment() {
         viewModel.selectedPost.observe(viewLifecycleOwner, Observer {
             titleTextView.text = it.numbers
             descriptionTextView.text = it.numbers.platformFromHtml()
-            Picasso.get().load(it.numbers).placeholder(R.drawable.ic_profile).into(imageView)
+//            Picasso.get().load(it.numbers).placeholder(R.drawable.ic_profile).into(imageView)
         })
     }
 

@@ -21,28 +21,12 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_map_to_seller"
-            app:destination="@id/navigation_seller"
+            app:destination="@id/navigation_profile"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/navigation_map"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_seller"
-        android:name="com.limestudio.findlottery.presentation.ui.profile.seller.SellerProfileFragment"
-        android:label=""
-        tools:layout="@layout/fragment_seller_profile">
-        <action
-            android:id="@+id/action_map_to_message"
-            app:destination="@id/navigation_messages"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/navigation_seller"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -86,7 +70,22 @@
         android:id="@+id/navigation_profile"
         android:name="com.limestudio.findlottery.presentation.ui.profile.ProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profile_to_edit"
+            app:destination="@id/navigation_edit_profile"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_profile"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_edit_profile"
+        android:name="com.limestudio.findlottery.presentation.ui.profile.edit.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
 
     <fragment
         android:id="@+id/navigation_drawsFragment"

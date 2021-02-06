@@ -28,8 +28,8 @@ class SignUpViewModel : BaseViewModel() {
         }
     }
 
-    fun addUser(user: User) = FirebaseManager.getInstance(null)
-        .addUser(user) { state.postValue(SignUpScreenState.UserSaved) }
+    fun updateUser(user: User) = FirebaseManager.getInstance(null)
+        .updateUser(user) { state.postValue(SignUpScreenState.UserSaved) }
 
     fun validateEmailAddress(email: String): Boolean = email.validateEmailAddress()
 

@@ -172,4 +172,7 @@
     <string name="contact_seller_warming">Do you want to contact the seller?</string>
     <string name="location_rationale">"Please, enable location service in the application. It require enable all the application functionality."</string>
     <string name="national_id_s1">National ID: %s</string>
+    <string name="title_activity_fullscreen_photo">Fullscreen Activity</string>
+    <string name="update">Update</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>

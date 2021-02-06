@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.User
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_category.view.*
 
 
@@ -38,8 +37,6 @@ class CategoryAdapter(
         val item = mValues[position]
         holder.titleTextView.text = item.phoneNumber
         holder.descriptionTextView.text = item.phoneNumber
-        Picasso.get().load(item.phoneNumber).placeholder(R.drawable.ic_camera)
-            .into(holder.imageView)
         with(holder.mView) {
             tag = item
             setOnClickListener(mOnClickListener)

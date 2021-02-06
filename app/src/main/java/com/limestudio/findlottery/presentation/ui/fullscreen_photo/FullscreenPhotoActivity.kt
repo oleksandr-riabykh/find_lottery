@@ -1,10 +1,9 @@
 package com.limestudio.findlottery.presentation.ui.fullscreen_photo
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.limestudio.findlottery.R
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_fullscreen_photo.*
 
 class FullscreenPhotoActivity : AppCompatActivity() {
@@ -17,10 +16,10 @@ class FullscreenPhotoActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onPostCreate(savedInstanceState, persistentState)
+    override fun onStart() {
+        super.onStart()
         intent?.extras?.getString(ARG_PHOTO)?.let {
-            Picasso.get().load(it).into(image_id_card)
+            Glide.with(this).load(it).into(image_id_card)
         }
     }
 

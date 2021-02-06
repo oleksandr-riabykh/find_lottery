@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.limestudio.findlottery.R
 import com.limestudio.findlottery.data.models.Ticket
-import com.squareup.picasso.Picasso
 
 class ChatAdapter(
     private val mListener: OnChatInteractionListener?
@@ -55,9 +54,9 @@ class ChatAdapter(
         holder.titleTextView.text = mDataset[position].timestamp.toString()
         holder.descriptionTextView.text = "mDataset[position].date.platformFromHtml()"
         try {
-            Picasso.get().load(mDataset[position].timestamp.toString())
-                .placeholder(R.drawable.ic_camera)
-                .into(holder.imageView)
+//            Picasso.get().load(mDataset[position].timestamp.toString())
+//                .placeholder(R.drawable.ic_camera)
+//                .into(holder.imageView)
         } catch (e: IllegalArgumentException) {
             Log.e("imageLoading", "mDataset[position].image = null", e)
         }
