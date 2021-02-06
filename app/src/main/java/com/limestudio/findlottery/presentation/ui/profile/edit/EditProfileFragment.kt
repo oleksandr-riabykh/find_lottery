@@ -94,7 +94,6 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             last_name?.setText(user.lastName)
             phone_number?.setText(user.phoneNumber)
             national_id?.setText(user.nationalId)
-            email?.setText(auth.currentUser?.email)
             city?.setSelection(
                 resources.getStringArray(R.array.cities).map { it.toLowerCase(Locale.ROOT) }
                     .indexOf(user.city)
@@ -166,7 +165,6 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 nationalId = national_id?.text.toString()
                             )
                         )
-                        email?.text?.toString()?.let { firebaseUser.updateEmail(it) }
                     }
                 }
                 is SignUpScreenState.UploadError -> {
@@ -220,12 +218,7 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             Field(
                 last_name,
                 getString(R.string.signup_empty_field_error_message)
-            ) { it.isNotEmpty() },
-            Field(email, getString(R.string.signup_empty_field_error_message)) { it.isNotEmpty() },
-            Field(
-                email,
-                getString(R.string.signup_invalid_email_error_message)
-            ) { viewModel.validateEmailAddress(it) }
+            ) { it.isNotEmpty() }
         ).map { it.validate() }.all { it }
     }
 
@@ -239,17 +232,6 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             if (text?.isEmpty() == true)
                 last_name.error = getString(R.string.signup_empty_field_error_message)
             else last_name.error = null
-        }
-        email?.doOnTextChanged { text, _, _, _ ->
-            if (text?.isEmpty() == true)
-                email.error = getString(R.string.signup_empty_field_error_message)
-            else email.error = null
-        }
-        email?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if ((email?.text?.isNotEmpty() == true) && !hasFocus) {
-                if (!viewModel.validateEmailAddress(email?.text.toString()))
-                    email.error = getString(R.string.signup_invalid_email_error_message)
-            }
         }
     }
 }

@@ -62,22 +62,7 @@
             android:layout_marginBottom="8dp"
             android:hint="@string/signup_last_name_hint"
             android:inputType="textPersonName"
-            android:nextFocusDown="@id/email" />
-
-        <TextView
-            style="@style/AuthEditTitle"
-            android:layout_gravity="start"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/signup_email_title" />
-
-        <EditText
-            android:id="@+id/email"
-            style="@style/EditTextAppStyle"
-            android:layout_marginBottom="8dp"
-            android:hint="@string/signup_email_hint"
-            android:inputType="textEmailAddress"
-            android:nextFocusDown="@id/password" />
+            android:nextFocusDown="@id/city" />
 
         <TextView
             style="@style/AuthEditTitle"
