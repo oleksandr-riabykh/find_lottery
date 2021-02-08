@@ -59,15 +59,6 @@ class ProfileViewModel(
             withContext(Dispatchers.Main) {
                 draws.postValue(drawsResult.sortedBy { it.timestamp })
             }
-            if (drawsResult.isEmpty())
-                withContext(Dispatchers.Main) {
-                    error.postValue(
-                        ExceptionModel(
-                            "",
-                            messageId = R.string.no_tickets_warning
-                        )
-                    )
-                }
         }
     }
 
