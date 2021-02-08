@@ -1,7 +1,5 @@
 package com.limestudio.findlottery.presentation.ui.tickets.draws
 
-import com.limestudio.findlottery.R
-import com.limestudio.findlottery.data.exceptions.ExceptionModel
 import com.limestudio.findlottery.data.models.Draw
 import com.limestudio.findlottery.data.repository.TicketsRepository
 import com.limestudio.findlottery.extensions.isDayBeforeFuture
@@ -44,14 +42,6 @@ class DrawsViewModel(private val ticketsRepository: TicketsRepository) : BaseVie
             if (draws.isEmpty())
                 withContext(Dispatchers.Main) {
                     state.postValue(DrawsState.ShowProgress(false))
-                    state.postValue(
-                        DrawsState.OnShowMessage(
-                            ExceptionModel(
-                                "",
-                                messageId = R.string.no_tickets_warning
-                            )
-                        )
-                    )
                 }
         }
     }
