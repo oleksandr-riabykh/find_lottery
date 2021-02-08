@@ -44,7 +44,10 @@ class StartFragment : BaseFragment() {
 
         privacy_textView.setOnClickListener {
             val browserIntent =
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://user.teana.limestudio.us/terms"))
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://findlottery.crystalweb-asia.com/terms")
+                )
             requireActivity().startActivity(browserIntent)
         }
         (requireActivity() as AuthActivity).hideToolbar()
