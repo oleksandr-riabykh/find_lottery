@@ -176,4 +176,5 @@
     <string name="title_activity_fullscreen_photo">Fullscreen Activity</string>
     <string name="update">Update</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="logout_popup">You are about to logout, do you want to proceed?</string>
 </resources>

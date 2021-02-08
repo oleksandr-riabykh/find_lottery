@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bigkoo.svprogresshud.SVProgressHUD
@@ -114,9 +115,19 @@ class ProfileFragment : BaseFragment() {
         }
         if (arguments?.get(SELECTED_USER) != null) logout_button.visibility = View.GONE
         logout_button.setOnClickListener {
-            Firebase.auth.signOut()
-            startActivity(Intent(requireActivity(), AuthActivity::class.java))
-            requireActivity().finish()
+
+            val builder = AlertDialog.Builder(requireActivity())
+            builder.setMessage(R.string.logout_popup)
+            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                Firebase.auth.signOut()
+                startActivity(Intent(requireActivity(), AuthActivity::class.java))
+                requireActivity().finish()
+            }
+
+            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                dialog.dismiss()
+            }
+            builder.show()
         }
     }
 
