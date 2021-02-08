@@ -37,8 +37,7 @@ class StartFragment : BaseFragment() {
         }
         signup_as_guest_button.setOnClickListener {
             navigateTo(
-//                R.id.navigation_signup_as_guest,
-                R.id.navigation_signup_as_seller,
+                R.id.navigation_signup_as_guest,
                 R.id.navigation_start
             )
         }
