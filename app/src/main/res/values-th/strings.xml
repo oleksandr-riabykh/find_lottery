@@ -188,4 +188,6 @@
     <string name="language">Language</string>
     <string name="language_thai">ไทย</string>
     <string name="language_english">English</string>
+    <string name="title_version_popup">Version Update</string>
+    <string name="description_version_popup">There is a new version available, please update to enjoy the benefits</string>
 </resources>

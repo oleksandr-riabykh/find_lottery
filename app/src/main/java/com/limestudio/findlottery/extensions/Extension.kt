@@ -143,6 +143,34 @@ fun Activity.showAlert(title: String, body: String, onClickOk: () -> Unit) {
         .setTextColor(resources.getColor(R.color.colorAccent, null))
 }
 
+
+fun Activity.showAlertNegative(
+    title: String,
+    body: String,
+    onClickCancel: () -> Unit,
+    onClickOk: () -> Unit
+) {
+    val builder = AlertDialog.Builder(this)
+    val customLayout: View = layoutInflater.inflate(R.layout.notification_alert, null)
+    customLayout.textView?.text = title
+    customLayout.body?.text = body
+    builder.setView(customLayout)
+    builder.setPositiveButton(android.R.string.ok) { dialog, _ ->
+        onClickOk()
+        dialog.dismiss()
+    }
+    builder.setNegativeButton(android.R.string.cancel) { dialog, _ ->
+        onClickCancel()
+        dialog.dismiss()
+    }
+    val alert = builder.create()
+    alert.show()
+    alert.getButton(DatePickerDialog.BUTTON_POSITIVE)
+        .setTextColor(resources.getColor(R.color.colorAccent, null))
+    alert.getButton(DatePickerDialog.BUTTON_NEGATIVE)
+        .setTextColor(resources.getColor(R.color.colorCancel, null))
+}
+
 fun Date.isDayBeforeFuture(): Boolean {
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_YEAR, -1)

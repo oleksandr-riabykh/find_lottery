@@ -1,7 +1,9 @@
 package com.limestudio.findlottery.presentation
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,8 +13,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.limestudio.findlottery.BuildConfig
 import com.limestudio.findlottery.R
+import com.limestudio.findlottery.extensions.showAlertNegative
 import com.limestudio.findlottery.presentation.ui.auth.CODE_USER_TYPE
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,5 +55,40 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
         return false
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        handleRemoteConfigVersion()
+    }
+
+    private fun handleRemoteConfigVersion() {
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(600)
+            .build()
+        val firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+        firebaseRemoteConfig.setConfigSettingsAsync(configSettings)
+        val defaults: MutableMap<String, Any> = HashMap()
+        defaults[KEY_APP_VERSION] = "1.0.0"
+        firebaseRemoteConfig.setDefaultsAsync(defaults)
+        firebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(this) {}
+        val remoteVersion = FirebaseRemoteConfig.getInstance().getString(KEY_APP_VERSION)
+        if (BuildConfig.VERSION_NAME != remoteVersion) {
+            showAlertNegative(
+                getString(R.string.title_version_popup),
+                getString(R.string.description_version_popup),
+                {}) {
+                val browserIntent =
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://findlottery.crystalweb-asia.com/")
+                    )
+                startActivity(browserIntent)
+            }
+        }
+    }
+
+    companion object {
+        private const val KEY_APP_VERSION = "app_version"
     }
 }
