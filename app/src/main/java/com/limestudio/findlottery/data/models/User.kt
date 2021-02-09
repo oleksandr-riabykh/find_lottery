@@ -14,6 +14,9 @@ data class User(
     val nationalId: String? = "",
     var avatar: String? = "",
     var photoId: String? = "",
+    var whatsapp: String? = "",
+    var wechat: String? = "",
+    var line: String? = "",
     val type: Int? = 0
 ) : Parcelable {
     fun toMap(): Map<String, Any?> {
@@ -25,9 +28,10 @@ data class User(
             "location" to location,
             "city" to city,
             "nationalId" to nationalId,
+            "whatsapp" to whatsapp,
+            "wechat" to wechat,
+            "line" to line,
             "type" to type
         )
     }
 }
-
-//lastName=tes, phoneNumber=, nationalId=, city=bangkok, name=Oleksandr, location={latitude=13.4565, longitude=100.45655}, id=NCh7sgfnp7VeffVTx8oNAvfhXdc2

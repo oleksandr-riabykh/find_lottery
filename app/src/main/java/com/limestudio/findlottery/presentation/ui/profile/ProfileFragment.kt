@@ -28,6 +28,7 @@ import java.util.*
 
 const val SELECTED_USER = "selected_user"
 const val ARG_VIEW_MODE = "view_mode"
+
 class ProfileFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -118,13 +119,13 @@ class ProfileFragment : BaseFragment() {
 
             val builder = AlertDialog.Builder(requireActivity())
             builder.setMessage(R.string.logout_popup)
-            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            builder.setPositiveButton(android.R.string.yes) { _, _ ->
                 Firebase.auth.signOut()
                 startActivity(Intent(requireActivity(), AuthActivity::class.java))
                 requireActivity().finish()
             }
 
-            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            builder.setNegativeButton(android.R.string.no) { dialog, _ ->
                 dialog.dismiss()
             }
             builder.show()
@@ -141,9 +142,27 @@ class ProfileFragment : BaseFragment() {
                 city_text_view?.text =
                     mUser.city?.substring(0, 1)?.toUpperCase(Locale.ROOT) + mUser.city?.substring(1)
                         ?.toLowerCase(Locale.ROOT)
-            if (user.nationalId?.isNotEmpty() == true)
+            if (user.nationalId?.isNotEmpty() == true) {
                 nationalid_text_view?.text =
                     getString(R.string.national_id_s1, mUser.nationalId?.toUpperCase(Locale.ROOT))
+                nationalid_text_view.visibility = View.VISIBLE
+            }
+
+            if (user.line?.isNotEmpty() == true) {
+                line_id?.text = getString(R.string.line_s1, mUser.line?.toUpperCase(Locale.ROOT))
+                line_id.visibility = View.VISIBLE
+            }
+            if (user.wechat?.isNotEmpty() == true) {
+                wechat_id?.text =
+                    getString(R.string.wechat_s1, mUser.wechat?.toUpperCase(Locale.ROOT))
+                wechat_id.visibility = View.VISIBLE
+            }
+            if (user.whatsapp?.isNotEmpty() == true) {
+                whatsapp_id?.text =
+                    getString(R.string.whatsapp_s1, mUser.whatsapp?.toUpperCase(Locale.ROOT))
+                whatsapp_id.visibility = View.VISIBLE
+            }
+
         }
         )
         profileViewModel.avatarUrl.observe(viewLifecycleOwner, { item ->

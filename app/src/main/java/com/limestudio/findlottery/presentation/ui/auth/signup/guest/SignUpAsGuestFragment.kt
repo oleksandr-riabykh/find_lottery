@@ -103,6 +103,9 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                         id = it.uid,
                         name = first_name?.text.toString(),
                         lastName = last_name?.text.toString(),
+                        whatsapp = whatsapp_id?.text.toString(),
+                        line = line_id?.text.toString(),
+                        wechat = wechat_id?.text.toString(),
                         location = AppLocation(10.23, 120.42),
                         type = UserType.GUEST.value
                     )

@@ -163,6 +163,9 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 phoneNumber = phone_number?.text.toString(),
                                 city = city?.selectedItem.toString().toLowerCase(Locale.ROOT),
                                 nationalId = national_id?.text.toString(),
+                                whatsapp = whatsapp_id?.text.toString(),
+                                line = line_id?.text.toString(),
+                                wechat = wechat_id?.text.toString(),
                                 location = AppLocation(10.23, 120.42),
                                 type = UserType.SELLER.value
                             )

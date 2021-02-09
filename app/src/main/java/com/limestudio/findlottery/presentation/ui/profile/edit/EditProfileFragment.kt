@@ -94,6 +94,9 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
             last_name?.setText(user.lastName)
             phone_number?.setText(user.phoneNumber)
             national_id?.setText(user.nationalId)
+            line_id?.setText(user.line)
+            wechat_id?.setText(user.wechat)
+            whatsapp_id?.setText(user.whatsapp)
             city?.setSelection(
                 resources.getStringArray(R.array.cities).map { it.toLowerCase(Locale.ROOT) }
                     .indexOf(user.city)
@@ -161,6 +164,9 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                                 name = first_name?.text.toString(),
                                 lastName = last_name?.text.toString(),
                                 phoneNumber = phone_number?.text.toString(),
+                                whatsapp = whatsapp_id?.text.toString(),
+                                line = line_id?.text.toString(),
+                                wechat = wechat_id?.text.toString(),
                                 city = city?.selectedItem.toString().toLowerCase(Locale.ROOT),
                                 nationalId = national_id?.text.toString()
                             )
