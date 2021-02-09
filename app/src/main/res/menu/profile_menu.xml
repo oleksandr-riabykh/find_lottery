@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/language"
+        android:icon="@drawable/ic_language"
+        android:title="@string/language"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/edit_profile"
         android:icon="@drawable/ic_edit"
         android:title="@string/profile"
         app:showAsAction="always" />
+
 </menu>

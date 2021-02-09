@@ -186,4 +186,7 @@
     <string name="line_id_hint"><![CDATA[<Line ID>]]></string>
     <string name="wechat_id_hint"><![CDATA[<WeChat ID>]]></string>
     <string name="what_sapp_hint"><![CDATA[<What\'sApp>]]></string>
+    <string name="language">Language</string>
+    <string name="language_thai">ไทย</string>
+    <string name="language_english">English</string>
 </resources>

@@ -3,7 +3,7 @@
     <string name="coming_soon">Coming soon…</string>
     <string name="title_home">Feed</string>
     <string name="tricks">Tricks</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Profile Thai</string>
     <string name="achievements">Achievements</string>
     <string name="game">Game</string>
 
@@ -185,4 +185,7 @@
     <string name="line_id">Line ID</string>
     <string name="wechat_id">WeChat ID</string>
     <string name="line_id_hint"><![CDATA[<Line ID>]]></string>
+    <string name="language">Language</string>
+    <string name="language_thai">ไทย</string>
+    <string name="language_english">English</string>
 </resources>

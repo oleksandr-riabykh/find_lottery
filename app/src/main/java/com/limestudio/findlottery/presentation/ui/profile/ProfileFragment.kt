@@ -3,6 +3,8 @@ package com.limestudio.findlottery.presentation.ui.profile
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
@@ -20,6 +22,7 @@ import com.limestudio.findlottery.extensions.toDateFormat
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import com.limestudio.findlottery.presentation.ui.fullscreen_photo.FullscreenPhotoActivity
+import com.limestudio.findlottery.presentation.ui.language.LanguageDialog
 import com.limestudio.findlottery.presentation.ui.tickets.draws.DrawsAdapter
 import com.limestudio.findlottery.presentation.ui.tickets.draws.SELECTED_DRAW
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -29,7 +32,7 @@ import java.util.*
 const val SELECTED_USER = "selected_user"
 const val ARG_VIEW_MODE = "view_mode"
 
-class ProfileFragment : BaseFragment() {
+class ProfileFragment : BaseFragment(), LanguageDialog.LanguageCallback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,6 +86,10 @@ class ProfileFragment : BaseFragment() {
                         putParcelable(SELECTED_USER, mUser)
                     }
                 )
+                true
+            }
+            R.id.language -> {
+                LanguageDialog.start(requireFragmentManager(), "", this)
                 true
             }
             else -> false
@@ -195,5 +202,15 @@ class ProfileFragment : BaseFragment() {
             showWarning(item.messageId)
         }
         )
+    }
+
+    override fun onLanguage(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val resources: Resources = requireActivity().resources
+        val config: Configuration = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+        requireActivity().recreate()
     }
 }
