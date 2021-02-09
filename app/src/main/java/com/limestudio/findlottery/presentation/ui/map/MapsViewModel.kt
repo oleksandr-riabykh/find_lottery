@@ -1,6 +1,7 @@
 package com.limestudio.findlottery.presentation.ui.map
 
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
 import com.limestudio.findlottery.data.models.Ticket
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.data.repository.TicketsRepository
@@ -27,7 +28,7 @@ class MapsViewModel(
         }
 
         val tickets = allTickets.filter { it.numbers.contains(inputNumber) }.sortedBy { it.numbers }
-        filteredUsers.postValue(allUsers.filter { user -> tickets.any { it.userId == user.id } })
+        filteredUsers.postValue(allUsers.filter { user -> tickets.any { it.userId == user.id && it.userId != FirebaseAuth.getInstance().currentUser?.uid } })
         filteredTickets.postValue(tickets)
     }
 
@@ -38,12 +39,12 @@ class MapsViewModel(
             val tickets = result.map { pair -> pair.second }.flatten()
             withContext(Dispatchers.Main) {
                 allUsers.clear()
-                allUsers.addAll(users)
-                filteredUsers.postValue(users)
+                allUsers.addAll(users.filter { it.id != FirebaseAuth.getInstance().currentUser?.uid })
+                filteredUsers.postValue(users.filter { it.id != FirebaseAuth.getInstance().currentUser?.uid })
             }
             withContext(Dispatchers.Main) {
                 allTickets.clear()
-                allTickets.addAll(tickets)
+                allTickets.addAll(tickets.filter { it.userId != FirebaseAuth.getInstance().currentUser?.uid })
             }
         }
     }
