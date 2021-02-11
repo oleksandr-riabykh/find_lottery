@@ -14,14 +14,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.util.*
 
 class ProfileViewModel(
     private val userRepository: UsersRepository, private val ticketsRepository: TicketsRepository
 ) : BaseViewModel() {
     val user = MutableLiveData<User>()
-    val avatarUrl = MutableLiveData<String>()
-    val idCardUrl = MutableLiveData<String>()
+    val avatarUrl = MutableLiveData<File>()
+    val idCardUrl = MutableLiveData<File>()
     val draws = MutableLiveData<List<Draw>>()
 
     fun getUser(userId: String = Firebase.auth.currentUser?.uid ?: "") {

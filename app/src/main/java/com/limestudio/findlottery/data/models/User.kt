@@ -2,6 +2,7 @@ package com.limestudio.findlottery.data.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.io.File
 
 @Parcelize
 data class User(
@@ -12,8 +13,8 @@ data class User(
     val city: String? = "",
     val location: AppLocation? = null,
     val nationalId: String? = "",
-    var avatar: String? = "",
-    var photoId: String? = "",
+    var avatar: File? = null,
+    var photoId: File? = null,
     var whatsapp: String? = "",
     var wechat: String? = "",
     var line: String? = "",

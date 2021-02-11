@@ -7,6 +7,7 @@ import com.limestudio.findlottery.data.firebase.FirebaseManager
 import com.limestudio.findlottery.data.models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.util.*
 
 class UsersRepository(val context: Context) : BaseRepository() {
@@ -17,7 +18,7 @@ class UsersRepository(val context: Context) : BaseRepository() {
 
     fun getUserAvatar(
         filename: String,
-        onSuccess: (url: String) -> Unit,
+        onSuccess: (url: File) -> Unit,
         onFailure: (error: Exception) -> Unit
     ) {
         FirebaseManager(null).getImageUri("avatar", filename, onSuccess, onFailure)
@@ -25,7 +26,7 @@ class UsersRepository(val context: Context) : BaseRepository() {
 
     fun getUserIdCard(
         filename: String,
-        onSuccess: (url: String) -> Unit,
+        onSuccess: (url: File) -> Unit,
         onFailure: (error: Exception) -> Unit
     ) {
         FirebaseManager(null).getImageUri("idcard", filename, onSuccess, onFailure)

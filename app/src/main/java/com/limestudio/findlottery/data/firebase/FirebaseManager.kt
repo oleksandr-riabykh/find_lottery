@@ -13,6 +13,7 @@ import com.limestudio.findlottery.data.models.Ticket
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.toDateFormat
 import com.limestudio.findlottery.presentation.ui.auth.signup.ImageModel
+import java.io.File
 import java.util.*
 
 
@@ -117,13 +118,14 @@ class FirebaseManager(applicationContext: Context?) {
     fun getImageUri(
         folder: String,
         filename: String,
-        onSuccess: (url: String) -> Unit,
+        onSuccess: (url: File) -> Unit,
         onFailure: (error: Exception) -> Unit
     ) {
         val reference = FirebaseStorage.getInstance().reference.child("images/$folder")
-        reference.child("$filename.jpg").downloadUrl.addOnSuccessListener {
+        val localFile = File.createTempFile("images", "jpg")
+        reference.child("$filename.jpg").getFile(localFile).addOnSuccessListener {
             Log.d("iages_test", "getImageUri: $it")
-            onSuccess(it.toString())
+            onSuccess(localFile)
         }.addOnFailureListener {
             Log.d("iages_test", "getImageUri: $it")
             onFailure(it)

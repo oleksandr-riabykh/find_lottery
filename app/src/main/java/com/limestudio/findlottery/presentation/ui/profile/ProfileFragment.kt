@@ -175,14 +175,14 @@ class ProfileFragment : BaseFragment(), LanguageDialog.LanguageCallback {
         profileViewModel.avatarUrl.observe(viewLifecycleOwner, { item ->
             mUser.avatar = item
             if (hudSync.isShowing) hudSync.dismiss()
-            if (item.isNotEmpty()) Glide.with(requireActivity()).load(item).into(circleImage)
+            if (item != null) Glide.with(requireActivity()).load(item).into(circleImage)
         }
         )
         profileViewModel.idCardUrl.observe(viewLifecycleOwner, { item ->
             if (hudSync.isShowing) hudSync.dismiss()
             mUser.photoId = item
             id_card_image.setOnClickListener {
-                if (item.isNotEmpty()) {
+                if (item != null) {
                     val photoIntent = Intent(requireContext(), FullscreenPhotoActivity::class.java)
                     photoIntent.putExtra(FullscreenPhotoActivity.ARG_PHOTO, item)
                     startActivity(photoIntent)
