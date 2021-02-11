@@ -64,20 +64,20 @@ class ProfileViewModel(
 
     private fun loadImages(userId: String) {
         userRepository.getUserAvatar(userId, { avatarUrl.postValue(it) }, {
-            error.postValue(
-                ExceptionModel(
-                    it.localizedMessage ?: it.message ?: "Unknown Error",
-                    messageId = R.string.unknown_exception
-                )
-            )
+//            error.postValue(
+//                ExceptionModel(
+//                    it.localizedMessage ?: it.message ?: "Unknown Error",
+//                    messageId = R.string.unknown_exception
+//                )
+//            )
         })
         userRepository.getUserIdCard(userId, { idCardUrl.postValue(it) }, {
-            error.postValue(
-                ExceptionModel(
-                    it.localizedMessage ?: it.message ?: "Unknown Error",
-                    messageId = R.string.unknown_exception
-                )
-            )
+//            error.postValue(
+//                ExceptionModel(
+//                    it.localizedMessage ?: it.message ?: "Unknown Error",
+//                    messageId = R.string.unknown_exception
+//                )
+//            )
         })
     }
 }
