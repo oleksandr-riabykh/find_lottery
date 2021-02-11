@@ -25,6 +25,7 @@ class TicketAdapter(
     RecyclerView.Adapter<TicketBaseViewHolder>() {
 
     private var mListOfItems = arrayListOf<Ticket>()
+    private var userName = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketBaseViewHolder {
         return if (mode == MODE_VIEW) TicketSearchViewHolder(
@@ -41,10 +42,15 @@ class TicketAdapter(
         notifyDataSetChanged()
     }
 
+    fun setUserName(user: String) {
+        userName = user
+    }
+
     override fun getItemCount(): Int = mListOfItems.size
 
     override fun onBindViewHolder(holder: TicketBaseViewHolder, position: Int) {
         val item = mListOfItems[position]
+        if (item.userName.isEmpty()) item.userName = userName
         holder.bind(item, onClickItem, { ticket, positionItem ->
             onDeleteItem(ticket)
             removeItem(positionItem)

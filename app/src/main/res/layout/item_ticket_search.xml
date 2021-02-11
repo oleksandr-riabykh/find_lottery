@@ -33,11 +33,10 @@
             android:layout_marginStart="8dp"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/priceImageView"
-            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteY="27dp"
             tools:text="TextView" />
 
         <TextView
@@ -45,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -76,8 +75,9 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
+            android:text="TextView"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -85,9 +85,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/date"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="TextView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/priceImageView"

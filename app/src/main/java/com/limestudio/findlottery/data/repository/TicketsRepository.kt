@@ -31,7 +31,7 @@ class TicketsRepository(val context: Context) : BaseRepository() {
     suspend fun deleteTicket(ticket: Ticket) = FirebaseManager(null).deleteTicket(ticket)
 
     suspend fun loadTickets(draw: Draw): List<Ticket> {
-        val tickets = FirebaseManager(null).getTickets(draw.id)
+        val tickets = FirebaseManager(null).getTickets(draw.id, draw.userId)
 
         return tickets.map {
             it.status = draw.getWinCombinationList(it)

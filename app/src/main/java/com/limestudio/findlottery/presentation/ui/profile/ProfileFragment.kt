@@ -110,6 +110,10 @@ class ProfileFragment : BaseFragment(), LanguageDialog.LanguageCallback {
                         "title",
                         Date(it.timestamp).toDateFormat(resources.configuration.locales[0])
                     )
+                    putString(
+                        "userName",
+                        "${mUser.name} ${mUser.lastName}"
+                    )
                 }
             )
         }, {

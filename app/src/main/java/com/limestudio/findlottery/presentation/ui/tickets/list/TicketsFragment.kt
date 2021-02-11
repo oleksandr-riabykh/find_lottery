@@ -14,10 +14,7 @@ import com.limestudio.findlottery.ads.AdsManager
 import com.limestudio.findlottery.data.models.Draw
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseDialogFragment
-import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.profile.ARG_VIEW_MODE
-import com.limestudio.findlottery.presentation.ui.profile.SELECTED_USER
-import com.limestudio.findlottery.presentation.ui.profile.seller.SellerProfileDialogFragment
 import com.limestudio.findlottery.presentation.ui.tickets.add.AddTicketActivity
 import com.limestudio.findlottery.presentation.ui.tickets.draws.SELECTED_DRAW
 import kotlinx.android.synthetic.main.tickets_fragment.*
@@ -44,7 +41,10 @@ class TicketsFragment : BaseDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewAdapter = TicketAdapter(MODE_EDIT, { }, { viewModel.deleteTicket(it) })
+        viewAdapter = TicketAdapter(
+            if (arguments?.getBoolean(ARG_VIEW_MODE) == true) MODE_VIEW else MODE_EDIT,
+            { },
+            { viewModel.deleteTicket(it) })
         hudSync = SVProgressHUD(requireContext())
         recycler.apply {
             adapter = viewAdapter
@@ -52,6 +52,9 @@ class TicketsFragment : BaseDialogFragment() {
         }
         initStateListener()
         if (arguments?.getBoolean(ARG_VIEW_MODE) == true) addTicket.visibility = View.GONE
+        if (arguments?.getString("userName") != null) viewAdapter.setUserName(
+            arguments?.getString("userName") ?: ""
+        )
         addTicket?.setOnClickListener {
             viewModel.checkInterstitial()
         }

@@ -43,9 +43,12 @@ class FirebaseManager(applicationContext: Context?) {
             .get().await().toObjects(Draw::class.java)
 
 
-    suspend fun getTickets(drawId: String): List<Ticket> =
+    suspend fun getTickets(
+        drawId: String,
+        userId: String? = Firebase.auth.currentUser?.uid
+    ): List<Ticket> =
         database.collection(TABLE_TICKETS).whereEqualTo("drawId", drawId)
-            .whereEqualTo("userId", Firebase.auth.currentUser?.uid)
+            .whereEqualTo("userId", userId)
             .get()
             .await()
             .toObjects(Ticket::class.java)
