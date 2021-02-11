@@ -13,18 +13,27 @@ import com.limestudio.findlottery.R
 import com.limestudio.findlottery.ads.AdsManager
 import com.limestudio.findlottery.data.models.Draw
 import com.limestudio.findlottery.extensions.showWarning
+import com.limestudio.findlottery.presentation.base.BaseDialogFragment
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.ui.profile.ARG_VIEW_MODE
+import com.limestudio.findlottery.presentation.ui.profile.SELECTED_USER
+import com.limestudio.findlottery.presentation.ui.profile.seller.SellerProfileDialogFragment
 import com.limestudio.findlottery.presentation.ui.tickets.add.AddTicketActivity
 import com.limestudio.findlottery.presentation.ui.tickets.draws.SELECTED_DRAW
 import kotlinx.android.synthetic.main.tickets_fragment.*
 
-class TicketsFragment : BaseFragment() {
+class TicketsFragment : BaseDialogFragment() {
 
     private val viewModel: TicketsViewModel by viewModels { viewModelFactory }
 
     private lateinit var viewAdapter: TicketAdapter
     private lateinit var hudSync: SVProgressHUD
+
+    companion object {
+        fun newInstance(bundle: Bundle) = TicketsFragment().apply {
+            arguments = bundle
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

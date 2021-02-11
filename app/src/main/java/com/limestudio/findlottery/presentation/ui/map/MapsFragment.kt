@@ -31,7 +31,9 @@ import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.*
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.services.locationservice.LocationService
+import com.limestudio.findlottery.presentation.ui.profile.ProfileFragment
 import com.limestudio.findlottery.presentation.ui.profile.SELECTED_USER
+import com.limestudio.findlottery.presentation.ui.profile.seller.SellerProfileDialogFragment
 import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
 import kotlinx.android.synthetic.main.bottom_sheet_map.*
@@ -145,14 +147,8 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 item.title,
                 getString(R.string.contact_seller_warming)
             ) {
-                navigateTo(
-                    R.id.navigation_profile,
-                    R.id.navigation_map,
-                    false,
-                    Bundle().apply {
-                        putString(SELECTED_USER, item.userId)
-                    }
-                )
+                SellerProfileDialogFragment.newInstance(item.userId)
+                    .show(childFragmentManager, "profile")
             }
         }
         if (isLocationEnabled) {
