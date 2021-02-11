@@ -31,8 +31,6 @@ import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.*
 import com.limestudio.findlottery.presentation.base.BaseFragment
 import com.limestudio.findlottery.presentation.services.locationservice.LocationService
-import com.limestudio.findlottery.presentation.ui.profile.ProfileFragment
-import com.limestudio.findlottery.presentation.ui.profile.SELECTED_USER
 import com.limestudio.findlottery.presentation.ui.profile.seller.SellerProfileDialogFragment
 import com.limestudio.findlottery.presentation.ui.tickets.list.MODE_VIEW
 import com.limestudio.findlottery.presentation.ui.tickets.list.TicketAdapter
@@ -143,13 +141,15 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         googleMap.setOnInfoWindowClickListener(clusterManager)
         googleMap.setOnMarkerClickListener(clusterManager)
         clusterManager.setOnClusterItemInfoWindowClickListener { item ->
-            requireActivity().showAlert(
-                item.title,
-                getString(R.string.contact_seller_warming)
-            ) {
-                SellerProfileDialogFragment.newInstance(item.userId)
-                    .show(childFragmentManager, "profile")
-            }
+            SellerProfileDialogFragment.newInstance(item.userId)
+                .show(childFragmentManager, "profile")
+//            requireActivity().showAlert(
+//                item.title,
+//                getString(R.string.contact_seller_warming)
+//            ) {
+//                SellerProfileDialogFragment.newInstance(item.userId)
+//                    .show(childFragmentManager, "profile")
+//            }
         }
         if (isLocationEnabled) {
             googleMap.isMyLocationEnabled = isLocationEnabled
@@ -206,9 +206,9 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 user.location?.longitude ?: DEFAULT_CITY_LOCATION.longitude
             )
             builder.include(latLng)
-            val offset = index / 2.0
-            val lat = latLng.latitude.plus(offset)
-            val lng = latLng.longitude.plus(offset)
+            val offset = index / 0.05
+            val lat = latLng.latitude//.plus(offset)
+            val lng = latLng.longitude//.plus(offset)
             SellerItem(
                 lat, lng, "${user.name} ${user.lastName}",
                 user.phoneNumber ?: "",
