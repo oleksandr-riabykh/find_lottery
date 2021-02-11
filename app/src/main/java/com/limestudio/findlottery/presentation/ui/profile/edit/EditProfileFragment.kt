@@ -12,6 +12,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.bigkoo.svprogresshud.SVProgressHUD
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.github.drjacky.imagepicker.ImagePicker
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -101,11 +102,15 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 resources.getStringArray(R.array.cities).map { it.toLowerCase(Locale.ROOT) }
                     .indexOf(user.city)
             )
-            Glide.with(requireActivity()).load(user.photoId).into(id_card)
+            Glide.with(requireActivity()).load(user.photoId)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true).into(id_card)
             id_card.adjustViewBounds = true
             id_card.scaleType = ImageView.ScaleType.CENTER_CROP
             id_card.setPadding(0, 0, 0, 0)
-            Glide.with(requireActivity()).load(user.avatar).into(avatar)
+            Glide.with(requireActivity()).load(user.avatar)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true).into(avatar)
         }
     }
 
@@ -116,14 +121,18 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 data?.data?.let { uri ->
                     var folder = "avatar"
                     if (requestCode == CODE_AVATAR) {
-                        Glide.with(requireActivity()).load(uri).into(avatar)
+                        Glide.with(requireActivity()).load(uri)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true).into(avatar)
                         folder = "avatar"
                     } else if (requestCode == CODE_CARD) {
                         folder = "idcard"
                         id_card.adjustViewBounds = true
                         id_card.scaleType = ImageView.ScaleType.CENTER_CROP
                         id_card.setPadding(0, 0, 0, 0)
-                        Glide.with(requireActivity()).load(uri).into(id_card)
+                        Glide.with(requireActivity()).load(uri)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true).into(id_card)
 
                     }
                     images[requestCode] = ImageModel(

@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bigkoo.svprogresshud.SVProgressHUD
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
@@ -175,7 +176,9 @@ class ProfileFragment : BaseFragment(), LanguageDialog.LanguageCallback {
         profileViewModel.avatarUrl.observe(viewLifecycleOwner, { item ->
             mUser.avatar = item
             if (hudSync.isShowing) hudSync.dismiss()
-            if (item != null) Glide.with(requireActivity()).load(item).into(circleImage)
+            if (item != null) Glide.with(requireActivity()).load(item).dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true).placeholder(R.drawable.avatar_circle).into(circleImage)
         }
         )
         profileViewModel.idCardUrl.observe(viewLifecycleOwner, { item ->
