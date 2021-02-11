@@ -3,8 +3,6 @@ package com.limestudio.findlottery.presentation.ui.profile
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.limestudio.findlottery.R
-import com.limestudio.findlottery.data.exceptions.ExceptionModel
 import com.limestudio.findlottery.data.models.Draw
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.data.repository.TicketsRepository
@@ -64,20 +62,20 @@ class ProfileViewModel(
 
     private fun loadImages(userId: String) {
         userRepository.getUserAvatar(userId, { avatarUrl.postValue(it) }, {
-            error.postValue(
-                ExceptionModel(
-                    it.localizedMessage ?: it.message ?: "Unknown Error",
-                    messageId = R.string.unknown_exception
-                )
-            )
+//            error.postValue(
+//                ExceptionModel(
+//                    it.localizedMessage ?: it.message ?: "Unknown Error",
+//                    messageId = R.string.unknown_exception
+//                )
+//            )
         })
         userRepository.getUserIdCard(userId, { idCardUrl.postValue(it) }, {
-            error.postValue(
-                ExceptionModel(
-                    it.localizedMessage ?: it.message ?: "Unknown Error",
-                    messageId = R.string.unknown_exception
-                )
-            )
+//            error.postValue(
+//                ExceptionModel(
+//                    it.localizedMessage ?: it.message ?: "Unknown Error",
+//                    messageId = R.string.unknown_exception
+//                )
+//            )
         })
     }
 }
