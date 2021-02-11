@@ -21,6 +21,7 @@ import com.limestudio.findlottery.extensions.toDateFormat
 import com.limestudio.findlottery.presentation.base.BaseDialogFragment
 import com.limestudio.findlottery.presentation.ui.auth.AuthActivity
 import com.limestudio.findlottery.presentation.ui.fullscreen_photo.FullscreenPhotoActivity
+import com.limestudio.findlottery.presentation.ui.profile.ARG_SELECTED_USER_NAME
 import com.limestudio.findlottery.presentation.ui.profile.ARG_VIEW_MODE
 import com.limestudio.findlottery.presentation.ui.profile.ProfileViewModel
 import com.limestudio.findlottery.presentation.ui.profile.SELECTED_USER
@@ -71,14 +72,18 @@ class SellerProfileDialogFragment : BaseDialogFragment() {
 
     private fun initAdapter() {
         viewAdapter = DrawsAdapter({
-                val bundle = Bundle().apply {
-                    putParcelable(SELECTED_DRAW, it)
-                    putBoolean(ARG_VIEW_MODE, arguments?.get(SELECTED_USER) != null)
-                    putString(
-                        "title",
-                        Date(it.timestamp).toDateFormat(resources.configuration.locales[0])
-                    )
-                }
+            val bundle = Bundle().apply {
+                putParcelable(SELECTED_DRAW, it)
+                putBoolean(ARG_VIEW_MODE, arguments?.get(SELECTED_USER) != null)
+                putString(
+                    ARG_SELECTED_USER_NAME,
+                    "${mUser.name} ${mUser.lastName}"
+                )
+                putString(
+                    "title",
+                    Date(it.timestamp).toDateFormat(resources.configuration.locales[0])
+                )
+            }
             TicketsFragment.newInstance(bundle).show(childFragmentManager, "tickets_fragment")
         }, {
             profileViewModel.deleteDraw(it)

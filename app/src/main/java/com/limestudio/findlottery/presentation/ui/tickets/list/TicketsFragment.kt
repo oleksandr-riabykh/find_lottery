@@ -14,6 +14,7 @@ import com.limestudio.findlottery.ads.AdsManager
 import com.limestudio.findlottery.data.models.Draw
 import com.limestudio.findlottery.extensions.showWarning
 import com.limestudio.findlottery.presentation.base.BaseDialogFragment
+import com.limestudio.findlottery.presentation.ui.profile.ARG_SELECTED_USER_NAME
 import com.limestudio.findlottery.presentation.ui.profile.ARG_VIEW_MODE
 import com.limestudio.findlottery.presentation.ui.tickets.add.AddTicketActivity
 import com.limestudio.findlottery.presentation.ui.tickets.draws.SELECTED_DRAW
@@ -51,10 +52,9 @@ class TicketsFragment : BaseDialogFragment() {
             layoutManager = LinearLayoutManager(context)
         }
         initStateListener()
+        val userName = arguments?.getString(ARG_SELECTED_USER_NAME)
         if (arguments?.getBoolean(ARG_VIEW_MODE) == true) addTicket.visibility = View.GONE
-        if (arguments?.getString("userName") != null) viewAdapter.setUserName(
-            arguments?.getString("userName") ?: ""
-        )
+        if (userName != null && userName.isNotEmpty()) viewAdapter.setUserName(userName)
         addTicket?.setOnClickListener {
             viewModel.checkInterstitial()
         }

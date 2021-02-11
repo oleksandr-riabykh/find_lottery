@@ -31,6 +31,7 @@ import java.util.*
 
 
 const val SELECTED_USER = "selected_user"
+const val ARG_SELECTED_USER_NAME = "selected_username"
 const val ARG_VIEW_MODE = "view_mode"
 
 class ProfileFragment : BaseFragment(), LanguageDialog.LanguageCallback {
@@ -109,10 +110,6 @@ class ProfileFragment : BaseFragment(), LanguageDialog.LanguageCallback {
                     putString(
                         "title",
                         Date(it.timestamp).toDateFormat(resources.configuration.locales[0])
-                    )
-                    putString(
-                        "userName",
-                        "${mUser.name} ${mUser.lastName}"
                     )
                 }
             )
