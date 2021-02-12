@@ -111,8 +111,6 @@
             style="@style/EditTextAppStyle"
             android:layout_marginBottom="8dp"
             android:hint="@string/line_id_hint"
-
-            android:inputType="phone"
             android:nextFocusDown="@id/wechat_id" />
 
         <TextView
@@ -127,7 +125,6 @@
             style="@style/EditTextAppStyle"
             android:layout_marginBottom="8dp"
             android:hint="@string/wechat_id_hint"
-            android:inputType="phone"
             android:nextFocusDown="@id/whatsapp_id" />
 
         <TextView
