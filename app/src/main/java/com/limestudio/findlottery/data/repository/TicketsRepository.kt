@@ -1,6 +1,7 @@
 package com.limestudio.findlottery.data.repository
 
 import android.content.Context
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.data.firebase.FirebaseManager
@@ -38,6 +39,9 @@ class TicketsRepository(val context: Context) : BaseRepository() {
             it
         }
     }
+
+    fun setDefaultLocation(defaultLocation: LatLng) = FirebaseManager(null)
+        .updateUserLocation(Firebase.auth.currentUser?.uid ?: "", defaultLocation)
 
     suspend fun loadTicketsByCity(city: String): List<Pair<User, List<Ticket>>> {
         val result = arrayListOf<Pair<User, List<Ticket>>>()

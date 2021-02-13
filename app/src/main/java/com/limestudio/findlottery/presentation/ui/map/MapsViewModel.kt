@@ -1,6 +1,7 @@
 package com.limestudio.findlottery.presentation.ui.map
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.limestudio.findlottery.data.models.Ticket
 import com.limestudio.findlottery.data.models.User
@@ -54,4 +55,7 @@ class MapsViewModel(
         filteredUsers.postValue(filter)
         state.postValue(MapState.OnTicketSelected(ticket, filter.first()))
     }
+
+    fun setDefaultLocation(defaultLocation: LatLng) =
+        ticketsRepository.setDefaultLocation(defaultLocation)
 }

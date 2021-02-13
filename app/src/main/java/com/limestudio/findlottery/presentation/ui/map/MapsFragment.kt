@@ -58,6 +58,7 @@ class MapsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private val callbackDenied = OnMapReadyCallback { googleMap ->
+        viewModel.setDefaultLocation(DEFAULT_CITY_LOCATION)
         handleMapCallback(googleMap, false)
     }
 
