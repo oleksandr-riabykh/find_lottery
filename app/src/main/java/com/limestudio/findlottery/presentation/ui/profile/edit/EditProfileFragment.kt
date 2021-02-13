@@ -92,6 +92,7 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 .start(CODE_CARD)
         }
         arguments?.getParcelable<User>(SELECTED_USER)?.let { user ->
+            viewModel.user = user
             first_name?.setText(user.name)
             last_name?.setText(user.lastName)
             if (user.type == UserType.GUEST.value) {
@@ -174,19 +175,17 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 }
                 is SignUpScreenState.FilesUploaded -> {
                     auth.currentUser?.let { firebaseUser ->
-                        viewModel.updateUser(
-                            User(
-                                id = firebaseUser.uid,
-                                name = first_name?.text.toString(),
-                                lastName = last_name?.text.toString(),
-                                phoneNumber = phone_number?.text.toString(),
-                                whatsapp = whatsapp_id?.text.toString(),
-                                line = line_id?.text.toString(),
-                                wechat = wechat_id?.text.toString(),
-                                city = city?.selectedItem.toString().toLowerCase(Locale.ROOT),
-                                nationalId = national_id?.text.toString()
-                            )
-                        )
+                        viewModel.user.copy(
+                            id = firebaseUser.uid,
+                            name = first_name?.text.toString(),
+                            lastName = last_name?.text.toString(),
+                            phoneNumber = phone_number?.text.toString(),
+                            whatsapp = whatsapp_id?.text.toString(),
+                            line = line_id?.text.toString(),
+                            wechat = wechat_id?.text.toString(),
+                            city = city?.selectedItem.toString().toLowerCase(Locale.ROOT),
+                            nationalId = national_id?.text.toString()
+                        ).let { viewModel.putUser(it) }
                     }
                 }
                 is SignUpScreenState.UploadError -> {

@@ -14,6 +14,8 @@ import kotlinx.coroutines.withContext
 class SignUpViewModel : BaseViewModel() {
     val state = MutableLiveData<SignUpScreenState>()
 
+    var user = User()
+
     fun uploadImages(userId: String, files: Map<Int, ImageModel?>) {
 
         mScope.launch(Dispatchers.IO + gerErrorHandler()) {
@@ -28,8 +30,8 @@ class SignUpViewModel : BaseViewModel() {
         }
     }
 
-    fun updateUser(user: User) = FirebaseManager.getInstance(null)
-        .updateUser(user) { state.postValue(SignUpScreenState.UserSaved) }
+    fun putUser(user: User) = FirebaseManager.getInstance(null)
+            .updateUser(user) { state.postValue(SignUpScreenState.UserSaved) }
 
     fun validateEmailAddress(email: String): Boolean = email.validateEmailAddress()
 

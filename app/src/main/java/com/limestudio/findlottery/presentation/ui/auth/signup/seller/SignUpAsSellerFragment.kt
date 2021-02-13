@@ -155,7 +155,7 @@ class SignUpAsSellerFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                 }
                 is SignUpScreenState.FilesUploaded -> {
                     auth.currentUser?.let { firebaseUser ->
-                        viewModel.updateUser(
+                        viewModel.putUser(
                             User(
                                 id = firebaseUser.uid,
                                 name = first_name?.text.toString(),
