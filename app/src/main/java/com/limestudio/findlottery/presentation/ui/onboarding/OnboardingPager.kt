@@ -12,6 +12,7 @@ class OnboardingPager(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
         R.drawable.ic_buyer_onboarding_1,
         R.drawable.ic_buyer_onboarding_2,
         R.drawable.ic_buyer_onboarding_3,
+        R.drawable.ic_seller_onboarding_1,
         R.drawable.ic_seller_onboarding_2,
         R.drawable.ic_seller_onboarding_3
     )
