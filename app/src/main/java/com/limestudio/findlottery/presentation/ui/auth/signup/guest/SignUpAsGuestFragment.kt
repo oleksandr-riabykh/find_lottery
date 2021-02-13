@@ -45,7 +45,7 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_signup_as_guest, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_signup_as_buyer, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -83,7 +83,7 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
-                    activity?.finishAndRemoveTask();
+                    activity?.finishAndRemoveTask()
                 }
                 else -> {
                 }
@@ -103,9 +103,6 @@ class SignUpAsGuestFragment : BaseFragment(), OnCompleteListener<AuthResult> {
                         id = it.uid,
                         name = first_name?.text.toString(),
                         lastName = last_name?.text.toString(),
-                        whatsapp = whatsapp_id?.text.toString(),
-                        line = line_id?.text.toString(),
-                        wechat = wechat_id?.text.toString(),
                         location = AppLocation(10.23, 120.42),
                         type = UserType.GUEST.value
                     )

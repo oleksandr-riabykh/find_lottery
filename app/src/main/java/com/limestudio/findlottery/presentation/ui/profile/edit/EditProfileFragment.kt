@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.limestudio.findlottery.R
+import com.limestudio.findlottery.data.UserType
 import com.limestudio.findlottery.data.models.User
 import com.limestudio.findlottery.extensions.navigateTo
 import com.limestudio.findlottery.extensions.showToast
@@ -93,24 +94,30 @@ class EditProfileFragment : BaseFragment(), OnCompleteListener<AuthResult> {
         arguments?.getParcelable<User>(SELECTED_USER)?.let { user ->
             first_name?.setText(user.name)
             last_name?.setText(user.lastName)
-            phone_number?.setText(user.phoneNumber)
-            national_id?.setText(user.nationalId)
-            line_id?.setText(user.line)
-            wechat_id?.setText(user.wechat)
-            whatsapp_id?.setText(user.whatsapp)
-            city?.setSelection(
-                resources.getStringArray(R.array.cities).map { it.toLowerCase(Locale.ROOT) }
-                    .indexOf(user.city)
-            )
-            Glide.with(requireActivity()).load(user.photoId)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true).into(id_card)
-            id_card.adjustViewBounds = true
-            id_card.scaleType = ImageView.ScaleType.CENTER_CROP
-            id_card.setPadding(0, 0, 0, 0)
-            Glide.with(requireActivity()).load(user.avatar)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true).into(avatar)
+            if (user.type == UserType.GUEST.value) {
+                seller_container?.visibility = View.GONE
+                text1?.visibility = View.GONE
+                avatar?.visibility = View.GONE
+            } else {
+                phone_number?.setText(user.phoneNumber)
+                national_id?.setText(user.nationalId)
+                line_id?.setText(user.line)
+                wechat_id?.setText(user.wechat)
+                whatsapp_id?.setText(user.whatsapp)
+                city?.setSelection(
+                    resources.getStringArray(R.array.cities).map { it.toLowerCase(Locale.ROOT) }
+                        .indexOf(user.city)
+                )
+                Glide.with(requireActivity()).load(user.photoId)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(id_card)
+                id_card.adjustViewBounds = true
+                id_card.scaleType = ImageView.ScaleType.CENTER_CROP
+                id_card.setPadding(0, 0, 0, 0)
+                Glide.with(requireActivity()).load(user.avatar)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(avatar)
+            }
         }
     }
 
